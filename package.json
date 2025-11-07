@@ -1,6 +1,6 @@
 {
-  "name": "sanity-plugin-media-elux",
-  "version": "1.0.4",
+  "name": "sanity-plugin-media",
+  "version": "1.0.0",
   "description": "This version of `sanity-plugin-media` is for Sanity Studio V3.",
   "keywords": [
     "sanity",
@@ -13,10 +13,10 @@
     "browser",
     "electrolux"
   ],
-  "homepage": "https://github.com/philip-akerfeldt/sanity-plugin-media-elux",
+  "homepage": "https://github.com/electrolux-oss/sanity-plugin-media",
   "repository": {
     "type": "git",
-    "url": "git@github.com:philip-akerfeldt/sanity-plugin-media-elux.git"
+    "url": "git@github.com:electrolux-oss/sanity-plugin-media.git"
   },
   "license": "MIT",
   "author": "Philip Åkerfeldt",
