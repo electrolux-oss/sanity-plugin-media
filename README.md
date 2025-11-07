@@ -71,7 +71,7 @@ yarn add sanity-plugin-media
 Add it as a plugin in your `sanity.config.ts` (or .js) file:
 
 ```js
-import {media} from 'sanity-plugin-media'
+import { media } from 'sanity-plugin-media'
 
 export default defineConfig({
   // ...
@@ -95,7 +95,7 @@ This will enable the Media plugin as both a standalone tool (accessible in your 
 You can configure your studio to use this asset source either exclusively, or conditionally enable it based on the type of asset (image or file).
 
 ```js
-import {media, mediaAssetSource} from 'sanity-plugin-media'
+import { media, mediaAssetSource } from 'sanity-plugin-media'
 
 export default defineConfig({
   // ...
