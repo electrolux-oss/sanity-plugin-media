@@ -33,6 +33,9 @@ jspm_packages
 # Optional npm cache directory
 .npm
 
+# npm settings file
+.npmrc
+
 # Optional REPL history
 .node_repl_history
 
@@ -53,7 +56,7 @@ jspm_packages
 .yalc
 yalc.lock
 
-##npm package zips
+## npm package zips
 *.tgz
 
 # Compiled plugin
