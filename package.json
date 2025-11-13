@@ -16,7 +16,7 @@
   "homepage": "https://github.com/electrolux-oss/sanity-plugin-media",
   "repository": {
     "type": "git",
-    "url": "https://github.com/electrolux-oss/sanity-plugin-media.git"
+    "url": "git+https://github.com/electrolux-oss/sanity-plugin-media.git"
   },
   "license": "MIT",
   "publishConfig": {
