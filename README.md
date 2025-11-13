@@ -156,17 +156,17 @@ This will set up your plugin to build whenever the code changes, and publish the
 In the command log, there should be a note that reads something like this:
 
 ```sh
-npx yalc add sanity-plugin-media-elux && npx yalc link sanity-plugin-media-elux && npm install
+npx yalc add sanity-plugin-media && npx yalc link sanity-plugin-media && npm install
 ```
 
 Run this command in the studio project directory and you should see something like this in the `package.json` file:
 
 ```
-"sanity-plugin-media-elux": "file:.yalc/sanity-plugin-media-elux",
+"sanity-plugin-media": "file:.yalc/sanity-plugin-media",
 ```
 
 Which means you can safely use the local version of the plugin with this import:
 
 ```
-import { media } from 'sanity-plugin-media-elux'
+import { media } from 'sanity-plugin-media'
 ```
