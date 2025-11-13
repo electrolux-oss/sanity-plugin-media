@@ -1,6 +1,6 @@
 {
   "name": "@electrolux-oss/sanity-plugin-media",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This version of `sanity-plugin-media` is for Sanity Studio V3.",
   "keywords": [
     "sanity",
