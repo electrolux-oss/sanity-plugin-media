@@ -1,6 +1,6 @@
 {
   "name": "@electrolux-oss/sanity-plugin-media",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This version of `sanity-plugin-media` is for Sanity Studio V3.",
   "keywords": [
     "sanity",
@@ -20,6 +20,12 @@
   },
   "license": "MIT",
   "author": "Philip Åkerfeldt",
+  "contributors": [
+    {
+      "name": "Philip Åkerfeldt",
+      "url": "https://www.npmjs.com/~philip.akerfeldt"
+    }
+  ],
   "sideEffects": false,
   "type": "commonjs",
   "exports": {
