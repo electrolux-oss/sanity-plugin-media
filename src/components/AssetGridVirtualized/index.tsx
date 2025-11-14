@@ -1,7 +1,8 @@
-import type {CardAssetData, CardUploadData} from '../../types'
-import {memo, forwardRef} from 'react'
-import {VirtuosoGrid} from 'react-virtuoso'
-import {styled} from 'styled-components'
+import type { CardAssetData, CardUploadData } from '../../types'
+import { forwardRef, memo } from 'react'
+import { VirtuosoGrid } from 'react-virtuoso'
+import { styled } from 'styled-components'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
 import CardAsset from '../CardAsset'
 import CardUpload from '../CardUpload'
@@ -15,7 +16,7 @@ const CARD_HEIGHT = 220
 const CARD_WIDTH = 240
 
 const VirtualCell = memo(
-  ({item, selected}: {item: CardAssetData | CardUploadData; selected: boolean}) => {
+  ({ item, selected }: { item: CardAssetData | CardUploadData; selected: boolean }) => {
     if (item?.type === 'asset') {
       return <CardAsset id={item.id} selected={selected} />
     }
@@ -35,7 +36,7 @@ const StyledItemContainer = styled.div`
 
 const ItemContainer = forwardRef<HTMLDivElement, any>((props, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we're doing this to avoid sc warnings about `context` passed as an attribute
-  const {context, ...rest} = props
+  const { context, ...rest } = props
   return <StyledItemContainer ref={ref} {...rest} />
 })
 
@@ -49,12 +50,12 @@ const StyledListContainer = styled.div`
 
 const ListContainer = forwardRef<HTMLDivElement, any>((props, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we're doing this to avoid sc warnings about `context` passed as an attribute
-  const {context, ...rest} = props
+  const { context, ...rest } = props
   return <StyledListContainer ref={ref} {...rest} />
 })
 
 const AssetGridVirtualized = (props: Props) => {
-  const {items, onLoadMore} = props
+  const { items, onLoadMore } = props
 
   // Redux
   const selectedAssets = useTypedSelector(state => state.selected.assets)
@@ -84,7 +85,7 @@ const AssetGridVirtualized = (props: Props) => {
         return <VirtualCell item={item} selected={selected} />
       }}
       overscan={48}
-      style={{overflowX: 'hidden', overflowY: 'scroll'}}
+      style={{ overflowX: 'hidden', overflowY: 'scroll' }}
       totalCount={totalCount}
     />
   )

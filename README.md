@@ -56,13 +56,13 @@ _Asset details tab_          |  _Asset alt texts tab_
 
 In your Sanity project folder:
 
-```sh
+```zsh
 npm install --save sanity-plugin-media
 ```
 
 or
 
-```sh
+```zsh
 yarn add sanity-plugin-media
 ```
 
@@ -147,26 +147,26 @@ export default defineConfig({
 ### Test your plugin locally
 
 In the plugin directory run this command:
-```sh
+```zsh
 npm run link-watch
 ```
 
 This will set up your plugin to build whenever the code changes, and publish the package to a local yalc repository.
 
-In the command log, there should be a note that reads something like this:
+Run the command in the studio project directory:
 
-```sh
-npx yalc add sanity-plugin-media && npx yalc link sanity-plugin-media && npm install
+```zsh
+npx yalc add @electrolux-oss/sanity-plugin-media && npx yalc link @electrolux-oss/sanity-plugin-media && npm install
 ```
 
-Run this command in the studio project directory and you should see something like this in the `package.json` file:
+You should see something like this in the `package.json` file:
 
 ```
-"sanity-plugin-media": "file:.yalc/sanity-plugin-media",
+"@electrolux-oss/sanity-plugin-media": "file:.yalc/@electrolux-oss/sanity-plugin-media",
 ```
 
 Which means you can safely use the local version of the plugin with this import:
 
 ```
-import { media } from 'sanity-plugin-media'
+import { media } from '@electrolux-oss/sanity-plugin-media'
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@electrolux-oss/sanity-plugin-media",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This version of `sanity-plugin-media` is for Sanity Studio V3.",
   "keywords": [
     "sanity",
@@ -19,16 +19,14 @@
     "url": "git+https://github.com/electrolux-oss/sanity-plugin-media.git"
   },
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
   "author": "Philip Åkerfeldt",
+  "sideEffects": false,
   "type": "commonjs",
   "exports": {
     ".": {
       "source": "./src/index.ts",
-      "require": "./dist/index.js",
       "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
@@ -126,5 +124,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,18 +1,19 @@
+import { useDispatch } from 'react-redux'
+
 import { SelectIcon } from '@sanity/icons'
 import { Box, Button, Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui'
+
+import { operators } from '../../config/searchFacets'
+import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
+import { searchActions } from '../../modules/search'
+import SearchFacet from '../SearchFacet'
+
 import type {
   SearchFacetInputSelectListItemProps,
   SearchFacetInputSelectProps,
   SearchFacetOperatorType,
   WithId
 } from '../../types'
-
-import { useDispatch } from 'react-redux'
-
-import { operators } from '../../config/searchFacets'
-import { searchActions } from '../../modules/search'
-import SearchFacet from '../SearchFacet'
-import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 
 type Props = {
   facet: WithId<SearchFacetInputSelectProps>
