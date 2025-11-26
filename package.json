@@ -1,6 +1,6 @@
 {
   "name": "@electrolux-oss/sanity-plugin-media",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "This version of `sanity-plugin-media` is for Sanity Studio V3.",
   "keywords": [
     "sanity",
@@ -81,7 +81,7 @@
     "react-hook-form": "^7.54.2",
     "react-redux": "^9.2.0",
     "react-select": "^5.10.1",
-    "react-virtuoso": "^4.12.5",
+    "react-virtuoso": "^4.15.0",
     "redux": "^5.0.1",
     "redux-observable": "3.0.0-rc.2",
     "rxjs": "^7.8.1",
@@ -116,7 +116,7 @@
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
     "rimraf": "^3.0.2",
-    "sanity": "3.88.2",
+    "sanity": "^4.19.0",
     "standard-version": "^9.5.0",
     "styled-components": "^6.1.16",
     "typescript": "5.8.2"
@@ -125,11 +125,11 @@
     "react": "^18.3 || ^19",
     "react-dom": "^18.3 || ^19",
     "react-is": "^18.3 || ^19",
-    "sanity": "^3.78 || ^4.0.0",
+    "sanity": "^4.0.0",
     "styled-components": "^6.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   },
   "publishConfig": {
     "access": "public"
