@@ -1,6 +1,6 @@
-# Sanity Media Plugin - Electrolux Version (for Sanity Studio v3)
+# Sanity Media Plugin - Electrolux Version (for Sanity Studio v4)
 
-> This plugin is for **Sanity Studio v3**.  
+> This plugin is for **Sanity Studio v4**.  
 > This is a forked version of Sanitys own [Media Plugin (v4.0.0)](https://github.com/sanity-io/sanity-plugin-media)
 
 ## What is it?
