@@ -1,6 +1,8 @@
-import {Box, Button, Text, Tooltip} from '@sanity/ui'
 import format from 'date-fns/format'
-import {type ReactNode} from 'react'
+
+import { Box, Button, Text, Tooltip } from '@sanity/ui'
+
+import type { ReactNode } from 'react'
 
 type Props = {
   disabled: boolean
@@ -10,7 +12,7 @@ type Props = {
 }
 
 const FormSubmitButton = (props: Props) => {
-  const {disabled, isValid, lastUpdated, onClick} = props
+  const { disabled, isValid, lastUpdated, onClick } = props
 
   let content: ReactNode
   if (isValid) {
@@ -33,7 +35,7 @@ const FormSubmitButton = (props: Props) => {
     <Tooltip
       animate
       content={
-        <Box padding={3} style={{maxWidth: '185px'}}>
+        <Box padding={3} style={{ maxWidth: '185px' }}>
           <Text muted size={1}>
             {content}
           </Text>

@@ -1,3 +1,7 @@
+import type { ReactNode } from 'react'
+import { useDispatch } from 'react-redux'
+import { styled } from 'styled-components'
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -7,10 +11,7 @@ import {
   TrashIcon
 } from '@sanity/icons'
 import { Box, Button, Container, Flex, Text, Tooltip } from '@sanity/ui'
-import type { SearchFacetInputSearchableProps, TagActions, TagItem } from '../../types'
-import { type ReactNode } from 'react'
-import { useDispatch } from 'react-redux'
-import { styled } from 'styled-components'
+
 import { inputs } from '../../config/searchFacets'
 import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
@@ -19,6 +20,7 @@ import { dialogActions } from '../../modules/dialog'
 import { DIALOG_ACTIONS } from '../../modules/dialog/actions'
 import { searchActions, selectIsSearchFacetTag } from '../../modules/search'
 
+import type { SearchFacetInputSearchableProps, TagActions, TagItem } from '../../types'
 type Props = {
   actions?: TagActions[]
   tag: TagItem

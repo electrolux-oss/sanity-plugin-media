@@ -1,30 +1,25 @@
-import { CheckmarkCircleIcon, EditIcon, WarningFilledIcon } from '@sanity/icons'
-import {
-  Box,
-  Checkbox,
-  Container,
-  Flex,
-  Spinner,
-  Text,
-  type Theme,
-  type ThemeColorSchemeKey,
-  Tooltip
-} from '@sanity/ui'
-import { memo, type MouseEvent, type RefObject } from 'react'
+import { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
-import { styled, css } from 'styled-components'
+import { css, styled } from 'styled-components'
+
+import { CheckmarkCircleIcon, EditIcon, WarningFilledIcon } from '@sanity/icons'
+import { Box, Checkbox, Container, Flex, Spinner, Text, Tooltip } from '@sanity/ui'
+
 import { PANEL_HEIGHT } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import useKeyPress from '../../hooks/useKeyPress'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { assetsActions, selectAssetById } from '../../modules/assets'
 import { dialogActions } from '../../modules/dialog'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 import imageDprUrl from '../../utils/imageDprUrl'
 import { isFileAsset, isImageAsset } from '../../utils/typeGuards'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
-import { getSchemeColor } from '../../utils/getSchemeColor'
+
+import type { MouseEvent, RefObject } from 'react'
+import type { Theme, ThemeColorSchemeKey } from '@sanity/ui'
 
 type Props = {
   id: string
