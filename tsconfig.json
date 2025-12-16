@@ -1,7 +1,4 @@
 {
   "extends": "./tsconfig.settings",
-  "include": ["./src", "./package.config.ts"],
-  "compilerOptions": {
-    "rootDir": "."
-  }
+  "include": ["./src", "./package.config.ts"]
 }
