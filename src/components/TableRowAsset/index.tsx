@@ -1,4 +1,4 @@
-import formatRelative from 'date-fns/formatRelative'
+import { formatRelative } from 'date-fns'
 import filesize from 'filesize'
 import { memo, MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
