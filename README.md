@@ -3,9 +3,15 @@
 > This plugin is for **Sanity Studio v4**.  
 > This is a forked version of Sanitys own [Media Plugin (v4.0.0)](https://github.com/sanity-io/sanity-plugin-media)
 
+## :warning: Breaking changes - (v2.0.0 &rarr; v3.0.0)
+### **v2 → v3**
+
+This release upgrades the plugin’s peer dependency from **React 18** to **React 19**.  
+Projects using this plugin must update to React 19 before upgrading to v3.
+
 ## What is it?
 
-A Sanity Studio v3 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
+A Sanity Studio v4 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
 
 A convenient way to browse, manage and refine your [Sanity](https://www.sanity.io/) assets.
 
@@ -52,7 +58,7 @@ _Asset details tab_          |  _Asset alt texts tab_
 - Define a list of available languages to enable multi-language alt texts for assets.
 - See example of how to enable this feature [here](###plugin-config).
 
-## Install (Sanity Studio v3)
+## Install (Sanity Studio v4)
 
 In your Sanity project folder:
 
@@ -146,27 +152,39 @@ export default defineConfig({
 
 ### Test your plugin locally
 
-In the plugin directory run this command:
+**Step 1: Set up the plugin for local development**
+
+In the plugin directory, run:
 ```zsh
 npm run link-watch
 ```
 
-This will set up your plugin to build whenever the code changes, and publish the package to a local yalc repository.
+This will:
+- Build your plugin automatically whenever code changes
+- Publish the package to a local yalc repository
 
-Run the command in the studio project directory:
+**Step 2: Link the plugin to your studio**
 
+In your studio project directory, run:
 ```zsh
-npx yalc add @electrolux-oss/sanity-plugin-media && npx yalc link @electrolux-oss/sanity-plugin-media && npm install
+npx yalc add @electrolux-oss/sanity-plugin-media && npm install
 ```
 
-You should see something like this in the `package.json` file:
+**Step 3: Verify the setup**
 
-```
-"@electrolux-oss/sanity-plugin-media": "file:.yalc/@electrolux-oss/sanity-plugin-media",
+Check your studio's `package.json` - you should see:
+```json
+"@electrolux-oss/sanity-plugin-media": "file:.yalc/@electrolux-oss/sanity-plugin-media"
 ```
 
-Which means you can safely use the local version of the plugin with this import:
+Now you can use the local version of the plugin:
+```typescript
+import { workflow } from '@electrolux-oss/sanity-plugin-media'
+```
 
-```
-import { media } from '@electrolux-oss/sanity-plugin-media'
-```
+### Making changes
+
+When you modify the plugin code:
+1. The `link-watch` command will automatically rebuild
+2. In your studio, run `npx yalc update` to pull the latest changes
+3. Restart your dev server: `npm run dev`

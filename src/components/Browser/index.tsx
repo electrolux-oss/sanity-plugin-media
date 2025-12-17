@@ -1,10 +1,11 @@
 import type { MutationEvent } from '@sanity/client'
-import { Card, Flex, PortalProvider } from '@sanity/ui'
-import type { Asset, Tag } from '../../types'
 import groq from 'groq'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { type AssetSourceComponentProps, type SanityDocument } from 'sanity'
+import { SanityDocument } from 'sanity'
+
+import { Card, Flex, PortalProvider } from '@sanity/ui'
+
 import { TAG_DOCUMENT_NAME } from '../../constants'
 import { AssetBrowserDispatchProvider } from '../../contexts/AssetSourceDispatchContext'
 import useVersionedClient from '../../hooks/useVersionedClient'
@@ -22,6 +23,9 @@ import ReduxProvider from '../ReduxProvider'
 import TagsPanel from '../TagsPanel'
 import UploadDropzone from '../UploadDropzone'
 
+import type { AssetSourceComponentProps } from 'sanity'
+
+import type { Asset, Tag } from '../../types'
 type Props = {
   assetType?: AssetSourceComponentProps['assetType']
   document?: SanityDocument

@@ -1,10 +1,12 @@
-import {PlugIcon} from '@sanity/icons'
-import {Box, Flex, Switch, Text, Tooltip} from '@sanity/ui'
-import {type ChangeEvent} from 'react'
-import {useDispatch} from 'react-redux'
+import type { ChangeEvent } from 'react'
+import { useDispatch } from 'react-redux'
+
+import { PlugIcon } from '@sanity/icons'
+import { Box, Flex, Switch, Text, Tooltip } from '@sanity/ui'
+
 import useKeyPress from '../../hooks/useKeyPress'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {debugActions} from '../../modules/debug'
+import { debugActions } from '../../modules/debug'
 
 const DebugControls = () => {
   // Redux

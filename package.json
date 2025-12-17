@@ -1,6 +1,6 @@
 {
   "name": "@electrolux-oss/sanity-plugin-media",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "keywords": [
     "sanity",
     "cms",
@@ -40,27 +40,23 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "sanity.json",
-    "README.md",
-    "LICENSE"
+    "dist"
   ],
   "scripts": {
-    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
+    "build": "pkg-utils build --strict --check --clean",
     "clean": "rimraf dist",
     "dev": "sanity dev",
     "format": "prettier --write --cache --ignore-unknown .",
     "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky install",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "watch": "pkg-utils watch --strict"
   },
   "browserslist": "extends @sanity/browserslist-config",
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
-    "@reduxjs/toolkit": "^2.6.0",
+    "@reduxjs/toolkit": "^2.11.2",
     "@sanity/client": "^6.28.3",
     "@sanity/color": "^3.0.6",
     "@sanity/icons": "^3.7.0",
@@ -77,22 +73,18 @@
     "pluralize": "^8.0.0",
     "react-dropzone": "^11.3.1",
     "react-file-icon": "^1.6.0",
-    "react-hook-form": "^7.54.2",
+    "react-hook-form": "^7.68.0",
     "react-redux": "^9.2.0",
     "react-select": "^5.10.1",
-    "react-virtuoso": "^4.15.0",
+    "react-virtuoso": "^4.17.0",
     "redux": "^5.0.1",
     "redux-observable": "3.0.0-rc.2",
     "rxjs": "^7.8.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^17.8.1",
     "@sanity/pkg-utils": "^8.1.12",
     "@sanity/plugin-kit": "^4.0.19",
-    "@sanity/semantic-release-preset": "^2.0.5",
-    "@sanity/vision": "^3.80.1",
     "@types/is-hotkey": "^0.1.10",
     "@types/pluralize": "^0.0.33",
     "@types/react": "^19.0.12",
@@ -107,28 +99,26 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.0.3",
     "prettier": "^2.8.8",
-    "prettier-plugin-packagejson": "^2.5.10",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-is": "^19.0.0",
+    "prettier-plugin-packagejson": "^2.5.20",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-is": "^19.2.3",
     "rimraf": "^3.0.2",
-    "sanity": "^4.19.0",
+    "sanity": "^4.21.1",
     "standard-version": "^9.5.0",
     "styled-components": "^6.1.16",
     "typescript": "5.8.2"
   },
   "peerDependencies": {
-    "react": "^18.3 || ^19",
-    "react-dom": "^18.3 || ^19",
-    "react-is": "^18.3 || ^19",
-    "sanity": "^4.0.0",
+    "react": "^18.3 || >=19.2.3 < 20",
+    "react-dom": "^18.3 || >=19.2.3 < 20",
+    "react-is": "^18.3 || >=19.2.3 < 20",
+    "sanity": "^4.0.0-0 || ^5.0.0-0",
     "styled-components": "^6.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   },
   "publishConfig": {
     "access": "public"

@@ -1,3 +1,10 @@
+import { formatRelative } from 'date-fns'
+import filesize from 'filesize'
+import { memo, MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue, WithReferringDocuments } from 'sanity'
+import { css, styled } from 'styled-components'
+
 import { CheckmarkCircleIcon, EditIcon, WarningFilledIcon } from '@sanity/icons'
 import {
   Box,
@@ -7,24 +14,10 @@ import {
   Grid,
   Spinner,
   Text,
-  type ThemeColorSchemeKey,
   Tooltip,
   useMediaIndex
 } from '@sanity/ui'
-import formatRelative from 'date-fns/formatRelative'
-import filesize from 'filesize'
-import {
-  memo,
-  type MouseEvent,
-  type RefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
-import { useDispatch } from 'react-redux'
-import { WithReferringDocuments, useColorSchemeValue } from 'sanity'
-import { styled, css } from 'styled-components'
+
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import useKeyPress from '../../hooks/useKeyPress'
@@ -32,12 +25,15 @@ import useTypedSelector from '../../hooks/useTypedSelector'
 import { assetsActions, selectAssetById } from '../../modules/assets'
 import { dialogActions } from '../../modules/dialog'
 import getAssetResolution from '../../utils/getAssetResolution'
+import { getSchemeColor } from '../../utils/getSchemeColor'
+import { getUniqueDocuments } from '../../utils/getUniqueDocuments'
 import imageDprUrl from '../../utils/imageDprUrl'
 import { isFileAsset, isImageAsset } from '../../utils/typeGuards'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
-import { getUniqueDocuments } from '../../utils/getUniqueDocuments'
-import { getSchemeColor } from '../../utils/getSchemeColor'
+
+import type { RefObject } from 'react'
+import type { ThemeColorSchemeKey } from '@sanity/ui'
 
 // Duration (ms) to wait before reference counts (and associated listeners) are rendered
 const REFERENCE_COUNT_VISIBILITY_DELAY = 750
