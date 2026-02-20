@@ -1,17 +1,22 @@
-import { type AnyAction, configureStore, type Store } from '@reduxjs/toolkit'
-// import type { SanityClient } from '@sanity/client'
-import type { AssetSourceComponentProps, SanityClient, SanityDocument } from 'sanity'
-import { Component, type ReactNode } from 'react'
+import { Component } from 'react'
 import { Provider } from 'react-redux'
 import { createEpicMiddleware } from 'redux-observable'
+
+import { configureStore } from '@reduxjs/toolkit'
+
 import { rootEpic, rootReducer } from '../../modules'
 import { initialState as assetsInitialState } from '../../modules/assets'
+import getDocumentAssetIds from '../../utils/getDocumentAssetIds'
+import { isSupportedAssetType } from '../../utils/isSupportedAssetType'
+
+import type { AnyAction, Store } from '@reduxjs/toolkit'
+// import type { SanityClient } from '@sanity/client'
+import type { AssetSourceComponentProps, SanityClient, SanityDocument } from 'sanity'
+import type { ReactNode } from 'react'
 // import {assetsActions} from '../../modules/assets'
 // import {searchActions} from '../../modules/search'
 // import {uploadsActions} from '../../modules/uploads'
 import type { RootReducerState } from '../../modules/types'
-import getDocumentAssetIds from '../../utils/getDocumentAssetIds'
-
 type Props = {
   assetType?: AssetSourceComponentProps['assetType']
   children?: ReactNode
@@ -53,7 +58,7 @@ class ReduxProvider extends Component<Props> {
       preloadedState: {
         assets: {
           ...assetsInitialState,
-          assetTypes: props?.assetType ? [props.assetType] : ['file', 'image']
+          assetTypes: isSupportedAssetType(props?.assetType) ? [props.assetType] : ['file', 'image']
         },
         debug: {
           badConnection: false,

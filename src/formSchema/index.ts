@@ -1,4 +1,5 @@
 import * as z from 'zod'
+
 import type { MediaToolOptions } from '../types'
 
 export const tagOptionSchema = z.object({
@@ -53,3 +54,5 @@ export const createAssetFormSchema = (
     title: z.string().trim().optional()
   })
 }
+
+export type AssetFormSchemaObject = ReturnType<typeof createAssetFormSchema>

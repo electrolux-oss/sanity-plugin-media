@@ -5,20 +5,34 @@ import type {
   SanityDocument,
   SanityImageAssetDocument
 } from '@sanity/client'
+import type { ComponentType, JSX } from 'react'
 import type { Epic } from 'redux-observable'
+import type { AssetFormSchemaObject } from '../formSchema'
 import * as z from 'zod'
 
 import { tagFormSchema, tagOptionSchema } from '../formSchema'
+
+import type { SUPPORTED_ASSET_TYPES } from '../constants'
+
+export type AssetTypes = (typeof SUPPORTED_ASSET_TYPES)[number]
+
+import type { DetailsProps } from '../components/DialogAssetEdit/Details'
 
 import type { RootReducerState } from '../modules/types'
 
 export type MediaToolOptions = {
   languages: { code: string; title: string; default?: boolean }[]
   maximumUploadSize?: number
+  components?: {
+    details?: ComponentType<
+      DetailsProps & { renderDefaultDetails: (props: DetailsProps) => JSX.Element }
+    >
+  }
   creditLine: {
     enabled: boolean
     excludeSources?: string | string[]
   }
+  directUploads?: boolean
 }
 
 type CustomFields = {
@@ -43,6 +57,8 @@ type SearchFacetInputCommon = {
 }
 
 export type Asset = FileAsset | ImageAsset
+
+export type AssetFormData = z.infer<AssetFormSchemaObject>
 
 export type AssetItem = {
   _type: 'asset'

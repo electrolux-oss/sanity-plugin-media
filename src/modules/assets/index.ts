@@ -12,7 +12,7 @@ import {
   withLatestFrom
 } from 'rxjs/operators'
 
-import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 
 import { getOrderTitle } from '../../config/orders'
 import { ORDER_OPTIONS } from '../../constants'
@@ -21,6 +21,8 @@ import constructFilter from '../../utils/constructFilter'
 import { searchActions } from '../search'
 import { UPLOADS_ACTIONS } from '../uploads/actions'
 import { ASSETS_ACTIONS } from './actions'
+
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 import type { ClientError, Patch, Transaction } from '@sanity/client'
 import type {
@@ -258,7 +260,9 @@ const assetsSlice = createSlice({
               originalFilename,
               size,
               source {
-                name
+                name,
+                id,
+                url
               },
               title,
               url

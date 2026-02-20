@@ -1,10 +1,11 @@
 import groq from 'groq'
-import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue, useDocumentStore, WithReferringDocuments } from 'sanity'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { WarningOutlineIcon } from '@sanity/icons'
 import { Box, Button, Card, Flex, Stack, Tab, TabList, TabPanel, Text } from '@sanity/ui'
 
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
@@ -23,20 +24,25 @@ import AssetMetadata from '../AssetMetadata'
 import Dialog from '../Dialog'
 import DocumentList from '../DocumentList'
 import FileAssetPreview from '../FileAssetPreview'
-import FormFieldInputTags from '../FormFieldInputTags'
 import FormFieldInputText from '../FormFieldInputText'
-import FormFieldInputTextarea from '../FormFieldInputTextarea'
 import FormSubmitButton from '../FormSubmitButton'
 import Image from '../Image'
+import Details from './Details'
 
+import type { ReactNode } from 'react'
+import type { SubmitHandler } from 'react-hook-form'
 import type { MutationEvent } from '@sanity/client'
-import type { Asset, DialogAssetEditProps, TagSelectOption } from '../../types'
-import { WarningOutlineIcon } from '@sanity/icons'
-import type { z } from 'zod'
+import type { Asset, AssetFormData, DialogAssetEditProps, TagSelectOption } from '../../types'
+
+import type { DetailsProps } from './Details'
 
 type Props = {
   children: ReactNode
   dialog: DialogAssetEditProps
+}
+
+function renderDefaultDetails(props: DetailsProps) {
+  return <Details {...props} />
 }
 
 const DialogAssetEdit = (props: Props) => {
@@ -68,11 +74,9 @@ const DialogAssetEdit = (props: Props) => {
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
 
   // Check if credit line options are configured
-  const { creditLine, languages } = useToolOptions()
+  const { creditLine, components: { details: CustomDetails } = {}, languages } = useToolOptions()
 
   const assetFormSchema = createAssetFormSchema(languages, shouldValidateAltTexts)
-
-  type AssetFormData = z.infer<typeof assetFormSchema>
 
   const generateDefaultValues = useCallback(
     (asset?: Asset): AssetFormData => {
@@ -259,6 +263,19 @@ const DialogAssetEdit = (props: Props) => {
     return null
   }
 
+  const detailsProps = {
+    control,
+    errors,
+    formUpdating,
+    register,
+    setValue,
+    assetTagOptions,
+    allTagOptions,
+    handleCreateTag,
+    currentAsset,
+    creditLine
+  }
+
   return (
     <Dialog
       animate
@@ -337,75 +354,14 @@ const DialogAssetEdit = (props: Props) => {
                       hidden={tabSection !== 'details'}
                       id="details-panel"
                     >
-                      <Stack space={3}>
-                        {/* Tags */}
-                        <FormFieldInputTags
-                          control={control}
-                          disabled={formUpdating}
-                          error={errors?.opt?.media?.tags?.message}
-                          label="Tags"
-                          name="opt.media.tags"
-                          onCreateTag={handleCreateTag}
-                          options={allTagOptions}
-                          placeholder="Select or create..."
-                          value={assetTagOptions}
+                      {CustomDetails ? (
+                        <CustomDetails
+                          {...detailsProps}
+                          renderDefaultDetails={renderDefaultDetails}
                         />
-                        {/* Filename */}
-                        <FormFieldInputText
-                          {...register('originalFilename')}
-                          disabled={formUpdating}
-                          error={errors?.originalFilename?.message}
-                          label="Filename"
-                          name="originalFilename"
-                          value={currentAsset?.originalFilename}
-                        />
-                        {/* Title */}
-                        <FormFieldInputText
-                          {...register('title')}
-                          disabled={formUpdating}
-                          error={errors?.title?.message}
-                          label="Title"
-                          name="title"
-                          value={currentAsset?.title}
-                        />
-                        {/* !! DEPRECATED !! - Alt text */}
-                        {isImageAsset(currentAsset) && (
-                          <FormFieldInputText
-                            {...register('altText')}
-                            icon={WarningOutlineIcon}
-                            disabled
-                            error={errors?.altText?.message}
-                            description='This field is deprecated. Use "Alt Texts" tab instead.'
-                            label="Alt Text"
-                            name="altText"
-                            value={currentAsset?.altText}
-                          />
-                        )}
-                        {/* Description */}
-                        <FormFieldInputTextarea
-                          {...register('description')}
-                          disabled={formUpdating}
-                          error={errors?.description?.message}
-                          label="Description"
-                          name="description"
-                          rows={5}
-                          value={currentAsset?.description}
-                        />
-                        {/* CreditLine */}
-                        {creditLine?.enabled && (
-                          <FormFieldInputText
-                            {...register('creditLine')}
-                            error={errors?.creditLine?.message}
-                            label="Credit"
-                            name="creditLine"
-                            value={currentAsset?.creditLine}
-                            disabled={
-                              formUpdating ||
-                              creditLine?.excludeSources?.includes(currentAsset?.source?.name)
-                            }
-                          />
-                        )}
-                      </Stack>
+                      ) : (
+                        <Details {...detailsProps} />
+                      )}
                     </TabPanel>
                     {/* Panel: Alt texts */}
                     {isImageAsset(currentAsset) && (

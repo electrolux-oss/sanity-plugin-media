@@ -1,10 +1,14 @@
 import type { MediaToolOptions } from '../types'
-import { type PropsWithChildren, createContext, useContext, useMemo } from 'react'
+import { createContext, useContext, useMemo } from 'react'
+
+import type PropsWithChildren from 'react'
 import type { DropzoneOptions } from 'react-dropzone'
 
 type ContextProps = {
   dropzone: Pick<DropzoneOptions, 'maxSize'>
+  components: MediaToolOptions['components']
   creditLine: MediaToolOptions['creditLine']
+  directUploads: MediaToolOptions['directUploads']
   languages: MediaToolOptions['languages']
 }
 
@@ -26,10 +30,14 @@ export const ToolOptionsProvider = ({ options, children }: PropsWithChildren<Pro
 
     return {
       dropzone: { maxSize: options?.maximumUploadSize },
+      components: {
+        details: options?.components?.details
+      },
       creditLine: {
         enabled: options?.creditLine?.enabled || false,
         excludeSources: creditLineExcludeSources
       },
+      directUploads: options?.directUploads ?? true,
       languages:
         options?.languages.sort((a, b) => {
           return (b.default ? 1 : 0) - (a.default ? 1 : 0)
@@ -37,8 +45,10 @@ export const ToolOptionsProvider = ({ options, children }: PropsWithChildren<Pro
     }
   }, [
     options?.creditLine?.enabled,
+    options?.components,
     options?.creditLine?.excludeSources,
     options?.maximumUploadSize,
+    options?.directUploads,
     options?.languages
   ])
 

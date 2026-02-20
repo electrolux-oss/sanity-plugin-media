@@ -6,6 +6,13 @@ import type {
 } from './types'
 import { divider, inputs } from './config/searchFacets'
 
+import type { AssetSourceComponentProps } from 'sanity'
+
+export const SUPPORTED_ASSET_TYPES = [
+  'file',
+  'image'
+] as const satisfies AssetSourceComponentProps['assetType'][]
+
 // Sort order dropdown options
 // null values are represented as menu dividers
 export const ORDER_OPTIONS: ({ direction: OrderDirection; field: string } | null)[] = [
