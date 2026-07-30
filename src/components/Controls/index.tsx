@@ -1,8 +1,8 @@
-import {Box, Button, Flex, Inline, useMediaIndex} from '@sanity/ui'
-import {useDispatch} from 'react-redux'
+import { Box, Button, Flex, Inline, useMediaIndex } from '@sanity/ui'
+import { useDispatch } from 'react-redux'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {dialogActions} from '../../modules/dialog'
-import {tagsActions} from '../../modules/tags'
+import { dialogActions } from '../../modules/dialog'
+import { tagsActions } from '../../modules/tags'
 import ButtonViewGroup from '../ButtonViewGroup'
 import OrderSelect from '../OrderSelect'
 import Progress from '../Progress'
@@ -31,7 +31,7 @@ const Controls = () => {
   }
 
   const toggleTagsPanelToggle = () => {
-    dispatch(tagsActions.panelVisibleSet({panelVisible: !tagsPanelVisible}))
+    dispatch(tagsActions.panelVisibleSet({ panelVisible: !tagsPanelVisible }))
   }
 
   return (
@@ -61,7 +61,7 @@ const Controls = () => {
               width: '100%'
             }}
           >
-            <Box marginX={2} style={{minWidth: '200px'}}>
+            <Box marginX={2} style={{ minWidth: '200px' }}>
               {/* Search */}
               <TextInputSearch />
             </Box>
@@ -74,7 +74,7 @@ const Controls = () => {
             </Box>
 
             <Box display={['block', 'block', 'none']} marginX={2}>
-              <Inline space={2} style={{whiteSpace: 'nowrap'}}>
+              <Inline space={2} style={{ whiteSpace: 'nowrap' }}>
                 {/* Filters button (small) */}
                 <Button
                   fontSize={1}
@@ -113,7 +113,7 @@ const Controls = () => {
               <Button
                 fontSize={1}
                 icon={
-                  <Box style={{transform: 'scale(0.75)'}}>
+                  <Box style={{ transform: 'scale(0.75)' }}>
                     <TagIcon />
                   </Box>
                 }

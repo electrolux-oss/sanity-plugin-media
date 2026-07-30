@@ -1,7 +1,7 @@
-import type {ThemeColorSchemeKey} from '@sanity/ui'
-import type {MouseEvent} from 'react'
-import {styled, css} from 'styled-components'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import type { ThemeColorSchemeKey } from '@sanity/ui'
+import type { MouseEvent } from 'react'
+import { styled, css } from 'styled-components'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
   onClick?: (e: MouseEvent) => void

@@ -1,15 +1,15 @@
 import { ClipboardIcon } from '@sanity/icons/Clipboard'
-import {Button, Popover, Text} from '@sanity/ui'
+import { Button, Popover, Text } from '@sanity/ui'
 import copy from 'copy-to-clipboard'
-import {useEffect, useRef, useState} from 'react'
-import {usePortalPopoverProps} from '../../hooks/usePortalPopoverProps'
+import { useEffect, useRef, useState } from 'react'
+import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 
 type Props = {
   disabled?: boolean
   url: string
 }
 
-const ButtonAssetCopy = ({disabled, url}: Props) => {
+const ButtonAssetCopy = ({ disabled, url }: Props) => {
   const popoverProps = usePortalPopoverProps()
   const refPopoverTimeout = useRef<ReturnType<typeof window.setTimeout>>(null)
   const [popoverVisible, setPopoverVisible] = useState(false)

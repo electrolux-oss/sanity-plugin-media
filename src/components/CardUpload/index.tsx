@@ -1,15 +1,15 @@
 import { CloseIcon } from '@sanity/icons/Close'
-import {Box, Button, Flex, Text} from '@sanity/ui'
+import { Box, Button, Flex, Text } from '@sanity/ui'
 import filesize from 'filesize'
-import {useDispatch} from 'react-redux'
-import {useColorSchemeValue} from 'sanity'
-import {styled} from 'styled-components'
-import {PANEL_HEIGHT} from '../../constants'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
+import { styled } from 'styled-components'
+import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {selectUploadById, uploadsActions} from '../../modules/uploads'
+import { selectUploadById, uploadsActions } from '../../modules/uploads'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
   id: string
@@ -24,7 +24,7 @@ const CardWrapper = styled(Flex)`
 `
 
 const CardUpload = (props: Props) => {
-  const {id} = props
+  const { id } = props
 
   const scheme = useColorSchemeValue()
 
@@ -36,7 +36,7 @@ const CardUpload = (props: Props) => {
     return null
   }
 
-  const fileSize = filesize(item.size, {base: 10, round: 0})
+  const fileSize = filesize(item.size, { base: 10, round: 0 })
   const percentLoaded = Math.round(item.percent || 0) // (0 - 100)
 
   const isComplete = item.status === 'complete'
@@ -56,7 +56,7 @@ const CardUpload = (props: Props) => {
 
   // Callbacks
   const handleCancelUpload = () => {
-    dispatch(uploadsActions.uploadCancel({hash: item.hash}))
+    dispatch(uploadsActions.uploadCancel({ hash: item.hash }))
   }
 
   return (
@@ -86,7 +86,7 @@ const CardUpload = (props: Props) => {
           }}
         />
 
-        <Box flex={1} style={{position: 'relative'}}>
+        <Box flex={1} style={{ position: 'relative' }}>
           {item.assetType === 'image' && item?.objectUrl && (
             <Image
               draggable={false}
@@ -99,7 +99,7 @@ const CardUpload = (props: Props) => {
           )}
 
           {item.assetType === 'file' && (
-            <div style={{height: '100%', opacity: 0.1}}>
+            <div style={{ height: '100%', opacity: 0.1 }}>
               <FileIcon width="80px" />
             </div>
           )}
@@ -129,7 +129,7 @@ const CardUpload = (props: Props) => {
                 mode="bleed"
                 onClick={handleCancelUpload}
                 padding={2}
-                style={{background: 'none', boxShadow: 'none'}}
+                style={{ background: 'none', boxShadow: 'none' }}
                 tone="critical"
               />
             </Flex>
@@ -141,14 +141,14 @@ const CardUpload = (props: Props) => {
           align="center"
           justify="space-between"
           paddingX={2}
-          style={{height: `${PANEL_HEIGHT}px`}}
+          style={{ height: `${PANEL_HEIGHT}px` }}
         >
           <Box flex={1} marginRight={1}>
             <Text size={0} textOverflow="ellipsis">
               {item.name} ({fileSize})
             </Text>
           </Box>
-          <Text size={0} style={{flexShrink: 0}} weight="semibold">
+          <Text size={0} style={{ flexShrink: 0 }} weight="semibold">
             {status}
           </Text>
         </Flex>

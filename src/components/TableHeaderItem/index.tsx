@@ -1,10 +1,10 @@
 import { ChevronDownIcon } from '@sanity/icons/ChevronDown'
 import { ChevronUpIcon } from '@sanity/icons/ChevronUp'
-import {Box, Label} from '@sanity/ui'
+import { Box, Label } from '@sanity/ui'
 
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {assetsActions} from '../../modules/assets'
+import { assetsActions } from '../../modules/assets'
 
 type Props = {
   field?: string
@@ -12,7 +12,7 @@ type Props = {
 }
 
 const TableHeaderItem = (props: Props) => {
-  const {field, title} = props
+  const { field, title } = props
 
   // Redux
   const dispatch = useDispatch()
@@ -28,9 +28,9 @@ const TableHeaderItem = (props: Props) => {
 
     if (isActive) {
       const direction = order.direction === 'asc' ? 'desc' : 'asc'
-      dispatch(assetsActions.orderSet({order: {field, direction}}))
+      dispatch(assetsActions.orderSet({ order: { field, direction } }))
     } else {
-      dispatch(assetsActions.orderSet({order: {field, direction: 'asc'}}))
+      dispatch(assetsActions.orderSet({ order: { field, direction: 'asc' } }))
     }
   }
 

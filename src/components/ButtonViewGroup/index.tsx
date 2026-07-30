@@ -1,9 +1,9 @@
 import { ThLargeIcon } from '@sanity/icons/ThLarge'
 import { ThListIcon } from '@sanity/icons/ThList'
-import {Button, Inline} from '@sanity/ui'
-import {useDispatch} from 'react-redux'
+import { Button, Inline } from '@sanity/ui'
+import { useDispatch } from 'react-redux'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {assetsActions} from '../../modules/assets'
+import { assetsActions } from '../../modules/assets'
 
 const ButtonViewGroup = () => {
   // Redux
@@ -11,12 +11,12 @@ const ButtonViewGroup = () => {
   const view = useTypedSelector(state => state.assets.view)
 
   return (
-    <Inline space={0} style={{whiteSpace: 'nowrap'}}>
+    <Inline space={0} style={{ whiteSpace: 'nowrap' }}>
       <Button
         fontSize={1}
         icon={ThLargeIcon}
         mode={view === 'grid' ? 'default' : 'ghost'}
-        onClick={() => dispatch(assetsActions.viewSet({view: 'grid'}))}
+        onClick={() => dispatch(assetsActions.viewSet({ view: 'grid' }))}
         style={{
           borderBottomRightRadius: 0,
           borderTopRightRadius: 0
@@ -26,7 +26,7 @@ const ButtonViewGroup = () => {
         fontSize={1}
         icon={ThListIcon}
         mode={view === 'table' ? 'default' : 'ghost'}
-        onClick={() => dispatch(assetsActions.viewSet({view: 'table'}))}
+        onClick={() => dispatch(assetsActions.viewSet({ view: 'table' }))}
         style={{
           borderBottomLeftRadius: 0,
           borderTopLeftRadius: 0

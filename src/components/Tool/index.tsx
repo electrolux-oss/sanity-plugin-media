@@ -1,4 +1,4 @@
-import {Flex} from '@sanity/ui'
+import { Flex } from '@sanity/ui'
 
 import Browser from '../Browser'
 

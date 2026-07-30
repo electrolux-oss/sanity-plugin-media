@@ -1,11 +1,11 @@
 import { ComposeIcon } from '@sanity/icons/Compose'
-import {Box, Button, Flex, Inline, Label} from '@sanity/ui'
-import {useDispatch} from 'react-redux'
-import {useColorSchemeValue} from 'sanity'
-import {PANEL_HEIGHT} from '../../constants'
+import { Box, Button, Flex, Inline, Label } from '@sanity/ui'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
+import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {DIALOG_ACTIONS} from '../../modules/dialog/actions'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { DIALOG_ACTIONS } from '../../modules/dialog/actions'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
   allowCreate?: boolean
@@ -13,7 +13,7 @@ type Props = {
   title: string
 }
 
-const TagViewHeader = ({allowCreate, light, title}: Props) => {
+const TagViewHeader = ({ allowCreate, light, title }: Props) => {
   const scheme = useColorSchemeValue()
 
   const dispatch = useDispatch()
@@ -40,7 +40,7 @@ const TagViewHeader = ({allowCreate, light, title}: Props) => {
         <Inline space={2}>
           <Label size={0}>{title}</Label>
           {tagsFetching && (
-            <Label size={0} style={{opacity: 0.3}}>
+            <Label size={0} style={{ opacity: 0.3 }}>
               Loading...
             </Label>
           )}

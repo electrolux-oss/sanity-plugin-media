@@ -1,11 +1,11 @@
 import { SortIcon } from '@sanity/icons/Sort'
-import {Button, Menu, MenuButton, MenuDivider, MenuItem} from '@sanity/ui'
-import {useDispatch} from 'react-redux'
-import {getOrderTitle} from '../../config/orders'
-import {ORDER_OPTIONS} from '../../constants'
-import {usePortalPopoverProps} from '../../hooks/usePortalPopoverProps'
+import { Button, Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui'
+import { useDispatch } from 'react-redux'
+import { getOrderTitle } from '../../config/orders'
+import { ORDER_OPTIONS } from '../../constants'
+import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {assetsActions} from '../../modules/assets'
+import { assetsActions } from '../../modules/assets'
 
 const OrderSelect = () => {
   // Redux
@@ -40,14 +40,14 @@ const OrderSelect = () => {
                   onClick={() =>
                     dispatch(
                       assetsActions.orderSet({
-                        order: {direction: item.direction, field: item.field}
+                        order: { direction: item.direction, field: item.field }
                       })
                     )
                   }
                   padding={2}
                   selected={selected}
                   space={4}
-                  style={{minWidth: '200px'}}
+                  style={{ minWidth: '200px' }}
                   text={getOrderTitle(item.field, item.direction)}
                 />
               )

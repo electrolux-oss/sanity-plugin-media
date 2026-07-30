@@ -1,12 +1,12 @@
 import { CloseIcon } from '@sanity/icons/Close'
-import {Box, Card, rem, studioTheme, Text, type ThemeColorSchemeKey} from '@sanity/ui'
-import {components, type StylesConfig} from 'react-select'
-import {Virtuoso} from 'react-virtuoso'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { Box, Card, rem, studioTheme, Text, type ThemeColorSchemeKey } from '@sanity/ui'
+import { components, type StylesConfig } from 'react-select'
+import { Virtuoso } from 'react-virtuoso'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 
 const {
   fonts: {
-    text: {sizes: themeTextSizes}
+    text: { sizes: themeTextSizes }
   },
   radius: themeRadius,
   space: themeSpace
@@ -14,7 +14,7 @@ const {
 
 export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => {
   return {
-    control: (styles, {isDisabled, isFocused}) => {
+    control: (styles, { isDisabled, isFocused }) => {
       let boxShadow = `inset 0 0 0 1px var(--card-border-color)`
       if (isFocused) {
         boxShadow = `inset 0 0 0 1px ${getSchemeColor(scheme, 'inputEnabledBorder')},
@@ -56,7 +56,7 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
       fontSize: themeTextSizes[1].fontSize,
       lineHeight: '1em'
     }),
-    option: (styles, {isFocused}) => ({
+    option: (styles, { isFocused }) => ({
       ...styles,
       backgroundColor: isFocused ? getSchemeColor(scheme, 'spotBlue') : 'transparent',
       borderRadius: themeRadius[2],
@@ -119,7 +119,7 @@ const Menu = (props: any) => {
 }
 
 const MenuList = (props: any) => {
-  const {children} = props
+  const { children } = props
 
   const MAX_ROWS = 5
   const OPTION_HEIGHT = 33
@@ -135,7 +135,7 @@ const MenuList = (props: any) => {
           const item = children[index]
           return <Option {...item.props} />
         }}
-        style={{height}}
+        style={{ height }}
         totalCount={children.length}
       />
     )
@@ -152,7 +152,7 @@ const Option = (props: any) => {
     <Box padding={1}>
       <components.Option {...props}>
         <Box paddingY={1}>
-          <Text size={1} style={{color: 'inherit'}} textOverflow="ellipsis">
+          <Text size={1} style={{ color: 'inherit' }} textOverflow="ellipsis">
             {props.children}
           </Text>
         </Box>

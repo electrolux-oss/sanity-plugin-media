@@ -1,6 +1,6 @@
-import {Box} from '@sanity/ui'
+import { Box } from '@sanity/ui'
 
-import {TAGS_PANEL_WIDTH} from '../../constants'
+import { TAGS_PANEL_WIDTH } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import TagView from '../TagView'
 

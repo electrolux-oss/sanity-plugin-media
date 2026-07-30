@@ -1,8 +1,8 @@
-import {Box, Flex, Text} from '@sanity/ui'
+import { Box, Flex, Text } from '@sanity/ui'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {selectAssetsPickedLength} from '../../modules/assets'
-import {selectTags} from '../../modules/tags'
+import { selectAssetsPickedLength } from '../../modules/assets'
+import { selectTags } from '../../modules/tags'
 import TagsVirtualized from '../TagsVirtualized'
 import TagViewHeader from '../TagViewHeader'
 

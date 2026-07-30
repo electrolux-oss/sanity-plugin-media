@@ -1,8 +1,8 @@
-import {Box} from '@sanity/ui'
-import type {DialogTagsProps} from '../../types'
-import {type ReactNode, useCallback} from 'react'
-import {useDispatch} from 'react-redux'
-import {dialogActions} from '../../modules/dialog'
+import { Box } from '@sanity/ui'
+import type { DialogTagsProps } from '../../types'
+import { type ReactNode, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+import { dialogActions } from '../../modules/dialog'
 import Dialog from '../Dialog'
 import TagView from '../TagView'
 
@@ -14,7 +14,7 @@ type Props = {
 const DialogTags = (props: Props) => {
   const {
     children,
-    dialog: {id}
+    dialog: { id }
   } = props
 
   // Redux

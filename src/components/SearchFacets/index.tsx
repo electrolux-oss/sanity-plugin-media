@@ -1,6 +1,6 @@
-import {Box, Flex, Inline, rem, type Theme} from '@sanity/ui'
+import { Box, Flex, Inline, rem, type Theme } from '@sanity/ui'
 
-import {styled, css} from 'styled-components'
+import { styled, css } from 'styled-components'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
 import SearchFacetNumber from '../SearchFacetNumber'
@@ -12,7 +12,7 @@ type Props = {
   layout?: 'inline' | 'stack'
 }
 
-const StackContainer = styled(Flex)(({theme}: {theme: Theme}) => {
+const StackContainer = styled(Flex)(({ theme }: { theme: Theme }) => {
   return css`
     > * {
       margin-bottom: ${rem(theme.sanity.space[2])};
@@ -21,7 +21,7 @@ const StackContainer = styled(Flex)(({theme}: {theme: Theme}) => {
 })
 
 const SearchFacets = (props: Props) => {
-  const {layout = 'inline'} = props
+  const { layout = 'inline' } = props
 
   // Redux
   const searchFacets = useTypedSelector(state => state.search.facets)

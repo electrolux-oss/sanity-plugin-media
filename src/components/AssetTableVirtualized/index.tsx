@@ -1,7 +1,7 @@
-import type {CardAssetData, CardUploadData} from '../../types'
-import {Box} from '@sanity/ui'
-import {memo} from 'react'
-import {GroupedVirtuoso} from 'react-virtuoso'
+import type { CardAssetData, CardUploadData } from '../../types'
+import { Box } from '@sanity/ui'
+import { memo } from 'react'
+import { GroupedVirtuoso } from 'react-virtuoso'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import TableHeader from '../TableHeader'
 import TableRowAsset from '../TableRowAsset'
@@ -13,10 +13,10 @@ type Props = {
 }
 
 const VirtualRow = memo(
-  ({item, selected}: {item: CardAssetData | CardUploadData; selected: boolean}) => {
+  ({ item, selected }: { item: CardAssetData | CardUploadData; selected: boolean }) => {
     if (item?.type === 'asset') {
       return (
-        <Box style={{height: '100px'}}>
+        <Box style={{ height: '100px' }}>
           <TableRowAsset id={item.id} selected={selected} />
         </Box>
       )
@@ -24,7 +24,7 @@ const VirtualRow = memo(
 
     if (item?.type === 'upload') {
       return (
-        <Box style={{height: '100px'}}>
+        <Box style={{ height: '100px' }}>
           <TableRowUpload id={item.id} />
         </Box>
       )
@@ -35,7 +35,7 @@ const VirtualRow = memo(
 )
 
 const AssetTableVirtualized = (props: Props) => {
-  const {items, onLoadMore} = props
+  const { items, onLoadMore } = props
 
   // Redux
   const selectedAssets = useTypedSelector(state => state.selected.assets)
@@ -64,7 +64,7 @@ const AssetTableVirtualized = (props: Props) => {
         const selected = selectedIds.includes(item?.id)
         return <VirtualRow item={item} selected={selected} />
       }}
-      style={{overflowX: 'hidden'}}
+      style={{ overflowX: 'hidden' }}
     />
   )
 }

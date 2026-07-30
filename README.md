@@ -4,6 +4,7 @@
 > This is a forked version of Sanitys own [Media Plugin (v4.0.0)](https://github.com/sanity-io/sanity-plugin-media)
 
 ## :warning: Breaking changes - (v3.0.0 &rarr; v4.0.0)
+
 ### **v3 → v4**
 
 This release targets **Sanity Studio v5 and v6**. Support for Studio v4 has been dropped, and the
@@ -26,11 +27,9 @@ Use it standalone as a browser, or optionally hook it up as a [custom asset sour
 ![Grid view](https://user-images.githubusercontent.com/209129/108927411-21aa7f00-7638-11eb-9cf7-334598ac4103.png)
 _Default grid view_
 
-
-_Asset details tab_          |  _Asset alt texts tab_
-:-------------------------:|:-------------------------:
-![first](https://github.com/user-attachments/assets/477b6576-a1a4-42e2-b2c2-2d2e962eb366)  |  ![second](https://github.com/user-attachments/assets/2c5bd907-1b60-48c6-a007-2f7304409007)
-
+|                                    _Asset details tab_                                    |                                   _Asset alt texts tab_                                    |
+| :---------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+| ![first](https://github.com/user-attachments/assets/477b6576-a1a4-42e2-b2c2-2d2e962eb366) | ![second](https://github.com/user-attachments/assets/2c5bd907-1b60-48c6-a007-2f7304409007) |
 
 ## Features
 
@@ -132,7 +131,7 @@ export default defineConfig({
   plugins: [
     media({
       // { code: string; title: string, default?: boolean }[] - the list of languages used for alt texts
-      // NOTE! Set only one language to default: true. 
+      // NOTE! Set only one language to default: true.
       languages: [
         { code: 'en-US', title: 'English', default: true },
         { code: 'sv-SE', title: 'Swedish' },
@@ -143,7 +142,7 @@ export default defineConfig({
         enabled: true,
         // boolean - enables an optional "Credit Line" field in the plugin.
         // Used to store credits e.g. photographer, licence information
-        excludeSources: ['unsplash'],
+        excludeSources: ['unsplash']
         // string | string[] - when used with 3rd party asset sources, you may
         // wish to prevent users overwriting the creditLine based on the `source.name`
       },
@@ -155,7 +154,7 @@ export default defineConfig({
         details: CustomDetails
       }
     })
-  ],
+  ]
 })
 ```
 
@@ -166,17 +165,20 @@ export default defineConfig({
 **Step 1: Set up the plugin for local development**
 
 In the plugin directory, run:
+
 ```zsh
 npm run link-watch
 ```
 
 This will:
+
 - Build your plugin automatically whenever code changes
 - Publish the package to a local yalc repository
 
 **Step 2: Link the plugin to your studio**
 
 In your studio project directory, run:
+
 ```zsh
 npx yalc add @electrolux-oss/sanity-plugin-media && npm install
 ```
@@ -184,11 +186,13 @@ npx yalc add @electrolux-oss/sanity-plugin-media && npm install
 **Step 3: Verify the setup**
 
 Check your studio's `package.json` - you should see:
+
 ```json
 "@electrolux-oss/sanity-plugin-media": "file:.yalc/@electrolux-oss/sanity-plugin-media"
 ```
 
 Now you can use the local version of the plugin:
+
 ```typescript
 import { media } from '@electrolux-oss/sanity-plugin-media'
 ```
@@ -196,6 +200,7 @@ import { media } from '@electrolux-oss/sanity-plugin-media'
 ### Making changes
 
 When you modify the plugin code:
+
 1. The `link-watch` command will automatically rebuild
 2. In your studio, run `npx yalc update` to pull the latest changes
 3. Restart your dev server: `npm run dev`

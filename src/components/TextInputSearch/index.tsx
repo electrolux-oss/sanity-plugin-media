@@ -1,10 +1,10 @@
 import { CloseIcon } from '@sanity/icons/Close'
 import { SearchIcon } from '@sanity/icons/Search'
-import {Box, Flex, TextInput} from '@sanity/ui'
-import {type ChangeEvent} from 'react'
-import {useDispatch} from 'react-redux'
+import { Box, Flex, TextInput } from '@sanity/ui'
+import { type ChangeEvent } from 'react'
+import { useDispatch } from 'react-redux'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {searchActions} from '../../modules/search'
+import { searchActions } from '../../modules/search'
 
 const TextInputSearch = () => {
   // Redux
@@ -15,15 +15,15 @@ const TextInputSearch = () => {
 
   // Callbacks
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(searchActions.querySet({searchQuery: e.currentTarget.value}))
+    dispatch(searchActions.querySet({ searchQuery: e.currentTarget.value }))
   }
 
   const handleClear = () => {
-    dispatch(searchActions.querySet({searchQuery: ''}))
+    dispatch(searchActions.querySet({ searchQuery: '' }))
   }
 
   return (
-    <Box style={{position: 'relative'}}>
+    <Box style={{ position: 'relative' }}>
       <TextInput
         fontSize={1}
         icon={SearchIcon}

@@ -1,4 +1,4 @@
-import {type ReactNode, createContext, useContext} from 'react'
+import { type ReactNode, createContext, useContext } from 'react'
 
 type ContextProps = {
   open: () => void
@@ -12,9 +12,9 @@ type Props = {
 const DropzoneDispatchContext = createContext<ContextProps | undefined>(undefined)
 
 export const DropzoneDispatchProvider = (props: Props) => {
-  const {children, open} = props
+  const { children, open } = props
 
-  const contextValue: ContextProps = {open}
+  const contextValue: ContextProps = { open }
 
   return (
     <DropzoneDispatchContext.Provider value={contextValue}>

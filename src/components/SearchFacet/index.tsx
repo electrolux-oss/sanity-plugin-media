@@ -1,27 +1,29 @@
 import { CloseIcon } from '@sanity/icons/Close'
-import {Box, Flex, Label, rem, Text, type ThemeColorSchemeKey} from '@sanity/ui'
-import type {SearchFacetInputProps, WithId} from '../../types'
-import {type ReactNode} from 'react'
-import {useDispatch} from 'react-redux'
-import {useColorSchemeValue} from 'sanity'
-import {styled, css} from 'styled-components'
-import {searchActions} from '../../modules/search'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { Box, Flex, Label, rem, Text, type ThemeColorSchemeKey } from '@sanity/ui'
+import type { SearchFacetInputProps, WithId } from '../../types'
+import { type ReactNode } from 'react'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
+import { styled, css } from 'styled-components'
+import { searchActions } from '../../modules/search'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
   children: ReactNode
   facet: WithId<SearchFacetInputProps>
 }
 
-const Container = styled<typeof Box, {$scheme: ThemeColorSchemeKey}>(Box)(({$scheme, theme}) => {
-  return css`
-    background: ${getSchemeColor($scheme, 'bg')};
-    border-radius: ${rem(theme.sanity.radius[2])};
-  `
-})
+const Container = styled<typeof Box, { $scheme: ThemeColorSchemeKey }>(Box)(
+  ({ $scheme, theme }) => {
+    return css`
+      background: ${getSchemeColor($scheme, 'bg')};
+      border-radius: ${rem(theme.sanity.radius[2])};
+    `
+  }
+)
 
 const SearchFacet = (props: Props) => {
-  const {children, facet} = props
+  const { children, facet } = props
 
   const scheme = useColorSchemeValue()
 
@@ -29,7 +31,7 @@ const SearchFacet = (props: Props) => {
   const dispatch = useDispatch()
 
   const handleClose = () => {
-    dispatch(searchActions.facetsRemoveById({facetId: facet.id}))
+    dispatch(searchActions.facetsRemoveById({ facetId: facet.id }))
   }
 
   return (

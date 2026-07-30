@@ -1,12 +1,12 @@
-import {Box, Button, Flex, Label} from '@sanity/ui'
+import { Box, Button, Flex, Label } from '@sanity/ui'
 import pluralize from 'pluralize'
-import {useDispatch} from 'react-redux'
-import {useColorSchemeValue} from 'sanity'
-import {PANEL_HEIGHT} from '../../constants'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
+import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {assetsActions, selectAssetsPicked} from '../../modules/assets'
-import {dialogActions} from '../../modules/dialog'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { assetsActions, selectAssetsPicked } from '../../modules/assets'
+import { dialogActions } from '../../modules/dialog'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 
 const PickedBar = () => {
   const scheme = useColorSchemeValue()
@@ -21,7 +21,7 @@ const PickedBar = () => {
   }
 
   const handleDeletePicked = () => {
-    dispatch(dialogActions.showConfirmDeleteAssets({assets: assetsPicked}))
+    dispatch(dialogActions.showConfirmDeleteAssets({ assets: assetsPicked }))
   }
 
   if (assetsPicked.length === 0) {
@@ -42,7 +42,7 @@ const PickedBar = () => {
     >
       <Flex align="center" paddingX={3}>
         <Box paddingRight={2}>
-          <Label size={0} style={{color: 'inherit'}}>
+          <Label size={0} style={{ color: 'inherit' }}>
             {assetsPicked.length} {pluralize('asset', assetsPicked.length)} selected
           </Label>
         </Box>
@@ -52,7 +52,7 @@ const PickedBar = () => {
           mode="bleed"
           onClick={handlePickClear}
           padding={2}
-          style={{background: 'none', boxShadow: 'none'}}
+          style={{ background: 'none', boxShadow: 'none' }}
           tone="default"
         >
           <Label size={0}>Deselect</Label>
@@ -63,7 +63,7 @@ const PickedBar = () => {
           mode="bleed"
           onClick={handleDeletePicked}
           padding={2}
-          style={{background: 'none', boxShadow: 'none'}}
+          style={{ background: 'none', boxShadow: 'none' }}
           tone="critical"
         >
           <Label size={0}>Delete</Label>

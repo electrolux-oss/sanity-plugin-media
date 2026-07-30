@@ -1,15 +1,15 @@
-import type {SanityDocument} from '@sanity/client'
-import {Box, Button, Card, Stack, Text} from '@sanity/ui'
+import type { SanityDocument } from '@sanity/client'
+import { Box, Button, Card, Stack, Text } from '@sanity/ui'
 
-import {Preview, type SchemaType, useSchema} from 'sanity'
-import {useIntentLink} from 'sanity/router'
+import { Preview, type SchemaType, useSchema } from 'sanity'
+import { useIntentLink } from 'sanity/router'
 
 type Props = {
   documents: SanityDocument[]
   isLoading: boolean
 }
 
-const DocumentList = ({documents, isLoading}: Props) => {
+const DocumentList = ({ documents, isLoading }: Props) => {
   const schema = useSchema()
 
   if (isLoading) {
@@ -39,16 +39,16 @@ const DocumentList = ({documents, isLoading}: Props) => {
   )
 }
 
-const ReferringDocument = (props: {doc: SanityDocument; schemaType?: SchemaType}) => {
-  const {doc, schemaType} = props
+const ReferringDocument = (props: { doc: SanityDocument; schemaType?: SchemaType }) => {
+  const { doc, schemaType } = props
 
-  const {onClick} = useIntentLink({
+  const { onClick } = useIntentLink({
     intent: 'edit',
-    params: {id: doc._id}
+    params: { id: doc._id }
   })
 
   return schemaType ? (
-    <Button key={doc._id} mode="bleed" onClick={onClick} padding={2} style={{width: '100%'}}>
+    <Button key={doc._id} mode="bleed" onClick={onClick} padding={2} style={{ width: '100%' }}>
       <Preview layout="default" schemaType={schemaType} value={doc} />
     </Button>
   ) : (

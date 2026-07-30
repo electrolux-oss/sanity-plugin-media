@@ -1,12 +1,12 @@
 import { CloseIcon } from '@sanity/icons/Close'
-import {Box, Button, Flex, Grid, Stack, Text, useMediaIndex} from '@sanity/ui'
+import { Box, Button, Flex, Grid, Stack, Text, useMediaIndex } from '@sanity/ui'
 import filesize from 'filesize'
-import {useDispatch} from 'react-redux'
-import {useColorSchemeValue} from 'sanity'
-import {GRID_TEMPLATE_COLUMNS} from '../../constants'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
+import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {selectUploadById, uploadsActions} from '../../modules/uploads'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { selectUploadById, uploadsActions } from '../../modules/uploads'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
 
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const TableRowUpload = (props: Props) => {
-  const {id} = props
+  const { id } = props
 
   const scheme = useColorSchemeValue()
 
@@ -29,7 +29,7 @@ const TableRowUpload = (props: Props) => {
     return null
   }
 
-  const fileSize = filesize(item.size, {base: 10, round: 0})
+  const fileSize = filesize(item.size, { base: 10, round: 0 })
   const percentLoaded = Math.round(item.percent || 0) // (0 - 100)
 
   const isComplete = item.status === 'complete'
@@ -49,7 +49,7 @@ const TableRowUpload = (props: Props) => {
 
   // Callbacks
   const handleCancelUpload = () => {
-    dispatch(uploadsActions.uploadCancel({hash: item.hash}))
+    dispatch(uploadsActions.uploadCancel({ hash: item.hash }))
   }
 
   return (
@@ -91,18 +91,18 @@ const TableRowUpload = (props: Props) => {
           width: '100px'
         }}
       >
-        <Box style={{height: '100%', position: 'relative'}}>
+        <Box style={{ height: '100%', position: 'relative' }}>
           {item.assetType === 'image' && item?.objectUrl && (
             <Image
               draggable={false}
               $scheme={scheme}
               src={item.objectUrl}
-              style={{opacity: 0.25}}
+              style={{ opacity: 0.25 }}
             />
           )}
 
           {item.assetType === 'file' && (
-            <div style={{height: '100%', opacity: 0.1}}>
+            <div style={{ height: '100%', opacity: 0.1 }}>
               <FileIcon width="40px" />
             </div>
           )}
@@ -131,7 +131,7 @@ const TableRowUpload = (props: Props) => {
                 mode="bleed"
                 onClick={handleCancelUpload}
                 padding={2}
-                style={{background: 'none', boxShadow: 'none'}}
+                style={{ background: 'none', boxShadow: 'none' }}
                 tone="critical"
               />
             </Flex>

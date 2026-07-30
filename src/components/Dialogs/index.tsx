@@ -1,4 +1,4 @@
-import type {Dialog} from '../../types'
+import type { Dialog } from '../../types'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
 import DialogAssetEdit from '../DialogAssetEdit'

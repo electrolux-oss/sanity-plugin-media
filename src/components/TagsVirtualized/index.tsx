@@ -1,11 +1,11 @@
-import {Flex, Label} from '@sanity/ui'
-import type {TagActions, TagItem} from '../../types'
-import {memo, useState} from 'react'
-import {Virtuoso} from 'react-virtuoso'
-import {PANEL_HEIGHT} from '../../constants'
+import { Flex, Label } from '@sanity/ui'
+import type { TagActions, TagItem } from '../../types'
+import { memo, useState } from 'react'
+import { Virtuoso } from 'react-virtuoso'
+import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {selectAssetsPicked} from '../../modules/assets'
-import {selectTags} from '../../modules/tags'
+import { selectAssetsPicked } from '../../modules/assets'
+import { selectTags } from '../../modules/tags'
 import Tag from '../Tag'
 
 const VirtualRow = memo(
@@ -28,7 +28,7 @@ const VirtualRow = memo(
           justify="space-between"
           key={item}
           paddingX={3}
-          style={{height: `${PANEL_HEIGHT}px`}}
+          style={{ height: `${PANEL_HEIGHT}px` }}
         >
           <Label size={0}>{item}</Label>
         </Flex>
@@ -61,7 +61,7 @@ const TagsVirtualized = () => {
   // 1. those which exist in all picked assets ('applied to all')
   // 2. those which exist in some picked assets ('applied to some')
   const tagIdsSegmented = pickedTagIdsUnique.reduce(
-    (acc: {appliedToAll: string[]; appliedToSome: string[]}, tagId) => {
+    (acc: { appliedToAll: string[]; appliedToSome: string[] }, tagId) => {
       const tagIsInEveryAsset = assetsPicked.every(assetItem => {
         const tagIndex =
           assetItem.asset.opt?.media?.tags?.findIndex(tag => tag._ref === tagId) ?? -1
@@ -150,7 +150,7 @@ const TagsVirtualized = () => {
       itemContent={index => {
         return <VirtualRow isScrolling={isScrolling} item={items[index]} />
       }}
-      style={{flex: 1, overflowX: 'hidden'}}
+      style={{ flex: 1, overflowX: 'hidden' }}
       totalCount={items.length}
     />
   )

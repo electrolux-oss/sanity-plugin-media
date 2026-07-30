@@ -1,11 +1,11 @@
-import {Box, Text} from '@sanity/ui'
-import {useEffect} from 'react'
-import {useDispatch} from 'react-redux'
+import { Box, Text } from '@sanity/ui'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import useBreakpointIndex from '../../hooks/useBreakpointIndex'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import {assetsActions} from '../../modules/assets'
-import {selectCombinedItems} from '../../modules/selectors'
-import {tagsActions} from '../../modules/tags'
+import { assetsActions } from '../../modules/assets'
+import { selectCombinedItems } from '../../modules/selectors'
+import { tagsActions } from '../../modules/tags'
 import AssetGridVirtualized from '../AssetGridVirtualized'
 import AssetTableVirtualized from '../AssetTableVirtualized'
 
@@ -35,14 +35,14 @@ const Items = () => {
   // - Hide tag panel on smaller breakpoints
   useEffect(() => {
     if (breakpointIndex <= 1 && tagsPanelVisible) {
-      dispatch(tagsActions.panelVisibleSet({panelVisible: false}))
+      dispatch(tagsActions.panelVisibleSet({ panelVisible: false }))
     }
   }, [breakpointIndex])
 
   const isEmpty = !hasItems && hasFetchedOnce && !fetching
 
   return (
-    <Box flex={1} style={{width: '100%'}}>
+    <Box flex={1} style={{ width: '100%' }}>
       {isEmpty ? (
         <Box padding={4}>
           <Text size={1} weight="semibold">

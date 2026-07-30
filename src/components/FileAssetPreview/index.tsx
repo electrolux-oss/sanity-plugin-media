@@ -1,5 +1,5 @@
-import {Flex} from '@sanity/ui'
-import type {Asset} from '../../types'
+import { Flex } from '@sanity/ui'
+import type { Asset } from '../../types'
 
 import FileIcon from '../FileIcon'
 
@@ -8,12 +8,12 @@ type Props = {
 }
 
 const FileAssetPreview = (props: Props) => {
-  const {asset} = props
+  const { asset } = props
 
   if (asset.mimeType.search('audio') === 0) {
     return (
-      <Flex align="center" justify="center" style={{height: '100%'}}>
-        <audio controls src={asset.url} style={{width: '100%'}} />
+      <Flex align="center" justify="center" style={{ height: '100%' }}>
+        <audio controls src={asset.url} style={{ width: '100%' }} />
       </Flex>
     )
   }
