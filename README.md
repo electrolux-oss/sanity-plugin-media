@@ -1,9 +1,15 @@
-# Sanity Media Plugin - Electrolux Version (for Sanity Studio v4)
+# Sanity Media Plugin - Electrolux Version (for Sanity Studio v5 and v6)
 
-> This plugin is for **Sanity Studio v4**.  
+> This plugin supports **Sanity Studio v5 and v6**.  
 > This is a forked version of Sanitys own [Media Plugin (v4.0.0)](https://github.com/sanity-io/sanity-plugin-media)
 
-## :warning: Breaking changes - (v2.0.0 &rarr; v3.0.0)
+## :warning: Breaking changes - (v3.0.0 &rarr; v4.0.0)
+### **v3 → v4**
+
+This release targets **Sanity Studio v5 and v6**. Support for Studio v4 has been dropped, and the
+package is now **ESM-only** (the CommonJS build has been removed).  
+Projects must be on Studio v5 or v6 (and React 19.2.2 or newer) before upgrading to v4.
+
 ### **v2 → v3**
 
 This release upgrades the plugin’s peer dependency from **React 18** to **React 19**.  
@@ -11,7 +17,7 @@ Projects using this plugin must update to React 19 before upgrading to v3.
 
 ## What is it?
 
-A Sanity Studio v4 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
+A Sanity Studio v5 / v6 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
 
 A convenient way to browse, manage and refine your [Sanity](https://www.sanity.io/) assets.
 
@@ -58,18 +64,18 @@ _Asset details tab_          |  _Asset alt texts tab_
 - Define a list of available languages to enable multi-language alt texts for assets.
 - See example of how to enable this feature [here](###plugin-config).
 
-## Install (Sanity Studio v4)
+## Install (Sanity Studio v5 and v6)
 
 In your Sanity project folder:
 
 ```zsh
-npm install --save sanity-plugin-media
+npm install --save @electrolux-oss/sanity-plugin-media
 ```
 
 or
 
 ```zsh
-yarn add sanity-plugin-media
+yarn add @electrolux-oss/sanity-plugin-media
 ```
 
 ## Usage
@@ -77,19 +83,19 @@ yarn add sanity-plugin-media
 Add it as a plugin in your `sanity.config.ts` (or .js) file:
 
 ```js
-import { media } from 'sanity-plugin-media'
+import { media } from '@electrolux-oss/sanity-plugin-media'
 
 export default defineConfig({
   // ...
   plugins: [
-    media(      
+    media({
       languages: [
         { code: 'en-US', title: 'English', default: true },
         { code: 'sv-SE', title: 'Swedish' },
         { code: 'fr-FR', title: 'French' },
         { code: 'de-DE', title: 'German' }
-      ],
-    )
+      ]
+    })
   ]
 })
 ```
@@ -101,7 +107,7 @@ This will enable the Media plugin as both a standalone tool (accessible in your 
 You can configure your studio to use this asset source either exclusively, or conditionally enable it based on the type of asset (image or file).
 
 ```js
-import { media, mediaAssetSource } from 'sanity-plugin-media'
+import { media, mediaAssetSource } from '@electrolux-oss/sanity-plugin-media'
 
 export default defineConfig({
   // ...
@@ -184,7 +190,7 @@ Check your studio's `package.json` - you should see:
 
 Now you can use the local version of the plugin:
 ```typescript
-import { workflow } from '@electrolux-oss/sanity-plugin-media'
+import { media } from '@electrolux-oss/sanity-plugin-media'
 ```
 
 ### Making changes
