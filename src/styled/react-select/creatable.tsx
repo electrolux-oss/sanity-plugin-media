@@ -1,14 +1,21 @@
-import {AddIcon, ChevronDownIcon, CloseIcon} from '@sanity/icons'
-import {Box, Card, Flex, rem, studioTheme, Text, type ThemeColorSchemeKey} from '@sanity/ui'
-import {components, type StylesConfig} from 'react-select'
-import {Virtuoso} from 'react-virtuoso'
-import {getSchemeColor} from '../../utils/getSchemeColor'
+import { components } from 'react-select'
+import { Virtuoso } from 'react-virtuoso'
 
-const {radius: themeRadius, space: themeSpace} = studioTheme
+import { AddIcon } from '@sanity/icons/Add'
+import { ChevronDownIcon } from '@sanity/icons/ChevronDown'
+import { CloseIcon } from '@sanity/icons/Close'
+import { Box, Card, Flex, rem, studioTheme, Text } from '@sanity/ui'
+
+import { getSchemeColor } from '../../utils/getSchemeColor'
+
+import type { StylesConfig } from 'react-select'
+import type { ThemeColorSchemeKey } from '@sanity/ui'
+
+const { radius: themeRadius, space: themeSpace } = studioTheme
 
 export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => {
   return {
-    control: (styles, {isFocused}) => {
+    control: (styles, { isFocused }) => {
       let boxShadow = `inset 0 0 0 1px var(--card-border-color)`
       if (isFocused) {
         boxShadow = `inset 0 0 0 1px ${getSchemeColor(scheme, 'inputEnabledBorder')},
@@ -33,7 +40,7 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
         }
       }
     },
-    indicatorsContainer: (styles, {isDisabled}) => ({
+    indicatorsContainer: (styles, { isDisabled }) => ({
       ...styles,
       opacity: isDisabled ? 0.25 : 1
     }),
@@ -46,7 +53,7 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
     menuList: styles => ({
       ...styles
     }),
-    multiValue: (styles, {isDisabled}) => ({
+    multiValue: (styles, { isDisabled }) => ({
       ...styles,
       backgroundColor: getSchemeColor(scheme, 'mutedHoveredBg'),
       borderRadius: themeRadius[2],
@@ -61,7 +68,7 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
       ...styles,
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      svg: {color: getSchemeColor(scheme, 'mutedHoveredFg')},
+      svg: { color: getSchemeColor(scheme, 'mutedHoveredFg') },
       '&:hover': {
         backgroundColor: getSchemeColor(scheme, 'mutedSelectedBg')
       }
@@ -71,7 +78,7 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
       fontFamily: studioTheme.fonts.text.family,
       lineHeight: '1em'
     }),
-    option: (styles, {isFocused}) => ({
+    option: (styles, { isFocused }) => ({
       ...styles,
       backgroundColor: isFocused ? getSchemeColor(scheme, 'spotBlue') : 'transparent',
       borderRadius: themeRadius[2],
@@ -117,7 +124,7 @@ const Menu = (props: any) => {
 }
 
 const MenuList = (props: any) => {
-  const {children} = props
+  const { children } = props
 
   const MAX_ROWS = 5
   const OPTION_HEIGHT = 37
@@ -133,7 +140,7 @@ const MenuList = (props: any) => {
           const item = children[index]
           return <Option {...item.props} />
         }}
-        style={{height}}
+        style={{ height }}
         totalCount={children.length}
       />
     )
@@ -164,7 +171,7 @@ const Option = (props: any) => {
     <Box paddingX={1} paddingY={1}>
       <components.Option {...props}>
         <Flex align="center">
-          {props.data.__isNew__ && <AddIcon style={{marginRight: '3px'}} />}
+          {props.data.__isNew__ && <AddIcon style={{ marginRight: '3px' }} />}
           {props.children}
         </Flex>
       </components.Option>

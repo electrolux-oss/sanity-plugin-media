@@ -1,7 +1,6 @@
 import { type AssetSource, definePlugin, type Tool as SanityTool } from 'sanity'
 
-import { ImageIcon } from '@sanity/icons'
-
+import { ImageIcon } from '@sanity/icons/Image'
 import FormBuilderTool from './components/FormBuilderTool'
 import Tool from './components/Tool'
 import { ToolOptionsProvider } from './contexts/ToolOptionsContext'
@@ -22,7 +21,6 @@ export const mediaAssetSource = {
 const tool = {
   ...plugin,
   component: Tool,
-  // @ts-expect-error TS doesn't know about this internal field see https://github.com/sanity-io/sanity/pull/7980
   __internalApplicationType: 'sanity/media'
 } satisfies SanityTool
 

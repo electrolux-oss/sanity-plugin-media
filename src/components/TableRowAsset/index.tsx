@@ -1,11 +1,13 @@
 import { formatRelative } from 'date-fns'
 import filesize from 'filesize'
-import { memo, MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, type MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue, WithReferringDocuments } from 'sanity'
 import { css, styled } from 'styled-components'
 
-import { CheckmarkCircleIcon, EditIcon, WarningFilledIcon } from '@sanity/icons'
+import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
+import { EditIcon } from '@sanity/icons/Edit'
+import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
 import {
   Box,
   Checkbox,

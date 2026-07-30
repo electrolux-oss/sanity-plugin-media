@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 
-import { SelectIcon } from '@sanity/icons'
+import { SelectIcon } from '@sanity/icons/Select'
 import { Box, Button, Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui'
 
 import { operators } from '../../config/searchFacets'

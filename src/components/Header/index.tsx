@@ -1,6 +1,8 @@
 import pluralize from 'pluralize'
 
-import { CloseIcon, Icon, UploadIcon } from '@sanity/icons'
+import { Icon } from '@sanity/icons'
+import { CloseIcon } from '@sanity/icons/Close'
+import { UploadIcon } from '@sanity/icons/Upload'
 import { Box, Button, Flex, Inline, Text } from '@sanity/ui'
 
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'

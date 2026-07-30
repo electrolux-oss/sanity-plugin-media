@@ -1,4 +1,4 @@
-import {CloseIcon} from '@sanity/icons'
+import { CloseIcon } from '@sanity/icons/Close'
 import {Box, Flex, Label, rem, Text, type ThemeColorSchemeKey} from '@sanity/ui'
 import type {SearchFacetInputProps, WithId} from '../../types'
 import {type ReactNode} from 'react'

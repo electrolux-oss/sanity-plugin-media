@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
 import { css, styled } from 'styled-components'
 
-import { CheckmarkCircleIcon, EditIcon, WarningFilledIcon } from '@sanity/icons'
+import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
+import { EditIcon } from '@sanity/icons/Edit'
+import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
 import { Box, Checkbox, Container, Flex, Spinner, Text, Tooltip } from '@sanity/ui'
 
 import { PANEL_HEIGHT } from '../../constants'

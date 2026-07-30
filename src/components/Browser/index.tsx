@@ -2,7 +2,7 @@ import type { MutationEvent } from '@sanity/client'
 import groq from 'groq'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { SanityDocument } from 'sanity'
+import type { SanityDocument } from 'sanity'
 
 import { Card, Flex, PortalProvider } from '@sanity/ui'
 

@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import filesize from 'filesize'
 
-import { DownloadIcon } from '@sanity/icons'
+import { DownloadIcon } from '@sanity/icons/Download'
 import { Box, Button, Flex, Inline, Stack, Text } from '@sanity/ui'
 
 import getAssetResolution from '../../utils/getAssetResolution'

@@ -1,7 +1,7 @@
 import type { MediaToolOptions } from '../types'
 import { createContext, useContext, useMemo } from 'react'
 
-import type PropsWithChildren from 'react'
+import type { PropsWithChildren } from 'react'
 import type { DropzoneOptions } from 'react-dropzone'
 
 type ContextProps = {

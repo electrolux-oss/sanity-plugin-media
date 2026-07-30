@@ -1,4 +1,4 @@
-import isHotkey from 'is-hotkey'
+import { isHotkey } from 'is-hotkey-esm'
 import { type RefObject, useCallback, useEffect, useRef } from 'react'
 
 const useKeyPress = (hotkey: string, onPress?: () => void): RefObject<boolean> => {

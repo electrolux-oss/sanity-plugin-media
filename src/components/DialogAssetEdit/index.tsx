@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useColorSchemeValue, useDocumentStore, WithReferringDocuments } from 'sanity'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { WarningOutlineIcon } from '@sanity/icons'
+import { WarningOutlineIcon } from '@sanity/icons/WarningOutline'
 import { Box, Button, Card, Flex, Stack, Tab, TabList, TabPanel, Text } from '@sanity/ui'
 
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
