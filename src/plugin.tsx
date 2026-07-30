@@ -15,7 +15,8 @@ const plugin = {
 
 export const mediaAssetSource = {
   ...plugin,
-  component: FormBuilderTool
+  component: FormBuilderTool,
+  uploadMode: 'component'
 } satisfies AssetSource
 
 const tool = {
