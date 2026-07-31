@@ -58,7 +58,6 @@
     "@reduxjs/toolkit": "^2.11.2",
     "@sanity/client": "^7.13.2",
     "@sanity/color": "^3.0.6",
-    "@sanity/icons": "^5.2.1",
     "@sanity/ui": "^3.5.0",
     "@sanity/uuid": "^3.0.1",
     "@tanem/react-nprogress": "^5.0.63",
@@ -80,6 +79,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@sanity/icons": "^5.2.1",
     "@sanity/pkg-utils": "^8.1.12",
     "@sanity/plugin-kit": "^4.0.19",
     "@types/pluralize": "^0.0.33",
