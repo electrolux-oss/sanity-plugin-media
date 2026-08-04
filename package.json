@@ -50,7 +50,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepack": "npm run build",
-    "watch": "pkg-utils watch --strict"
+    "watch": "pkg-utils watch --strict",
+    "typecheck": "tsc --noEmit"
   },
   "browserslist": "extends @sanity/browserslist-config",
   "dependencies": {
