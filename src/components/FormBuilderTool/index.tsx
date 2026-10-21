@@ -1,9 +1,10 @@
-import { type SyntheticEvent, useEffect, useState } from 'react'
+import type { SyntheticEvent } from 'react'
 import { type AssetSourceComponentProps, type SanityDocument, useFormValue } from 'sanity'
 
 import { Box, Portal, PortalProvider, useLayer } from '@sanity/ui'
 
 import useKeyPress from '../../hooks/useKeyPress'
+import useRootPortalElement from '../../hooks/useRootPortalElement'
 import Browser from '../Browser'
 
 const FormBuilderTool = (props: AssetSourceComponentProps) => {
@@ -54,17 +55,3 @@ const FormBuilderTool = (props: AssetSourceComponentProps) => {
 }
 
 export default FormBuilderTool
-
-const useRootPortalElement = () => {
-  const [container] = useState(() => document.createElement('div'))
-
-  useEffect(() => {
-    container.classList.add('media-portal')
-    document.body.appendChild(container)
-    return () => {
-      document.body.removeChild(container)
-    }
-  }, [container])
-
-  return container
-}

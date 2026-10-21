@@ -1,5 +1,7 @@
+import { WarningOutlineIcon } from '@sanity/icons/WarningOutline'
 import { Stack } from '@sanity/ui'
 
+import { isImageAsset } from '../../utils/typeGuards'
 import FormFieldInputTags from '../FormFieldInputTags'
 import FormFieldInputText from '../FormFieldInputText'
 import FormFieldInputTextarea from '../FormFieldInputTextarea'
@@ -65,15 +67,19 @@ export default function Details({
         name="title"
         value={currentAsset?.title}
       />
-      {/* Alt text */}
-      <FormFieldInputText
-        {...register('altText')}
-        disabled={formUpdating}
-        error={errors?.altText?.message}
-        label="Alt Text"
-        name="altText"
-        value={currentAsset?.altText}
-      />
+      {/* !! DEPRECATED !! - Alt text */}
+      {isImageAsset(currentAsset) && (
+        <FormFieldInputText
+          {...register('altText')}
+          icon={WarningOutlineIcon}
+          disabled
+          error={errors?.altText?.message}
+          description='This field is deprecated. Use "Alt Texts" tab instead.'
+          label="Alt Text"
+          name="altText"
+          value={currentAsset?.altText}
+        />
+      )}
       {/* Description */}
       <FormFieldInputTextarea
         {...register('description')}

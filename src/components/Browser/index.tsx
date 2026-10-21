@@ -1,15 +1,19 @@
 import type { MutationEvent } from '@sanity/client'
 import groq from 'groq'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import type { SanityDocument } from 'sanity'
 
 import { Card, Flex, PortalProvider } from '@sanity/ui'
 
+import { inputs } from '../../config/searchFacets'
 import { TAG_DOCUMENT_NAME } from '../../constants'
 import { AssetBrowserDispatchProvider } from '../../contexts/AssetSourceDispatchContext'
+import { useToolOptions } from '../../contexts/ToolOptionsContext'
+import useTypedSelector from '../../hooks/useTypedSelector'
 import useVersionedClient from '../../hooks/useVersionedClient'
 import { assetsActions } from '../../modules/assets'
+import { searchActions } from '../../modules/search'
 import { tagsActions } from '../../modules/tags'
 import GlobalStyle from '../../styled/GlobalStyles'
 import Controls from '../Controls'
@@ -31,13 +35,76 @@ type Props = {
   document?: SanityDocument
   onClose?: AssetSourceComponentProps['onClose']
   onSelect?: AssetSourceComponentProps['onSelect']
+  schemaType?: AssetSourceComponentProps['schemaType']
   selectedAssets?: AssetSourceComponentProps['selectedAssets']
 }
 
-const BrowserContent = ({ onClose }: { onClose?: AssetSourceComponentProps['onClose'] }) => {
+const getMediaTagNames = (schemaType?: AssetSourceComponentProps['schemaType']): string[] => {
+  const mediaTags = (schemaType?.options as { mediaTags?: string[] } | undefined)?.mediaTags ?? []
+  const names = mediaTags.map(tag => tag?.trim()).filter((tag): tag is string => Boolean(tag))
+  return Array.from(new Set(names))
+}
+
+/**
+ * Applies a tag facet for each of the field's `options.mediaTags` once tags have loaded.
+ * Facet changes trigger the (debounced) asset search, which loads the first page.
+ */
+const useMediaTagFacets = (tagNames: string[]) => {
+  const dispatch = useDispatch()
+  const tagsByIds = useTypedSelector(state => state.tags.byIds)
+  const tagsLoaded = useTypedSelector(
+    state => state.tags.fetchCount >= 0 || Boolean(state.tags.fetchingError)
+  )
+  const enabled = tagNames.length > 0
+
+  useEffect(() => {
+    if (!enabled || !tagsLoaded) {
+      return
+    }
+
+    const tagFacetInput = inputs.tag
+
+    if (tagFacetInput.type !== 'searchable') {
+      return
+    }
+
+    const tagItems = Object.values(tagsByIds)
+
+    dispatch(searchActions.facetsClear())
+
+    tagNames.forEach(name => {
+      const tagItem = tagItems.find(item => item.tag.name.current === name)
+
+      if (tagItem) {
+        dispatch(
+          searchActions.facetsAdd({
+            facet: {
+              ...tagFacetInput,
+              operatorType: 'references',
+              value: { label: tagItem.tag.name.current, value: tagItem.tag._id }
+            }
+          })
+        )
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled, tagsLoaded])
+}
+
+const BrowserContent = ({
+  onClose,
+  schemaType
+}: {
+  onClose?: AssetSourceComponentProps['onClose']
+  schemaType?: AssetSourceComponentProps['schemaType']
+}) => {
   const client = useVersionedClient()
   const [portalElement, setPortalElement] = useState<HTMLDivElement | null>(null)
   const dispatch = useDispatch()
+  const tagNames = useMemo(() => getMediaTagNames(schemaType), [schemaType])
+  const hasMediaTags = tagNames.length > 0
+
+  useMediaTagFacets(tagNames)
 
   useEffect(() => {
     const handleAssetUpdate = (update: MutationEvent) => {
@@ -72,8 +139,10 @@ const BrowserContent = ({ onClose }: { onClose?: AssetSourceComponentProps['onCl
       }
     }
 
-    // Fetch assets: first page
-    dispatch(assetsActions.loadPageIndex({ pageIndex: 0 }))
+    // Fetch assets: first page (with media tags, the tag facets trigger the first fetch instead)
+    if (!hasMediaTags) {
+      dispatch(assetsActions.loadPageIndex({ pageIndex: 0 }))
+    }
 
     // Fetch all tags
     dispatch(tagsActions.fetchRequest())
@@ -96,7 +165,7 @@ const BrowserContent = ({ onClose }: { onClose?: AssetSourceComponentProps['onCl
       subscriptionAsset?.unsubscribe()
       subscriptionTag?.unsubscribe()
     }
-  }, [client, dispatch])
+  }, [client, dispatch, hasMediaTags])
 
   return (
     <PortalProvider element={portalElement}>
@@ -131,17 +200,19 @@ const BrowserContent = ({ onClose }: { onClose?: AssetSourceComponentProps['onCl
 
 const Browser = (props: Props) => {
   const client = useVersionedClient()
+  const { excludeTagSlugs } = useToolOptions()
 
   return (
     <ReduxProvider
       assetType={props?.assetType}
       client={client}
       document={props?.document}
+      excludeTagSlugs={excludeTagSlugs}
       selectedAssets={props?.selectedAssets}
     >
       <AssetBrowserDispatchProvider onSelect={props?.onSelect}>
         <GlobalStyle />
-        <BrowserContent onClose={props?.onClose} />
+        <BrowserContent onClose={props?.onClose} schemaType={props?.schemaType} />
       </AssetBrowserDispatchProvider>
     </ReduxProvider>
   )

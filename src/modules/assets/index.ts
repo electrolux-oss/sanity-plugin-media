@@ -48,6 +48,7 @@ type ItemError = {
 export type AssetsReducerState = {
   allIds: string[]
   assetTypes: AssetType[]
+  excludeTagSlugs: string[]
   byIds: Record<string, AssetItem>
   fetchCount: number
   fetching: boolean
@@ -80,6 +81,7 @@ const defaultOrder = ORDER_OPTIONS[0] as {
 export const initialState = {
   allIds: [],
   assetTypes: [],
+  excludeTagSlugs: [],
   byIds: {},
   fetchCount: -1,
   fetching: false,
@@ -466,6 +468,7 @@ export const assetsFetchPageIndexEpic: MyEpic = (action$, state$) =>
 
       const constructedFilter = constructFilter({
         assetTypes: state.assets.assetTypes,
+        excludeTagSlugs: state.assets.excludeTagSlugs,
         searchFacets: state.search.facets,
         searchQuery: state.search.query
       })
@@ -763,6 +766,10 @@ export const assetsUpdateEpic: MyEpic = (action$, state$, { client }) =>
     withLatestFrom(state$),
     mergeMap(([action, state]) => {
       const { asset, closeDialogId, formData } = action.payload
+      const { opt, ...fields } = formData
+      const mediaFields = Object.fromEntries(
+        Object.entries(opt?.media ?? {}).map(([key, value]) => [`opt.media.${key}`, value])
+      )
 
       return of(action).pipe(
         debugThrottle(state.debug.badConnection),
@@ -772,7 +779,7 @@ export const assetsUpdateEpic: MyEpic = (action$, state$, { client }) =>
               .patch(asset._id)
               .setIfMissing({ opt: {} })
               .setIfMissing({ 'opt.media': {} })
-              .set(formData)
+              .set({ ...fields, ...mediaFields })
               .commit()
           )
         ),

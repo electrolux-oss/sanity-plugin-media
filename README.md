@@ -115,7 +115,9 @@ export default defineConfig({
     // Don't use this plugin when selecting files only (but allow all other enabled asset sources)
     file: {
       assetSources: previousAssetSources => {
-        return previousAssetSources.filter(assetSource => assetSource !== mediaAssetSource)
+        return previousAssetSources.filter(
+          assetSource => assetSource.name !== mediaAssetSource.name
+        )
       }
     }
   }
@@ -147,9 +149,20 @@ export default defineConfig({
         // wish to prevent users overwriting the creditLine based on the `source.name`
       },
       maximumUploadSize: 10000000,
-      // number - maximum file size (in bytes) that can be uploaded through the plugin interface
+      // number - maximum file size (in bytes) for uploads, both through the plugin interface and
+      // through the image / file fields' own upload button (any upload-capable asset source)
       directUploads: true,
       // boolean - enable / disable direct uploads through the plugin interface (default true)
+      createTagsOnUpload: true,
+      // boolean - create tags listed in a field's `mediaTags` if they don't exist yet (default true)
+      uploadMenu: false,
+      // boolean - offer "Media" as an upload target in image / file fields (default true).
+      // Set to false to make the upload button use the workspace's own uploader directly;
+      // "Media" is then only listed under "Select"
+      excludeTags: ['internal', 'archived'],
+      // string[] (optional) - tag slugs (`media.tag` `name.current`). Assets with any of these
+      // tags are hidden from the Media browser and asset picker, and the tags themselves are
+      // hidden in the tag panel and tag search facet. The asset edit dialog still lists all tags.
       components: {
         details: CustomDetails
       }
@@ -157,6 +170,58 @@ export default defineConfig({
   ]
 })
 ```
+
+### Auto-tagging assets from a field
+
+Assets selected or uploaded through a field can be tagged automatically. The same tags pre-filter the media browser when it is opened from that field.
+
+```ts
+import { mediaField } from '@electrolux-oss/sanity-plugin-media'
+
+defineType({
+  name: 'product',
+  type: 'document',
+  fields: [
+    mediaField({
+      name: 'image',
+      type: 'image',
+      mediaTags: ['product']
+    })
+  ]
+})
+```
+
+Or use the input component directly:
+
+```tsx
+import { AutoTagInput } from '@electrolux-oss/sanity-plugin-media'
+
+defineField({
+  name: 'image',
+  type: 'image',
+  options: { mediaTags: ['product'] }, // pre-filters the browser
+  components: { input: AutoTagInput } // applies tags on select
+})
+
+// Or pass mediaTags as a prop to override the field options:
+defineField({
+  name: 'image',
+  type: 'image',
+  components: {
+    input: props => <AutoTagInput {...props} mediaTags={['product']} />
+  }
+})
+```
+
+Only assets selected after the document is opened are tagged. Existing values are left untouched. Tags missing from the dataset are created unless `createTagsOnUpload` is `false`.
+
+### Uploaded by
+
+The asset details panel shows who uploaded an asset. It is recorded as `opt.media.uploadedBy` (`{ id }`, the Sanity user ID only; the sync button next to it fetches the person's name, and email when Sanity returns it, on demand) when a logged-in user uploads through the Studio: in the Media browser, or with an image / file field's own upload button and drag and drop. Only uploads made in that user's browser are recorded, so collaborators editing the same document are never credited. Assets uploaded by scripts, the CLI, API tokens or before this feature existed show **Unknown**.
+
+### Edit Media
+
+The plugin adds an **Edit Media** option to the asset menu of image and file fields. It opens the edit dialog (title, alt texts, description, tags, …) for the field's current asset, without leaving the document.
 
 ## Develop locally
 

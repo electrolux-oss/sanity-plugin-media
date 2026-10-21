@@ -23,6 +23,7 @@ import type { RootReducerState } from '../modules/types'
 export type MediaToolOptions = {
   languages: { code: string; title: string; default?: boolean }[]
   maximumUploadSize?: number
+  createTagsOnUpload?: boolean
   components?: {
     details?: ComponentType<
       DetailsProps & { renderDefaultDetails: (props: DetailsProps) => JSX.Element }
@@ -33,6 +34,19 @@ export type MediaToolOptions = {
     excludeSources?: string | string[]
   }
   directUploads?: boolean
+  uploadMenu?: boolean
+  /**
+   * Tag slugs (`media.tag` `name.current`) whose assets are hidden from the Media browser and
+   * asset picker, along with the tags themselves in the tag panel and tag search facet.
+   * The asset edit dialog still lists every tag.
+   */
+  excludeTags?: string[]
+}
+
+export type Uploader = {
+  id: string
+  /** Only set by earlier builds; the name is now looked up on demand. */
+  name?: string
 }
 
 type CustomFields = {
@@ -42,6 +56,7 @@ type CustomFields = {
   opt?: {
     media?: {
       tags?: SanityReference[]
+      uploadedBy?: Uploader | string
     }
   }
   title?: string
@@ -185,6 +200,7 @@ export type MyEpic = Epic<
   RootReducerState,
   {
     client: SanityClient
+    uploader?: Uploader
   }
 >
 

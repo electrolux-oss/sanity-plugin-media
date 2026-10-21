@@ -1,14 +1,14 @@
 import { Box, Flex, Text } from '@sanity/ui'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
+import useVisibleTags from '../../hooks/useVisibleTags'
 import { selectAssetsPickedLength } from '../../modules/assets'
-import { selectTags } from '../../modules/tags'
 import TagsVirtualized from '../TagsVirtualized'
 import TagViewHeader from '../TagViewHeader'
 
 const TagView = () => {
   const numPickedAssets = useTypedSelector(selectAssetsPickedLength)
-  const tags = useTypedSelector(selectTags)
+  const tags = useVisibleTags()
   const fetching = useTypedSelector(state => state.tags.fetching)
   const fetchCount = useTypedSelector(state => state.tags.fetchCount)
   const fetchComplete = fetchCount !== -1
@@ -31,7 +31,7 @@ const TagView = () => {
         </Box>
       )}
 
-      {hasTags && <TagsVirtualized />}
+      {hasTags && <TagsVirtualized tags={tags} />}
     </Flex>
   )
 }
