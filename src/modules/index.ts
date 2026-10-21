@@ -56,7 +56,8 @@ import uploadsReducer, {
   uploadsAssetStartEpic,
   uploadsAssetUploadEpic,
   uploadsCheckRequestEpic,
-  uploadsCompleteQueueEpic
+  uploadsCompleteQueueEpic,
+  uploadsRecordUploaderEpic
 } from './uploads'
 
 export const rootEpic = combineEpics(
@@ -99,7 +100,8 @@ export const rootEpic = combineEpics(
   uploadsAssetStartEpic,
   uploadsAssetUploadEpic,
   uploadsCheckRequestEpic,
-  uploadsCompleteQueueEpic
+  uploadsCompleteQueueEpic,
+  uploadsRecordUploaderEpic
 )
 
 const reducers = {

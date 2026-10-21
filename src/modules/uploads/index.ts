@@ -3,10 +3,19 @@ import type { ClientError, SanityAssetDocument, SanityImageAssetDocument } from 
 import type { HttpError, MyEpic, SanityUploadProgressEvent, UploadItem } from '../../types'
 import groq from 'groq'
 import type { Selector } from 'react-redux'
-import { empty, merge, of } from 'rxjs'
-import { catchError, delay, filter, mergeMap, takeUntil, withLatestFrom } from 'rxjs/operators'
+import { empty, from, merge, of } from 'rxjs'
+import {
+  catchError,
+  delay,
+  filter,
+  ignoreElements,
+  mergeMap,
+  takeUntil,
+  withLatestFrom
+} from 'rxjs/operators'
 import constructFilter from '../../utils/constructFilter'
 import { generatePreviewBlobUrl$ } from '../../utils/generatePreviewBlobUrl'
+import { recordUploader } from '../../utils/recordUploader'
 import { hashFile$, uploadAsset$ } from '../../utils/uploadSanityAsset'
 import { assetsActions } from '../assets'
 import type { RootReducerState } from '../types'
@@ -220,6 +229,23 @@ export const uploadsCompleteQueueEpic: MyEpic = action$ =>
     })
   )
 
+export const uploadsRecordUploaderEpic: MyEpic = (action$, _state$, { client, uploader }) =>
+  action$.pipe(
+    filter(UPLOADS_ACTIONS.uploadComplete.match),
+    mergeMap(action =>
+      (uploader
+        ? from(recordUploader({ client, assetId: action.payload.asset._id, uploader }))
+        : empty()
+      ).pipe(
+        ignoreElements(),
+        catchError(error => {
+          console.error('[sanity-plugin-media] Failed to record the uploader:', error)
+          return empty()
+        })
+      )
+    )
+  )
+
 export const uploadsCheckRequestEpic: MyEpic = (action$, state$, { client }) =>
   action$.pipe(
     filter(uploadsActions.checkRequest.match),
@@ -231,6 +257,7 @@ export const uploadsCheckRequestEpic: MyEpic = (action$, state$, { client }) =>
 
       const constructedFilter = constructFilter({
         assetTypes: state.assets.assetTypes,
+        excludeTagSlugs: state.assets.excludeTagSlugs,
         searchFacets: state.search.facets,
         searchQuery: state.search.query
       })
