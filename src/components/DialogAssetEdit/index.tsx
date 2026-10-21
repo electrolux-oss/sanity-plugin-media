@@ -163,7 +163,7 @@ const DialogAssetEdit = (props: Props) => {
         return
       }
 
-      const sanitizedFormData = sanitizeFormData(formData)
+      const { altText: _deprecatedAltText, ...sanitizedFormData } = sanitizeFormData(formData)
 
       dispatch(
         assetsActions.updateRequest({
