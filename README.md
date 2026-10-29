@@ -7,10 +7,10 @@
 
 ### **v4 → v5**
 
-This release moves to **`@sanity/ui` v4**, which Sanity Studio ships from v6.9.2. `@sanity/ui` is now a
-**peer dependency**, so the plugin shares the Studio's copy instead of bundling its own.  
-Support for Studio v5 and Studio v6 before 6.20 has been dropped. Projects must be on Studio v6.20 or newer
-before upgrading to v5. Stay on v4 for older Studios.
+This release requires **Sanity Studio v6.20 or newer**, the first Studio release on `@sanity/ui` ^4.4.9.
+`@sanity/ui` and `@sanity/client` are now **peer dependencies**, so the plugin shares the Studio's copies instead
+of installing its own.  
+Support for Studio v5 and Studio v6 before 6.20 has been dropped. Stay on v4 for older Studios.
 
 ### **v3 → v4**
 
