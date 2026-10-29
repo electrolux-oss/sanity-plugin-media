@@ -1,4 +1,5 @@
-import { Box, Flex, Inline, rem, type Theme } from '@sanity/ui'
+import { Box, Flex, Inline, rem } from '@sanity/ui'
+import { getTheme_v2, type Theme } from '@sanity/ui/theme'
 
 import { styled, css } from 'styled-components'
 
@@ -15,7 +16,7 @@ type Props = {
 const StackContainer = styled(Flex)(({ theme }: { theme: Theme }) => {
   return css`
     > * {
-      margin-bottom: ${rem(theme.sanity.space[2])};
+      margin-bottom: ${rem(getTheme_v2(theme).space[2])};
     }
   `
 })

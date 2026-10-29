@@ -9,13 +9,12 @@ import type {
 } from '../../types'
 import { useDispatch } from 'react-redux'
 import Select from 'react-select'
-import { useColorSchemeValue } from 'sanity'
 import { operators } from '../../config/searchFacets'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useVisibleTags from '../../hooks/useVisibleTags'
 import { searchActions } from '../../modules/search'
-import { reactSelectComponents, reactSelectStyles } from '../../styled/react-select/single'
+import { reactSelectComponents, useReactSelectStyles } from '../../styled/react-select/single'
 import getTagSelectOptions from '../../utils/getTagSelectOptions'
 import SearchFacet from '../SearchFacet'
 
@@ -24,7 +23,7 @@ type Props = {
 }
 
 const SearchFacetTags = ({ facet }: Props) => {
-  const scheme = useColorSchemeValue()
+  const reactSelectStyles = useReactSelectStyles()
 
   // Redux
   const dispatch = useDispatch()
@@ -109,7 +108,7 @@ const SearchFacetTags = ({ facet }: Props) => {
             onChange={(value: any) => handleChange(value as TagSelectOption)}
             options={allTagOptions}
             placeholder={tagsFetching ? 'Loading...' : 'Select...'}
-            styles={reactSelectStyles(scheme)}
+            styles={reactSelectStyles}
             value={facet?.value}
           />
         </Box>

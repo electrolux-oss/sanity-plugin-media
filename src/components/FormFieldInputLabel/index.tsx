@@ -2,6 +2,7 @@ import { styled } from 'styled-components'
 
 import { ErrorOutlineIcon } from '@sanity/icons/ErrorOutline'
 import { Box, Inline, Text } from '@sanity/ui'
+import { getTheme_v2 } from '@sanity/ui/theme'
 import { Tooltip } from '@sanity/ui/tooltip'
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 
 const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)(({ theme }) => {
   return {
-    color: theme.sanity.color.spot.red
+    color: getTheme_v2(theme).color.avatar.red.bg
   }
 })
 

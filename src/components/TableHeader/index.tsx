@@ -1,4 +1,5 @@
-import { Checkbox, Flex, Grid, type ThemeColorSchemeKey, useMediaIndex } from '@sanity/ui'
+import { Checkbox, Flex, Grid, useMediaIndex } from '@sanity/ui'
+import type { ThemeColorSchemeKey } from '@sanity/ui/theme'
 import { type MouseEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { styled, css } from 'styled-components'
