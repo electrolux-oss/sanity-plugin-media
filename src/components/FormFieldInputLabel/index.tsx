@@ -1,7 +1,8 @@
 import { styled } from 'styled-components'
 
 import { ErrorOutlineIcon } from '@sanity/icons/ErrorOutline'
-import { Box, Inline, Text, Tooltip } from '@sanity/ui'
+import { Box, Inline, Text } from '@sanity/ui'
+import { Tooltip } from '@sanity/ui/tooltip'
 
 type Props = {
   description?: string
@@ -23,7 +24,7 @@ const FormFieldInputLabel = (props: Props) => {
     <>
       {/* Label */}
       <Box marginY={3}>
-        <Inline space={2}>
+        <Inline gap={2}>
           <Text as="label" htmlFor={name} size={1} weight="semibold">
             {label}
           </Text>

@@ -1,5 +1,6 @@
 import { SelectIcon } from '@sanity/icons/Select'
-import { Box, Button, Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui'
+import { Box, Button } from '@sanity/ui'
+import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
 import type {
   TagSelectOption,
   SearchFacetInputSearchableProps,
@@ -79,7 +80,7 @@ const SearchFacetTags = ({ facet }: Props) => {
                       key={operatorType}
                       onClick={() => handleOperatorItemClick(operatorType)}
                       padding={2}
-                      space={4}
+                      gap={4}
                       style={{ minWidth: '150px' }}
                       text={operators[operatorType].label}
                     />

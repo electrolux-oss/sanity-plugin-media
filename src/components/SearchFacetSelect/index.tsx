@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux'
 
 import { SelectIcon } from '@sanity/icons/Select'
-import { Box, Button, Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui'
+import { Box, Button } from '@sanity/ui'
+import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
 
 import { operators } from '../../config/searchFacets'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'

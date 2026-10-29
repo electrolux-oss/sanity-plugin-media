@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux'
 
 import { AddIcon } from '@sanity/icons/Add'
-import { Button, Flex, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem } from '@sanity/ui'
+import { Button, Flex } from '@sanity/ui'
+import { Menu, MenuButton, MenuDivider, MenuGroup, MenuItem } from '@sanity/ui/menu'
 
 import { FACETS } from '../../constants'
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
@@ -112,7 +113,7 @@ const SearchFacetsControl = () => {
             fontSize={1}
             icon={AddIcon}
             mode="bleed"
-            space={2}
+            gap={2}
             text="Add filter"
             tone="primary"
           />

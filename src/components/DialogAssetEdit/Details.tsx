@@ -36,7 +36,7 @@ export default function Details({
   creditLine
 }: DetailsProps) {
   return (
-    <Stack space={3}>
+    <Stack gap={3}>
       {/* Tags */}
       <FormFieldInputTags
         control={control}

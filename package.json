@@ -50,16 +50,15 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepack": "npm run build",
-    "watch": "pkg-utils watch --strict",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "watch": "pkg-utils watch --strict"
   },
   "browserslist": "extends @sanity/browserslist-config",
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
     "@reduxjs/toolkit": "^2.11.2",
-    "@sanity/client": "^7.13.2",
+    "@sanity/client": "^8.11.0",
     "@sanity/color": "^3.0.6",
-    "@sanity/ui": "^3.5.0",
     "@sanity/uuid": "^3.0.1",
     "@tanem/react-nprogress": "^5.0.63",
     "copy-to-clipboard": "^3.3.1",
@@ -80,9 +79,10 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@sanity/icons": "^5.2.1",
+    "@sanity/icons": "^5.2.3",
     "@sanity/pkg-utils": "^8.1.12",
     "@sanity/plugin-kit": "^4.0.19",
+    "@sanity/ui": "^4.4.9",
     "@types/pluralize": "^0.0.33",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.0.4",
@@ -102,15 +102,16 @@
     "react-dom": "^19.2.4",
     "react-is": "^19.2.4",
     "rimraf": "^3.0.2",
-    "sanity": "^6.7.0",
+    "sanity": "^6.21.0",
     "styled-components": "^6.3.11",
     "typescript": "5.8.2"
   },
   "peerDependencies": {
+    "@sanity/ui": "^4.4.9",
     "react": "^19.2.2",
     "react-dom": "^19.2.2",
     "react-is": "^19.2.2",
-    "sanity": "^5.0.0 || ^6.0.0",
+    "sanity": "^6.20.0",
     "styled-components": "^6.1.15"
   },
   "engines": {

@@ -8,17 +8,8 @@ import { css, styled } from 'styled-components'
 import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
 import { EditIcon } from '@sanity/icons/Edit'
 import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
-import {
-  Box,
-  Checkbox,
-  Container,
-  Flex,
-  Grid,
-  Spinner,
-  Text,
-  Tooltip,
-  useMediaIndex
-} from '@sanity/ui'
+import { Box, Checkbox, Container, Flex, Grid, Spinner, Text, useMediaIndex } from '@sanity/ui'
+import { Tooltip } from '@sanity/ui/tooltip'
 
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'

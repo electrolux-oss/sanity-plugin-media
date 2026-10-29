@@ -1,9 +1,16 @@
-# Sanity Media Plugin - Electrolux Version (for Sanity Studio v5 and v6)
+# Sanity Media Plugin - Electrolux Version (for Sanity Studio v6)
 
-> This plugin supports **Sanity Studio v5 and v6**.  
+> This plugin supports **Sanity Studio v6.20 and newer**.  
 > This is a forked version of Sanitys own [Media Plugin (v4.0.0)](https://github.com/sanity-io/sanity-plugin-media)
 
-## :warning: Breaking changes - (v3.0.0 &rarr; v4.0.0)
+## :warning: Breaking changes - (v4.x &rarr; v5.0.0)
+
+### **v4 → v5**
+
+This release moves to **`@sanity/ui` v4**, which Sanity Studio ships from v6.9.2. `@sanity/ui` is now a
+**peer dependency**, so the plugin shares the Studio's copy instead of bundling its own.  
+Support for Studio v5 and Studio v6 before 6.20 has been dropped. Projects must be on Studio v6.20 or newer
+before upgrading to v5. Stay on v4 for older Studios.
 
 ### **v3 → v4**
 
@@ -18,7 +25,7 @@ Projects using this plugin must update to React 19 before upgrading to v3.
 
 ## What is it?
 
-A Sanity Studio v5 / v6 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
+A Sanity Studio v6 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
 
 A convenient way to browse, manage and refine your [Sanity](https://www.sanity.io/) assets.
 
@@ -63,7 +70,7 @@ _Default grid view_
 - Define a list of available languages to enable multi-language alt texts for assets.
 - See example of how to enable this feature [here](###plugin-config).
 
-## Install (Sanity Studio v5 and v6)
+## Install (Sanity Studio v6.20+)
 
 In your Sanity project folder:
 
