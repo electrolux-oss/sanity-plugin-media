@@ -1,24 +1,24 @@
 import { components } from 'react-select'
 import { Virtuoso } from 'react-virtuoso'
+import { useColorSchemeValue } from 'sanity'
 
 import { AddIcon } from '@sanity/icons/Add'
 import { ChevronDownIcon } from '@sanity/icons/ChevronDown'
 import { CloseIcon } from '@sanity/icons/Close'
-import { Box, Card, Flex, rem, studioTheme, Text } from '@sanity/ui'
+import { Box, Card, Flex, rem, Text, useTheme_v2 } from '@sanity/ui'
 
 import { getSchemeColor } from '../../utils/getSchemeColor'
 
 import type { StylesConfig } from 'react-select'
-import type { ThemeColorSchemeKey } from '@sanity/ui'
+export const useReactSelectStyles = (): StylesConfig => {
+  const scheme = useColorSchemeValue()
+  const { color, font, radius, space } = useTheme_v2()
 
-const { radius: themeRadius, space: themeSpace } = studioTheme
-
-export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => {
   return {
     control: (styles, { isFocused }) => {
       let boxShadow = `inset 0 0 0 1px var(--card-border-color)`
       if (isFocused) {
-        boxShadow = `inset 0 0 0 1px ${getSchemeColor(scheme, 'inputEnabledBorder')},
+        boxShadow = `inset 0 0 0 1px ${color.input.default.enabled.border},
         0 0 0 1px var(--card-bg-color),
         0 0 0 3px var(--card-focus-ring-color) !important`
       }
@@ -28,15 +28,15 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
         backgroundColor: 'var(--card-bg-color)',
         color: 'inherit',
         border: 'none',
-        borderRadius: themeRadius[1],
+        borderRadius: radius[1],
         boxShadow,
         margin: 0,
         minHeight: '35px',
         outline: 'none',
-        padding: rem(themeSpace[1]),
+        padding: rem(space[1]),
         transition: 'none',
         '&:hover': {
-          boxShadow: `inset 0 0 0 1px ${getSchemeColor(scheme, 'inputHoveredBorder')}`
+          boxShadow: `inset 0 0 0 1px ${color.input.default.hovered.border}`
         }
       }
     },
@@ -47,20 +47,20 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
     input: styles => ({
       ...styles,
       color: 'var(--card-fg-color)',
-      fontFamily: studioTheme.fonts.text.family,
-      marginLeft: rem(themeSpace[2])
+      fontFamily: font.text.family,
+      marginLeft: rem(space[2])
     }),
     menuList: styles => ({
       ...styles
     }),
     multiValue: (styles, { isDisabled }) => ({
       ...styles,
-      backgroundColor: getSchemeColor(scheme, 'mutedHoveredBg'),
-      borderRadius: themeRadius[2],
+      backgroundColor: color.button.ghost.primary.hovered.bg,
+      borderRadius: radius[2],
       opacity: isDisabled ? 0.5 : 1
     }),
     multiValueLabel: () => ({
-      color: getSchemeColor(scheme, 'mutedHoveredFg'),
+      color: color.button.ghost.primary.hovered.fg,
       fontSize: 'inherit',
       padding: 0
     }),
@@ -68,30 +68,30 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
       ...styles,
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      svg: { color: getSchemeColor(scheme, 'mutedHoveredFg') },
+      svg: { color: color.button.ghost.primary.hovered.fg },
       '&:hover': {
-        backgroundColor: getSchemeColor(scheme, 'mutedSelectedBg')
+        backgroundColor: color.button.ghost.primary.selected.bg
       }
     }),
     noOptionsMessage: styles => ({
       ...styles,
-      fontFamily: studioTheme.fonts.text.family,
+      fontFamily: font.text.family,
       lineHeight: '1em'
     }),
     option: (styles, { isFocused }) => ({
       ...styles,
-      backgroundColor: isFocused ? getSchemeColor(scheme, 'spotBlue') : 'transparent',
-      borderRadius: themeRadius[2],
+      backgroundColor: isFocused ? color.avatar.blue.bg : 'transparent',
+      borderRadius: radius[2],
       color: isFocused ? getSchemeColor(scheme, 'bg') : 'inherit',
-      padding: `${rem(themeSpace[1])} ${rem(themeSpace[2])}`,
+      padding: `${rem(space[1])} ${rem(space[2])}`,
       '&:hover': {
-        backgroundColor: getSchemeColor(scheme, 'spotBlue'),
+        backgroundColor: color.avatar.blue.bg,
         color: getSchemeColor(scheme, 'bg')
       }
     }),
     placeholder: styles => ({
       ...styles,
-      marginLeft: rem(themeSpace[2])
+      marginLeft: rem(space[2])
     }),
     valueContainer: styles => ({
       ...styles,

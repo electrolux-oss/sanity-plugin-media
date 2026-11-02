@@ -1,5 +1,6 @@
 import { SelectIcon } from '@sanity/icons/Select'
-import { Box, Button, Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui'
+import { Box, Button } from '@sanity/ui'
+import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
 import type {
   TagSelectOption,
   SearchFacetInputSearchableProps,
@@ -8,13 +9,12 @@ import type {
 } from '../../types'
 import { useDispatch } from 'react-redux'
 import Select from 'react-select'
-import { useColorSchemeValue } from 'sanity'
 import { operators } from '../../config/searchFacets'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useVisibleTags from '../../hooks/useVisibleTags'
 import { searchActions } from '../../modules/search'
-import { reactSelectComponents, reactSelectStyles } from '../../styled/react-select/single'
+import { reactSelectComponents, useReactSelectStyles } from '../../styled/react-select/single'
 import getTagSelectOptions from '../../utils/getTagSelectOptions'
 import SearchFacet from '../SearchFacet'
 
@@ -23,7 +23,7 @@ type Props = {
 }
 
 const SearchFacetTags = ({ facet }: Props) => {
-  const scheme = useColorSchemeValue()
+  const reactSelectStyles = useReactSelectStyles()
 
   // Redux
   const dispatch = useDispatch()
@@ -79,7 +79,7 @@ const SearchFacetTags = ({ facet }: Props) => {
                       key={operatorType}
                       onClick={() => handleOperatorItemClick(operatorType)}
                       padding={2}
-                      space={4}
+                      gap={4}
                       style={{ minWidth: '150px' }}
                       text={operators[operatorType].label}
                     />
@@ -108,7 +108,7 @@ const SearchFacetTags = ({ facet }: Props) => {
             onChange={(value: any) => handleChange(value as TagSelectOption)}
             options={allTagOptions}
             placeholder={tagsFetching ? 'Loading...' : 'Select...'}
-            styles={reactSelectStyles(scheme)}
+            styles={reactSelectStyles}
             value={facet?.value}
           />
         </Box>

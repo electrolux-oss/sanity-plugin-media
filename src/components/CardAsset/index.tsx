@@ -6,7 +6,9 @@ import { css, styled } from 'styled-components'
 import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
 import { EditIcon } from '@sanity/icons/Edit'
 import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
-import { Box, Checkbox, Container, Flex, Spinner, Text, Tooltip } from '@sanity/ui'
+import { Box, Checkbox, Container, Flex, Spinner, Text } from '@sanity/ui'
+import { getTheme_v2, type Theme, type ThemeColorSchemeKey } from '@sanity/ui/theme'
+import { Tooltip } from '@sanity/ui/tooltip'
 
 import { PANEL_HEIGHT } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
@@ -21,7 +23,6 @@ import FileIcon from '../FileIcon'
 import Image from '../Image'
 
 import type { MouseEvent, RefObject } from 'react'
-import type { Theme, ThemeColorSchemeKey } from '@sanity/ui'
 
 type Props = {
   id: string
@@ -48,7 +49,7 @@ const CardContainer = styled(Flex)<{ $picked?: boolean; theme: Theme; $updating?
       width: 100%;
 
       border: ${$picked
-        ? `1px solid ${theme.sanity.color.spot.orange} !important`
+        ? `1px solid ${getTheme_v2(theme).color.avatar.orange.bg} !important`
         : '1px solid inherit'};
 
       ${!$updating &&
@@ -80,7 +81,7 @@ const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKe
 
 const StyledWarningOutlineIcon = styled(WarningFilledIcon)(({ theme }) => {
   return {
-    color: theme.sanity.color.spot.red
+    color: getTheme_v2(theme).color.avatar.red.bg
   }
 })
 

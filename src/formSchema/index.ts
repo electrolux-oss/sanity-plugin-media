@@ -3,12 +3,12 @@ import * as z from 'zod'
 import type { MediaToolOptions } from '../types'
 
 export const tagOptionSchema = z.object({
-  label: z.string().trim().min(1, { message: 'Label cannot be empty' }),
-  value: z.string().trim().min(1, { message: 'Value cannot be empty' })
+  label: z.string().trim().min(1, { error: 'Label cannot be empty' }),
+  value: z.string().trim().min(1, { error: 'Value cannot be empty' })
 })
 
 export const tagFormSchema = z.object({
-  name: z.string().min(1, { message: 'Name cannot be empty' })
+  name: z.string().min(1, { error: 'Name cannot be empty' })
 })
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -19,7 +19,7 @@ export const createAssetFormSchema = (
   const defaultLanguage = languages.find(lang => lang.default)
 
   const createAltTextsSchema = () => {
-    const baseSchema = z.record(z.string().nullable())
+    const baseSchema = z.record(z.string(), z.string().nullable())
 
     if (!validateAltTexts) return baseSchema
 
@@ -34,7 +34,7 @@ export const createAssetFormSchema = (
         )
       },
       {
-        message:
+        error:
           'The default language must have alt text. Please fill in the default language field and click "Save and close".'
       }
     )
@@ -50,7 +50,7 @@ export const createAssetFormSchema = (
         tags: z.array(tagOptionSchema).nullable()
       })
     }),
-    originalFilename: z.string().trim().min(1, { message: 'Filename cannot be empty' }),
+    originalFilename: z.string().trim().min(1, { error: 'Filename cannot be empty' }),
     title: z.string().trim().optional()
   })
 }

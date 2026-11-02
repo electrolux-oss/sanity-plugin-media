@@ -1,23 +1,19 @@
 import { CloseIcon } from '@sanity/icons/Close'
-import { Box, Card, rem, studioTheme, Text, type ThemeColorSchemeKey } from '@sanity/ui'
+import { Box, Card, rem, Text, useTheme_v2 } from '@sanity/ui'
 import { components, type StylesConfig } from 'react-select'
 import { Virtuoso } from 'react-virtuoso'
+import { useColorSchemeValue } from 'sanity'
 import { getSchemeColor } from '../../utils/getSchemeColor'
 
-const {
-  fonts: {
-    text: { sizes: themeTextSizes }
-  },
-  radius: themeRadius,
-  space: themeSpace
-} = studioTheme
+export const useReactSelectStyles = (): StylesConfig => {
+  const scheme = useColorSchemeValue()
+  const { color, font, radius, space } = useTheme_v2()
 
-export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => {
   return {
     control: (styles, { isDisabled, isFocused }) => {
       let boxShadow = `inset 0 0 0 1px var(--card-border-color)`
       if (isFocused) {
-        boxShadow = `inset 0 0 0 1px ${getSchemeColor(scheme, 'inputEnabledBorder')},
+        boxShadow = `inset 0 0 0 1px ${color.input.default.enabled.border},
         0 0 0 1px ${getSchemeColor(scheme, 'bg2')},
         0 0 0 3px var(--card-focus-ring-color) !important`
       }
@@ -27,24 +23,24 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
         backgroundColor: 'var(--card-bg-color)',
         color: 'inherit',
         border: 'none',
-        borderRadius: themeRadius[2],
+        borderRadius: radius[2],
         boxShadow,
-        fontSize: themeTextSizes[1].fontSize,
+        fontSize: font.text.sizes[1].fontSize,
         minHeight: '25px',
         opacity: isDisabled ? 0.5 : 'inherit',
         outline: 'none',
         transition: 'none',
         '&:hover': {
-          boxShadow: `inset 0 0 0 1px ${getSchemeColor(scheme, 'inputHoveredBorder')}`
+          boxShadow: `inset 0 0 0 1px ${color.input.default.hovered.border}`
         }
       }
     },
     input: styles => ({
       ...styles,
       color: 'var(--card-fg-color)',
-      fontFamily: studioTheme.fonts.text.family,
-      fontSize: themeTextSizes[1].fontSize,
-      marginLeft: rem(themeSpace[2])
+      fontFamily: font.text.family,
+      fontSize: font.text.sizes[1].fontSize,
+      marginLeft: rem(space[2])
     }),
     menuList: styles => ({
       ...styles,
@@ -52,28 +48,28 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
     }),
     noOptionsMessage: styles => ({
       ...styles,
-      fontFamily: studioTheme.fonts.text.family,
-      fontSize: themeTextSizes[1].fontSize,
+      fontFamily: font.text.family,
+      fontSize: font.text.sizes[1].fontSize,
       lineHeight: '1em'
     }),
     option: (styles, { isFocused }) => ({
       ...styles,
-      backgroundColor: isFocused ? getSchemeColor(scheme, 'spotBlue') : 'transparent',
-      borderRadius: themeRadius[2],
+      backgroundColor: isFocused ? color.avatar.blue.bg : 'transparent',
+      borderRadius: radius[2],
       color: isFocused ? getSchemeColor(scheme, 'bg') : 'inherit',
-      fontSize: themeTextSizes[1].fontSize,
+      fontSize: font.text.sizes[1].fontSize,
       lineHeight: '1em',
       margin: 0,
-      padding: rem(themeSpace[1]),
+      padding: rem(space[1]),
       '&:hover': {
-        backgroundColor: getSchemeColor(scheme, 'spotBlue'),
+        backgroundColor: color.avatar.blue.bg,
         color: getSchemeColor(scheme, 'bg')
       }
     }),
     placeholder: styles => ({
       ...styles,
-      fontSize: themeTextSizes[1].fontSize,
-      marginLeft: rem(themeSpace[2]),
+      fontSize: font.text.sizes[1].fontSize,
+      marginLeft: rem(space[2]),
       paddingLeft: 0
     }),
     singleValue: styles => ({
@@ -81,7 +77,7 @@ export const reactSelectStyles = (scheme: ThemeColorSchemeKey): StylesConfig => 
       alignItems: 'center',
       display: 'inline-flex',
       height: '100%',
-      marginLeft: rem(themeSpace[2])
+      marginLeft: rem(space[2])
     }),
     valueContainer: styles => ({
       ...styles,

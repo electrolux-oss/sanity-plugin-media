@@ -298,7 +298,7 @@ const DialogAssetEdit = (props: Props) => {
               return (
                 <>
                   {/* Tabs */}
-                  <TabList space={2}>
+                  <TabList gap={2}>
                     <Tab
                       aria-controls="details-panel"
                       disabled={formUpdating}
@@ -377,7 +377,7 @@ const DialogAssetEdit = (props: Props) => {
                             </Card>
                           </Stack>
                         )}
-                        <Stack space={2} style={{ height: '65dvh', overflowY: 'auto' }}>
+                        <Stack gap={2} style={{ height: '65dvh', overflowY: 'auto' }}>
                           {languages.map(language => {
                             const label = language.default
                               ? `${language.title} (Default)`

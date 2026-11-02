@@ -1,28 +1,14 @@
-# Sanity Media Plugin - Electrolux Version (for Sanity Studio v5 and v6)
+# Sanity Media Plugin - Electrolux Version (for Sanity Studio v6)
 
-> This plugin supports **Sanity Studio v5 and v6**.  
-> This is a forked version of Sanitys own [Media Plugin (v4.0.0)](https://github.com/sanity-io/sanity-plugin-media)
+> This plugin supports **Sanity Studio v6.20 and newer**.
+> Originally based on Sanity's [sanity-io/sanity-plugin-media](https://github.com/sanity-io/sanity-plugin-media) (v4.0.0, MIT).
 
-## :warning: Breaking changes - (v3.0.0 &rarr; v4.0.0)
-
-### **v3 → v4**
-
-This release targets **Sanity Studio v5 and v6**. Support for Studio v4 has been dropped, and the
-package is now **ESM-only** (the CommonJS build has been removed).  
-Projects must be on Studio v5 or v6 (and React 19.2.2 or newer) before upgrading to v4.
-
-### **v2 → v3**
-
-This release upgrades the plugin’s peer dependency from **React 18** to **React 19**.  
-Projects using this plugin must update to React 19 before upgrading to v3.
-
-## What is it?
-
-A Sanity Studio v5 / v6 plugin that extends media handling capabilities with custom enhancements, based on a fork of an original plugin by Sanity.io.
+> [!WARNING]
+> Breaking changes introduced in version 5.0.0 of this plugin. See [Breaking changes](#breaking-changes).
 
 A convenient way to browse, manage and refine your [Sanity](https://www.sanity.io/) assets.
 
-Use it standalone as a browser, or optionally hook it up as a [custom asset source](https://www.sanity.io/docs/custom-asset-sources) and use it to power both image and file selection too.
+Use it standalone as a browser, or hook it up as a [custom asset source](https://www.sanity.io/docs/custom-asset-sources) to power both image and file selection too.
 
 ![Grid view](https://user-images.githubusercontent.com/209129/108927411-21aa7f00-7638-11eb-9cf7-334598ac4103.png)
 _Default grid view_
@@ -58,14 +44,24 @@ _Default grid view_
 - Built with the same [UI components Sanity uses](https://www.sanity.io/ui) under the hood
 - Fully responsive and mobile friendly
 
-#### Added support for multi-language alt texts
+#### Electrolux additions
 
-- Define a list of available languages to enable multi-language alt texts for assets.
-- See example of how to enable this feature [here](###plugin-config).
+- Multi-language alt texts, with validation of the default language (see [Plugin config](#plugin-config))
+- Automatic tagging of assets selected or uploaded through a field (see [Auto-tagging assets from a field](#auto-tagging-assets-from-a-field))
+- An **Edit Media** option on image and file fields (see [Edit Media](#edit-media))
+- A maximum upload size for every upload in the Studio, and tags that hide assets from the browser
+- A record of who uploaded each asset (see [Uploaded by](#uploaded-by))
 
-## Install (Sanity Studio v5 and v6)
+## Install (Sanity Studio v6.20+)
 
-In your Sanity project folder:
+| Package / Runtime     | Requirement |
+| --------------------- | ----------- |
+| `sanity`              | `^6.20.0`   |
+| `react` / `react-dom` | `^19.2.2`   |
+| `styled-components`   | `^6.1.15`   |
+| Node.js               | `>=22.12`   |
+
+Run
 
 ```zsh
 npm install --save @electrolux-oss/sanity-plugin-media
@@ -124,7 +120,7 @@ export default defineConfig({
 })
 ```
 
-### Plugin Config
+### Plugin config
 
 ```ts
 // sanity.config.ts
@@ -225,7 +221,7 @@ The plugin adds an **Edit Media** option to the asset menu of image and file fie
 
 ## Develop locally
 
-### Test your plugin locally
+### Link the plugin to a local studio
 
 **Step 1: Set up the plugin for local development**
 
@@ -264,8 +260,57 @@ import { media } from '@electrolux-oss/sanity-plugin-media'
 
 ### Making changes
 
-When you modify the plugin code:
+When you modify the plugin code, `link-watch` rebuilds it and pushes the build to every studio
+linked with yalc. Reload the studio to pick up the changes, and restart its dev server if it still
+serves the old build.
 
-1. The `link-watch` command will automatically rebuild
-2. In your studio, run `npx yalc update` to pull the latest changes
-3. Restart your dev server: `npm run dev`
+### Running the checks
+
+```zsh
+npm run typecheck # tsc --noEmit
+npm run lint      # ESLint
+npm run build     # also fails on type errors
+```
+
+This plugin has no automated tests yet.
+
+## Breaking changes
+
+### **v4 → v5**
+
+This release requires **Sanity Studio v6.20 or newer**, the first Studio release on `@sanity/ui`
+^4.4.9. Support for Studio v5 and Studio v6 before 6.20 has been dropped; stay on v4 of this
+plugin for older Studios.
+
+- The plugin now uses the same `@sanity/ui` (v4) and `@sanity/client` (v8) versions as the Studio,
+  so npm installs one shared copy of each instead of a second one inside the plugin.
+- `react-is` is no longer a peer dependency.
+- The tag inputs take their colors and fonts from the Studio's theme, so they follow custom themes.
+
+Requirements:
+
+| Package / Runtime     | Requirement |
+| --------------------- | ----------- |
+| `sanity`              | `^6.20.0`   |
+| `react` / `react-dom` | `^19.2.2`   |
+| `styled-components`   | `^6.1.15`   |
+| Node.js               | `>=22.12`   |
+
+### **v3 → v4**
+
+This release targets **Sanity Studio v5 and v6**. Support for Studio v4 has been dropped, and the
+package is now **ESM-only** (the CommonJS build has been removed).
+
+Requirements:
+
+| Package / Runtime                  | Requirement          |
+| ---------------------------------- | -------------------- |
+| `sanity`                           | `^5.0.0 \|\| ^6.0.0` |
+| `react` / `react-dom` / `react-is` | `^19.2.2`            |
+| `styled-components`                | `^6.1.15`            |
+| Node.js                            | `>=22.12`            |
+
+### **v2 → v3**
+
+This release upgrades the plugin’s peer dependency from **React 18** to **React 19**.  
+Projects using this plugin must update to React 19 before upgrading to v3.

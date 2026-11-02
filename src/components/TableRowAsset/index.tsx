@@ -8,17 +8,9 @@ import { css, styled } from 'styled-components'
 import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
 import { EditIcon } from '@sanity/icons/Edit'
 import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
-import {
-  Box,
-  Checkbox,
-  Container,
-  Flex,
-  Grid,
-  Spinner,
-  Text,
-  Tooltip,
-  useMediaIndex
-} from '@sanity/ui'
+import { Box, Checkbox, Container, Flex, Grid, Spinner, Text, useMediaIndex } from '@sanity/ui'
+import { getTheme_v2, type ThemeColorSchemeKey } from '@sanity/ui/theme'
+import { Tooltip } from '@sanity/ui/tooltip'
 
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
@@ -35,7 +27,6 @@ import FileIcon from '../FileIcon'
 import Image from '../Image'
 
 import type { RefObject } from 'react'
-import type { ThemeColorSchemeKey } from '@sanity/ui'
 
 // Duration (ms) to wait before reference counts (and associated listeners) are rendered
 const REFERENCE_COUNT_VISIBILITY_DELAY = 750
@@ -83,7 +74,7 @@ const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKe
 
 const StyledWarningIcon = styled(WarningFilledIcon)(({ theme }) => {
   return {
-    color: theme.sanity.color.spot.red
+    color: getTheme_v2(theme).color.avatar.red.bg
   }
 })
 
