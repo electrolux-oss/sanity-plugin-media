@@ -57,7 +57,9 @@
   "dependencies": {
     "@hookform/resolvers": "^5.9.2",
     "@reduxjs/toolkit": "^2.11.2",
+    "@sanity/client": "^8.9.0",
     "@sanity/color": "^3.0.6",
+    "@sanity/ui": "^4.4.9",
     "@sanity/uuid": "^3.0.1",
     "@tanem/react-nprogress": "^5.0.63",
     "copy-to-clipboard": "^3.3.1",
@@ -78,11 +80,9 @@
     "zod": "^4.6.6"
   },
   "devDependencies": {
-    "@sanity/client": "^8.11.0",
     "@sanity/icons": "^5.2.3",
     "@sanity/pkg-utils": "^8.1.12",
     "@sanity/plugin-kit": "^4.0.19",
-    "@sanity/ui": "^4.4.9",
     "@types/pluralize": "^0.0.33",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.0.4",
@@ -108,11 +108,8 @@
     "typescript": "5.8.2"
   },
   "peerDependencies": {
-    "@sanity/client": "^8.9.0",
-    "@sanity/ui": "^4.4.9",
     "react": "^19.2.2",
     "react-dom": "^19.2.2",
-    "react-is": "^19.2.2",
     "sanity": "^6.20.0",
     "styled-components": "^6.1.15"
   },
