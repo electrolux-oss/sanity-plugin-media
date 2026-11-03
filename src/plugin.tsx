@@ -9,8 +9,10 @@ import { EditIcon } from '@sanity/icons/Edit'
 import { ImageIcon } from '@sanity/icons/Image'
 import EditAssetTool from './components/EditAssetTool'
 import FormBuilderTool from './components/FormBuilderTool'
+import AssetSourcesInput from './components/AssetSourcesInput'
 import Tool from './components/Tool'
 import UploadRejectionToasts from './components/UploadRejectionToasts'
+import { EDIT_MEDIA_SOURCE_NAME } from './constants'
 import { ToolOptionsProvider } from './contexts/ToolOptionsContext'
 import mediaTag from './schemas/tag'
 import { withMaximumUploadSize } from './utils/withMaximumUploadSize'
@@ -36,7 +38,7 @@ const selectOnlyMediaAssetSource = {
 
 const editMediaAssetSource = {
   icon: EditIcon,
-  name: 'edit-media',
+  name: EDIT_MEDIA_SOURCE_NAME,
   title: 'Edit Media',
   component: EditAssetTool
 } satisfies AssetSource
@@ -84,6 +86,9 @@ export const media = definePlugin<MediaToolOptions | void>(options => {
       }
     },
     form: {
+      components: {
+        input: AssetSourcesInput
+      },
       file: {
         assetSources: resolveAssetSources
       },
