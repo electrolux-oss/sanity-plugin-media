@@ -85,13 +85,6 @@ export type AssetItem = {
 
 export type AssetType = 'file' | 'image' | 'sanity.video'
 
-export type Block = {
-  _type: string
-  _key: string
-  children: Span[]
-  markDefs: MarkDef[]
-}
-
 export type BrowserView = 'grid' | 'table'
 
 export type ButtonVariant = 'danger' | 'default' | 'secondary'
@@ -191,8 +184,6 @@ export type ImageAsset = SanityImageAssetDocument &
     _type: 'sanity.imageAsset'
     creditLine?: string
   }
-
-export type MarkDef = { _key: string; _type: string }
 
 export type MyEpic = Epic<
   Action,
@@ -338,12 +329,6 @@ export type SanityUploadResponseEvent = {
   statusMessage: string
   type: 'response'
   url: string // preview image?
-}
-
-export type Span = {
-  _key: string
-  text: string
-  marks: string[]
 }
 
 export type Tag = SanityDocument & {
