@@ -379,7 +379,7 @@ const DialogAssetEdit = (props: Props) => {
                             </Card>
                           </Stack>
                         )}
-                        <Stack gap={2} style={{ height: '65dvh', overflowY: 'auto' }}>
+                        <Stack gap={2} style={{ height: '55dvh', overflowY: 'auto' }}>
                           {languages.map(language => {
                             const label = language.default
                               ? `${language.title} (Default)`
