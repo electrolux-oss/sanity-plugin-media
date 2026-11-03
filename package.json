@@ -54,6 +54,8 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "prepack": "npm run build",
+    "publish:next": "pnpm publish --tag next",
+    "publish:next:dry-run": "pnpm publish --tag next --dry-run",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "watch": "pkg-utils watch --strict"
   },
@@ -94,6 +96,7 @@
     "oxfmt": "^0.73.0",
     "oxlint": "^1.91.0",
     "oxlint-tsgolint": "^7.0.2005",
+    "pnpm": "10.34.9",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-is": "^19.2.4",
