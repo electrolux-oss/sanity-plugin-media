@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useRootPortalElement = () => {
+const useRootPortalElement = (): HTMLDivElement => {
   const [container] = useState(() => document.createElement('div'))
 
   useEffect(() => {

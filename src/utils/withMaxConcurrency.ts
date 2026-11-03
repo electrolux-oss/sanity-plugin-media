@@ -1,7 +1,7 @@
 // Takes a observable-returning function and returns a new function that limits on the number of
 // concurrent observables.
 import { first, mergeMap } from 'rxjs/operators'
-import { Subject, Subscription, Observable, from } from 'rxjs'
+import { Subject, type Subscription, Observable, from } from 'rxjs'
 
 const DEFAULT_CONCURRENCY = 4
 
@@ -13,7 +13,7 @@ function remove<T>(array: Array<T>, item: T): Array<T> {
   return array
 }
 
-export const createThrottler = (concurrency: number = DEFAULT_CONCURRENCY) => {
+const createThrottler = (concurrency: number = DEFAULT_CONCURRENCY) => {
   const currentSubscriptions: Array<Subscription> = []
   const pendingObservables: Array<Observable<any>> = []
   const ready$ = new Subject()
@@ -49,7 +49,7 @@ export const createThrottler = (concurrency: number = DEFAULT_CONCURRENCY) => {
 export const withMaxConcurrency = (
   func: (...args: any[]) => Observable<any>,
   concurrency: number = DEFAULT_CONCURRENCY
-) => {
+): ((...args: any[]) => Observable<any>) => {
   const throttler = createThrottler(concurrency)
   return (...args: Array<any>) => from(throttler(func(...args)))
 }
