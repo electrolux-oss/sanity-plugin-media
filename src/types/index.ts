@@ -7,17 +7,15 @@ import type {
 } from '@sanity/client'
 import type { ComponentType, JSX } from 'react'
 import type { Epic } from 'redux-observable'
-import type { AssetFormSchemaObject } from '../formSchema'
 import * as z from 'zod'
 
-import { tagFormSchema, tagOptionSchema } from '../formSchema'
-
 import type { SUPPORTED_ASSET_TYPES } from '../constants'
+import type { AssetFormSchemaObject } from '../formSchema'
+import { tagFormSchema, tagOptionSchema } from '../formSchema'
 
 export type AssetTypes = (typeof SUPPORTED_ASSET_TYPES)[number]
 
 import type { DetailsProps } from '../components/DialogAssetEdit/Details'
-
 import type { RootReducerState } from '../modules/types'
 
 export type MediaToolOptions = {
@@ -365,4 +363,11 @@ export type UploadItem = {
 
 export type WithId<T extends SearchFacetInputProps> = T & {
   id: string
+}
+
+declare module 'sanity' {
+  interface FileOptions {
+    /** Tags applied by `AutoTagInput` / `mediaField`, also used to pre-filter the media browser. */
+    mediaTags?: string[]
+  }
 }

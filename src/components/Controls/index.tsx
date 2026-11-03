@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Inline, useMediaIndex } from '@sanity/ui'
 import { useDispatch } from 'react-redux'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { dialogActions } from '../../modules/dialog'
 import { tagsActions } from '../../modules/tags'

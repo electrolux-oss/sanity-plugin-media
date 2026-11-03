@@ -1,14 +1,15 @@
+import groq from 'groq'
+
 import type {
   SearchFacetDivider,
   SearchFacetInputProps,
   SearchFacetName,
   SearchFacetOperators
 } from '../types'
-import groq from 'groq'
 
 export const divider: SearchFacetDivider = { type: 'divider' }
 
-export const inputs: Record<SearchFacetName, SearchFacetInputProps> = {
+export const inputs = {
   altTexts: {
     assetTypes: ['file', 'image'],
     field: 'altTexts',
@@ -251,7 +252,7 @@ export const inputs: Record<SearchFacetName, SearchFacetInputProps> = {
     type: 'number',
     value: 400
   }
-}
+} satisfies Record<SearchFacetName, SearchFacetInputProps>
 
 export const operators: SearchFacetOperators = {
   doesNotInclude: {

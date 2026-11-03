@@ -1,6 +1,5 @@
-import { useClient } from 'sanity'
+import { type SanityClient, useClient } from 'sanity'
 
-const useVersionedClient = (): ReturnType<typeof useClient> =>
-  useClient({ apiVersion: '2022-10-01' })
+const useVersionedClient = (): SanityClient => useClient({ apiVersion: '2022-10-01' })
 
 export default useVersionedClient

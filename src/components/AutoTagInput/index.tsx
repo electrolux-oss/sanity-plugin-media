@@ -1,16 +1,11 @@
 import { useToast } from '@sanity/ui/toast'
 import { useEffect, useRef } from 'react'
-import type { InputProps } from 'sanity'
+import type { FileOptions, InputProps } from 'sanity'
 
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
 import useVersionedClient from '../../hooks/useVersionedClient'
 import { applyMediaTags } from '../../utils/applyMediaTags'
-
-type AssetValue = {
-  asset?: {
-    _ref: string
-  }
-}
+import { getAssetRef } from '../../utils/getAssetRef'
 
 export type AutoTagInputProps = InputProps & {
   mediaTags?: string[]
@@ -29,9 +24,9 @@ export function AutoTagInput(props: AutoTagInputProps) {
   const client = useVersionedClient()
   const { createTagsOnUpload } = useToolOptions()
 
-  const mediaTags =
-    mediaTagsProp ?? (schemaType?.options as { mediaTags?: string[] } | undefined)?.mediaTags
-  const currentAssetRef = (value as AssetValue | undefined)?.asset?._ref
+  const fieldOptions: FileOptions | undefined = schemaType?.options
+  const mediaTags = mediaTagsProp ?? fieldOptions?.mediaTags
+  const currentAssetRef = getAssetRef(value)
 
   const prevAssetRef = useRef(currentAssetRef)
 

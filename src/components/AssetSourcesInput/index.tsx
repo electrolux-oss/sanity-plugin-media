@@ -2,12 +2,7 @@ import { useMemo } from 'react'
 import type { InputProps, SchemaAssetSources, SchemaType } from 'sanity'
 
 import { EDIT_MEDIA_SOURCE_NAME } from '../../constants'
-
-type AssetValue = {
-  asset?: {
-    _ref?: string
-  }
-}
+import { getAssetRef } from '../../utils/getAssetRef'
 
 const isAssetSchemaType = (schemaType: SchemaType | undefined): boolean => {
   if (!schemaType) {
@@ -42,21 +37,20 @@ const withoutEditMedia = (sources: SchemaAssetSources | undefined): SchemaAssetS
 const AssetSourcesInput = (props: InputProps) => {
   const { renderDefault, schemaType, value } = props
 
-  const hideEditMedia =
-    isAssetSchemaType(schemaType) && !(value as AssetValue | undefined)?.asset?._ref
+  const hideEditMedia = isAssetSchemaType(schemaType) && !getAssetRef(value)
 
   const schemaTypeWithoutEditMedia = useMemo(() => {
-    const options = schemaType.options as { sources?: SchemaAssetSources } | undefined
-    return {
-      ...schemaType,
+    const options: { sources?: SchemaAssetSources } | undefined = schemaType.options
+    return Object.assign({}, schemaType, {
       options: { ...options, sources: withoutEditMedia(options?.sources) }
-    } as typeof schemaType
+    })
   }, [schemaType])
 
   if (!hideEditMedia) {
     return renderDefault(props)
   }
 
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- InputProps is a union keyed on schemaType, so swapping in a copy of the same schema type can't be expressed without a cast
   return renderDefault({ ...props, schemaType: schemaTypeWithoutEditMedia } as InputProps)
 }
 

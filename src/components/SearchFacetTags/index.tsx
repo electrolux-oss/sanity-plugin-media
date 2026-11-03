@@ -1,20 +1,21 @@
 import { SelectIcon } from '@sanity/icons/Select'
 import { Box, Button } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
-import type {
-  TagSelectOption,
-  SearchFacetInputSearchableProps,
-  SearchFacetOperatorType,
-  WithId
-} from '../../types'
 import { useDispatch } from 'react-redux'
 import Select from 'react-select'
+
 import { operators } from '../../config/searchFacets'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useVisibleTags from '../../hooks/useVisibleTags'
 import { searchActions } from '../../modules/search'
 import { reactSelectComponents, useReactSelectStyles } from '../../styled/react-select/single'
+import type {
+  TagSelectOption,
+  SearchFacetInputSearchableProps,
+  SearchFacetOperatorType,
+  WithId
+} from '../../types'
 import getTagSelectOptions from '../../utils/getTagSelectOptions'
 import SearchFacet from '../SearchFacet'
 
@@ -33,7 +34,7 @@ const SearchFacetTags = ({ facet }: Props) => {
 
   const popoverProps = usePortalPopoverProps()
 
-  const handleChange = (option: TagSelectOption) => {
+  const handleChange = (option: TagSelectOption | null) => {
     dispatch(
       searchActions.facetsUpdateById({
         id: facet.id,
@@ -86,6 +87,7 @@ const SearchFacetTags = ({ facet }: Props) => {
                   )
                 }
 
+                // oxlint-disable-next-line react/no-array-index-key -- null entries in the static operator list are dividers with no identity of their own
                 return <MenuDivider key={index} />
               })}
             </Menu>
@@ -105,7 +107,7 @@ const SearchFacetTags = ({ facet }: Props) => {
             isSearchable
             name="tags"
             noOptionsMessage={() => 'No tags'}
-            onChange={(value: any) => handleChange(value as TagSelectOption)}
+            onChange={handleChange}
             options={allTagOptions}
             placeholder={tagsFetching ? 'Loading...' : 'Select...'}
             styles={reactSelectStyles}

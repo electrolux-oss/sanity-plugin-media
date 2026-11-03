@@ -1,9 +1,10 @@
-import { useDropzone } from 'react-dropzone'
-import { useDispatch } from 'react-redux'
-import { styled } from 'styled-components'
-
 import { white } from '@sanity/color'
 import { Flex, Text } from '@sanity/ui'
+import type { ReactNode } from 'react'
+import { useDropzone } from 'react-dropzone'
+import type { DropEvent, DropzoneOptions } from 'react-dropzone'
+import { useDispatch } from 'react-redux'
+import { styled } from 'styled-components'
 
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import { DropzoneDispatchProvider } from '../../contexts/DropzoneDispatchContext'
@@ -11,9 +12,6 @@ import { useToolOptions } from '../../contexts/ToolOptionsContext'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { notificationsActions } from '../../modules/notifications'
 import { uploadsActions } from '../../modules/uploads'
-
-import type { ReactNode } from 'react'
-import type { DropEvent, DropzoneOptions } from 'react-dropzone'
 type Props = {
   children: ReactNode
 }
@@ -48,19 +46,19 @@ const DragActiveContainer = styled.div`
 // We check for files by reading the first byte of the file
 async function filterFiles(fileList: FileList) {
   const files = Array.from(fileList)
+  const readable = await Promise.all(
+    files.map(file =>
+      file
+        .slice(0, 1)
+        .arrayBuffer()
+        .then(
+          () => true,
+          () => false
+        )
+    )
+  )
 
-  const filteredFiles: File[] = []
-
-  for (const file of files) {
-    try {
-      await file.slice(0, 1).arrayBuffer()
-      filteredFiles.push(file)
-    } catch (err) {
-      // do nothing: file is a package or folder
-    }
-  }
-
-  return filteredFiles
+  return files.filter((_file, index) => readable[index])
 }
 
 const UploadDropzone = (props: Props) => {
@@ -111,8 +109,8 @@ const UploadDropzone = (props: Props) => {
       fileList = event?.dataTransfer?.files
     }
     if (event.type === 'change') {
-      const target = event?.target as HTMLInputElement
-      if (target?.files) {
+      const target = event?.target
+      if (target instanceof HTMLInputElement && target.files) {
         fileList = target.files
       }
     }

@@ -1,9 +1,14 @@
-import type { CardAssetData, CardUploadData } from '../../types'
-import { forwardRef, memo } from 'react'
-import { VirtuosoGrid } from 'react-virtuoso'
+import { memo } from 'react'
+import {
+  type ContextProp,
+  type GridItemProps,
+  type GridListProps,
+  VirtuosoGrid
+} from 'react-virtuoso'
 import { styled } from 'styled-components'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
+import type { CardAssetData, CardUploadData } from '../../types'
 import CardAsset from '../CardAsset'
 import CardUpload from '../CardUpload'
 
@@ -34,11 +39,14 @@ const StyledItemContainer = styled.div`
   width: ${CARD_WIDTH}px;
 `
 
-const ItemContainer = forwardRef<HTMLDivElement, any>((props, ref) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we're doing this to avoid sc warnings about `context` passed as an attribute
-  const { context, ...rest } = props
-  return <StyledItemContainer ref={ref} {...rest} />
-})
+type GridContext = { selectedIds: string[] }
+
+const ItemContainer = ({
+  context: _context,
+  ...rest
+}: GridItemProps & ContextProp<GridContext>) => {
+  return <StyledItemContainer {...rest} />
+}
 
 const StyledListContainer = styled.div`
   display: grid;
@@ -48,11 +56,16 @@ const StyledListContainer = styled.div`
   margin: 0 auto;
 `
 
-const ListContainer = forwardRef<HTMLDivElement, any>((props, ref) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we're doing this to avoid sc warnings about `context` passed as an attribute
-  const { context, ...rest } = props
-  return <StyledListContainer ref={ref} {...rest} />
-})
+const ListContainer = ({
+  context: _context,
+  ...rest
+}: GridListProps & ContextProp<GridContext>) => {
+  return <StyledListContainer {...rest} />
+}
+
+const renderItem = (_index: number, item: CardAssetData | CardUploadData, context: GridContext) => {
+  return <VirtualCell item={item} selected={context.selectedIds.includes(item.id)} />
+}
 
 const AssetGridVirtualized = (props: Props) => {
   const { items, onLoadMore } = props
@@ -70,20 +83,15 @@ const AssetGridVirtualized = (props: Props) => {
   return (
     <VirtuosoGrid
       className="media__custom-scrollbar"
-      computeItemKey={index => {
-        const item = items[index]
-        return item?.id
-      }}
       components={{
         Item: ItemContainer,
         List: ListContainer
       }}
+      computeItemKey={(_index, item) => item.id}
+      context={{ selectedIds }}
+      data={items}
       endReached={onLoadMore}
-      itemContent={index => {
-        const item = items[index]
-        const selected = selectedIds.includes(item?.id)
-        return <VirtualCell item={item} selected={selected} />
-      }}
+      itemContent={renderItem}
       overscan={48}
       style={{ overflowAnchor: 'none', overflowX: 'hidden', overflowY: 'scroll' }}
       totalCount={totalCount}

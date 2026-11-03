@@ -1,13 +1,13 @@
 import { SelectIcon } from '@sanity/icons/Select'
 import { Box, Button, TextInput } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
-import type { SearchFacetInputStringProps, SearchFacetOperatorType, WithId } from '../../types'
 import { type ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { operators } from '../../config/searchFacets'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import { searchActions } from '../../modules/search'
+import type { SearchFacetInputStringProps, SearchFacetOperatorType, WithId } from '../../types'
 import SearchFacet from '../SearchFacet'
 
 type Props = {
@@ -61,6 +61,7 @@ const SearchFacetString = ({ facet }: Props) => {
                   )
                 }
 
+                // oxlint-disable-next-line react/no-array-index-key -- null entries in the static operator list are dividers with no identity of their own
                 return <MenuDivider key={index} />
               })}
             </Menu>

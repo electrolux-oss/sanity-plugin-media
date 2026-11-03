@@ -1,15 +1,13 @@
-import { useDispatch } from 'react-redux'
-
 import { AddIcon } from '@sanity/icons/Add'
 import { Button, Flex } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuGroup, MenuItem } from '@sanity/ui/menu'
+import { useDispatch } from 'react-redux'
 
 import { FACETS } from '../../constants'
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { searchActions } from '../../modules/search'
-
 import type { SearchFacetDivider, SearchFacetGroup, SearchFacetInputProps } from '../../types'
 
 const SearchFacetsControl = () => {
@@ -70,13 +68,14 @@ const SearchFacetsControl = () => {
       <>
         {facets?.map((facet, index) => {
           if (facet.type === 'divider') {
+            // oxlint-disable-next-line react/no-array-index-key -- dividers in the static facet config have no identity of their own
             return <MenuDivider key={index} />
           }
 
           // Recursively render menu facets
           if (facet.type === 'group') {
             return (
-              <MenuGroup key={`group-${level}-${index}`} text={facet.title} title={facet.title}>
+              <MenuGroup key={`group-${facet.title}`} text={facet.title} title={facet.title}>
                 {renderMenuFacets(facet.facets, level + 1)}
               </MenuGroup>
             )

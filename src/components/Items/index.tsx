@@ -1,6 +1,7 @@
 import { Box, Text, useMediaIndex } from '@sanity/ui'
-import { useEffect } from 'react'
+import { useEffect, useEffectEvent } from 'react'
 import { useDispatch } from 'react-redux'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { assetsActions } from '../../modules/assets'
 import { selectCombinedItems } from '../../modules/selectors'
@@ -32,9 +33,15 @@ const Items = () => {
   // Effects
 
   // - Hide tag panel on smaller breakpoints
-  useEffect(() => {
-    if (mediaIndex <= 1 && tagsPanelVisible) {
+  const hideTagsPanel = useEffectEvent(() => {
+    if (tagsPanelVisible) {
       dispatch(tagsActions.panelVisibleSet({ panelVisible: false }))
+    }
+  })
+
+  useEffect(() => {
+    if (mediaIndex <= 1) {
+      hideTagsPanel()
     }
   }, [mediaIndex])
 

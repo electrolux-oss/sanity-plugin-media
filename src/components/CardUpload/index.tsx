@@ -4,12 +4,13 @@ import filesize from 'filesize'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
 import { styled } from 'styled-components'
+
 import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { selectUploadById, uploadsActions } from '../../modules/uploads'
+import { getSchemeColor } from '../../utils/getSchemeColor'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
-import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
   id: string

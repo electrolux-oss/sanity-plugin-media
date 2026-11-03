@@ -24,7 +24,6 @@ import dialogReducer, {
   dialogTagCreateEpic,
   dialogTagDeleteEpic
 } from './dialog'
-import selectedReducer from './selected'
 import notificationsReducer, {
   notificationsAssetsDeleteErrorEpic,
   notificationsAssetsDeleteCompleteEpic,
@@ -37,6 +36,7 @@ import notificationsReducer, {
   notificationsTagUpdateCompleteEpic
 } from './notifications'
 import searchReducer, { searchFacetTagUpdateEpic } from './search'
+import selectedReducer from './selected'
 import tagsReducer, {
   tagsCreateEpic,
   tagsDeleteEpic,

@@ -1,6 +1,6 @@
 import { Flex } from '@sanity/ui'
-import type { Asset } from '../../types'
 
+import type { Asset } from '../../types'
 import FileIcon from '../FileIcon'
 
 type Props = {
@@ -13,6 +13,7 @@ const FileAssetPreview = (props: Props) => {
   if (asset.mimeType.search('audio') === 0) {
     return (
       <Flex align="center" justify="center" style={{ height: '100%' }}>
+        {/* oxlint-disable-next-line jsx-a11y/media-has-caption -- uploaded assets come without caption tracks */}
         <audio controls src={asset.url} style={{ width: '100%' }} />
       </Flex>
     )
@@ -20,6 +21,7 @@ const FileAssetPreview = (props: Props) => {
 
   if (asset.mimeType.search('video') === 0) {
     return (
+      // oxlint-disable-next-line jsx-a11y/media-has-caption -- uploaded assets come without caption tracks
       <video
         controls
         src={asset.url}

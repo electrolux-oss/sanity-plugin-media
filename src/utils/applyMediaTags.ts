@@ -55,10 +55,10 @@ async function resolveTag(
     return null
   }
 
-  return client.create({
+  return client.create<Pick<Tag, 'name'>>({
     _type: TAG_DOCUMENT_NAME,
     name: { _type: 'slug', current: tagName }
-  }) as Promise<Tag>
+  })
 }
 
 async function doApplyMediaTags({

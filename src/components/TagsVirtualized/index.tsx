@@ -1,43 +1,57 @@
 import { Flex, Label } from '@sanity/ui'
-import type { TagActions, TagItem } from '../../types'
 import { memo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
+
 import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { selectAssetsPicked } from '../../modules/assets'
+import type { TagActions, TagItem } from '../../types'
 import Tag from '../Tag'
 
-const VirtualRow = memo(
-  ({
-    isScrolling,
-    item
-  }: {
-    isScrolling?: boolean
-    item:
-      | string
-      | (TagItem & {
-          actions: TagActions[]
-        })
-  }) => {
-    // Render label
-    if (typeof item === 'string') {
-      return (
-        <Flex
-          align="center"
-          justify="space-between"
-          key={item}
-          paddingX={3}
-          style={{ height: `${PANEL_HEIGHT}px` }}
-        >
-          <Label size={0}>{item}</Label>
-        </Flex>
-      )
-    }
+type TagRow = {
+  actions: TagActions[]
+  tagItem: TagItem
+}
 
-    // Render tag - only display actions if we're not in the process of scrolling
-    return <Tag actions={isScrolling ? undefined : item.actions} key={item.tag?._id} tag={item} />
+type Row = string | TagRow
+
+const VirtualRow = memo(({ isScrolling, item }: { isScrolling?: boolean; item: Row }) => {
+  // Render label
+  if (typeof item === 'string') {
+    return (
+      <Flex
+        align="center"
+        justify="space-between"
+        key={item}
+        paddingX={3}
+        style={{ height: `${PANEL_HEIGHT}px` }}
+      >
+        <Label size={0}>{item}</Label>
+      </Flex>
+    )
   }
-)
+
+  // Render tag - only display actions if we're not in the process of scrolling
+  return (
+    <Tag
+      actions={isScrolling ? undefined : item.actions}
+      key={item.tagItem.tag._id}
+      tag={item.tagItem}
+    />
+  )
+})
+
+const toRows = (tagItems: TagItem[], actions: TagActions[]): TagRow[] => {
+  return tagItems.map(tagItem => ({ actions, tagItem }))
+}
+
+const getRowKey = (_index: number, item: Row) => {
+  return typeof item === 'string' ? item : item.tagItem.tag._id
+}
+
+const renderRow = (_index: number, item: Row, context: { isScrolling: boolean }) => {
+  return <VirtualRow isScrolling={context.isScrolling} item={item} />
+}
 
 const TagsVirtualized = ({ tags }: { tags: TagItem[] }) => {
   const assetsPicked = useTypedSelector(selectAssetsPicked)
@@ -80,36 +94,22 @@ const TagsVirtualized = ({ tags }: { tags: TagItem[] }) => {
     }
   )
 
-  const tagsAppliedToAll = tags
-    .filter(tag => tagIdsSegmented.appliedToAll.includes(tag.tag._id))
-    .map(tagItem => ({
-      ...tagItem,
-      actions: ['delete', 'edit', 'removeAll', 'search'] as TagActions[]
-    }))
-  const tagsAppliedToSome = tags
-    .filter(tag => tagIdsSegmented.appliedToSome.includes(tag.tag._id))
-    .map(tagItem => ({
-      ...tagItem,
-      actions: ['applyAll', 'delete', 'edit', 'removeAll', 'search'] as TagActions[]
-    }))
-  const tagsUnused = tags
-    .filter(tag => !pickedTagIdsUnique.includes(tag.tag._id))
-    .map(tagItem => ({
-      ...tagItem,
-      actions: ['applyAll', 'delete', 'edit', 'search'] as TagActions[]
-    }))
+  const tagsAppliedToAll = toRows(
+    tags.filter(tag => tagIdsSegmented.appliedToAll.includes(tag.tag._id)),
+    ['delete', 'edit', 'removeAll', 'search']
+  )
+  const tagsAppliedToSome = toRows(
+    tags.filter(tag => tagIdsSegmented.appliedToSome.includes(tag.tag._id)),
+    ['applyAll', 'delete', 'edit', 'removeAll', 'search']
+  )
+  const tagsUnused = toRows(
+    tags.filter(tag => !pickedTagIdsUnique.includes(tag.tag._id)),
+    ['applyAll', 'delete', 'edit', 'search']
+  )
 
-  let items: (
-    | string
-    | (TagItem & {
-        actions: TagActions[]
-      })
-  )[] = []
+  let items: Row[] = []
   if (assetsPicked.length === 0) {
-    items = tags.map(tagItem => ({
-      ...tagItem,
-      actions: ['delete', 'edit', 'search'] as TagActions[]
-    }))
+    items = toRows(tags, ['delete', 'edit', 'search'])
   } else {
     if (tagsAppliedToAll?.length > 0) {
       items = [
@@ -137,19 +137,12 @@ const TagsVirtualized = ({ tags }: { tags: TagItem[] }) => {
   return (
     <Virtuoso
       className="media__custom-scrollbar"
-      computeItemKey={index => {
-        const item = items[index]
-        if (typeof item === 'string') {
-          return item
-        }
-        return item.tag._id
-      }}
+      computeItemKey={getRowKey}
+      context={{ isScrolling }}
+      data={items}
       isScrolling={setIsScrolling}
-      itemContent={index => {
-        return <VirtualRow isScrolling={isScrolling} item={items[index]} />
-      }}
+      itemContent={renderRow}
       style={{ flex: 1, overflowX: 'hidden' }}
-      totalCount={items.length}
     />
   )
 }

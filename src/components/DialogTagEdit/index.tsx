@@ -1,17 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { MutationEvent } from '@sanity/client'
 import { Box, Button, Card, Flex, Text } from '@sanity/ui'
-import type { DialogTagEditProps, Tag, TagFormData } from '../../types'
 import groq from 'groq'
 import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
+
 import { tagFormSchema } from '../../formSchema'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useVersionedClient from '../../hooks/useVersionedClient'
 import { dialogActions } from '../../modules/dialog'
 import { selectTagById, tagsActions } from '../../modules/tags'
+import type { DialogTagEditProps, Tag, TagFormData } from '../../types'
 import sanitizeFormData from '../../utils/sanitizeFormData'
+import { isTagDocument } from '../../utils/typeGuards'
 import Dialog from '../Dialog'
 import FormFieldInputText from '../FormFieldInputText'
 import FormSubmitButton from '../FormSubmitButton'
@@ -95,11 +97,11 @@ const DialogTagEdit = (props: Props) => {
   const handleTagUpdate = useCallback(
     (update: MutationEvent) => {
       const { result, transition } = update
-      if (result && transition === 'update') {
+      if (result && transition === 'update' && isTagDocument(result)) {
         // Regenerate snapshot
-        setTagSnapshot(result as Tag)
+        setTagSnapshot(result)
         // Reset react-hook-form
-        reset(generateDefaultValues(result as Tag))
+        reset(generateDefaultValues(result))
       }
     },
     [reset]
@@ -111,7 +113,7 @@ const DialogTagEdit = (props: Props) => {
         message: tagItem.error?.message
       })
     }
-  }, [setError, tagItem.error])
+  }, [setError, tagItem?.error])
 
   // - Listen for asset mutations and update snapshot
   useEffect(() => {
@@ -129,7 +131,7 @@ const DialogTagEdit = (props: Props) => {
     }
   }, [client, handleTagUpdate, tagItem?.tag])
 
-  const Footer = () => (
+  const footer = (
     <Box padding={3}>
       <Flex justify="space-between">
         {/* Delete button */}
@@ -158,7 +160,7 @@ const DialogTagEdit = (props: Props) => {
   }
 
   return (
-    <Dialog animate footer={<Footer />} header="Edit Tag" id={id} onClose={handleClose} width={1}>
+    <Dialog animate footer={footer} header="Edit Tag" id={id} onClose={handleClose} width={1}>
       {/* Form fields */}
       <Box as="form" padding={4} onSubmit={handleSubmit(onSubmit)}>
         {/* Deleted notification */}
@@ -169,7 +171,7 @@ const DialogTagEdit = (props: Props) => {
         )}
 
         {/* Hidden button to enable enter key submissions */}
-        <button style={{ display: 'none' }} tabIndex={-1} type="submit" />
+        <button aria-label="Save" style={{ display: 'none' }} tabIndex={-1} type="submit" />
 
         {/* Title */}
         <FormFieldInputText

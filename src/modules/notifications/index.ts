@@ -1,9 +1,10 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
-import type { ImageAsset, MyEpic } from '../../types'
 import pluralize from 'pluralize'
 import { ofType } from 'redux-observable'
 import { of } from 'rxjs'
 import { bufferTime, filter, mergeMap } from 'rxjs/operators'
+
+import type { ImageAsset, MyEpic } from '../../types'
 import { assetsActions } from '../assets'
 import { ASSETS_ACTIONS } from '../assets/actions'
 import { tagsActions } from '../tags'

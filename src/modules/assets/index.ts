@@ -1,5 +1,9 @@
+import { createSelector, createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { ClientError, Patch, Transaction } from '@sanity/client'
 import groq from 'groq'
 import { nanoid } from 'nanoid'
+import type { Selector } from 'react-redux'
 import { ofType } from 'redux-observable'
 import { EMPTY, from, of } from 'rxjs'
 import {
@@ -12,19 +16,9 @@ import {
   withLatestFrom
 } from 'rxjs/operators'
 
-import { createSelector, createSlice } from '@reduxjs/toolkit'
-
 import { getOrderTitle } from '../../config/orders'
-import { ORDER_OPTIONS } from '../../constants'
+import { DEFAULT_ORDER } from '../../constants'
 import debugThrottle from '../../operators/debugThrottle'
-import constructFilter from '../../utils/constructFilter'
-import { searchActions } from '../search'
-import { UPLOADS_ACTIONS } from '../uploads/actions'
-import { ASSETS_ACTIONS } from './actions'
-
-import type { PayloadAction } from '@reduxjs/toolkit'
-
-import type { ClientError, Patch, Transaction } from '@sanity/client'
 import type {
   Asset,
   AssetItem,
@@ -33,11 +27,14 @@ import type {
   HttpError,
   MyEpic,
   Order,
-  OrderDirection,
   Tag
 } from '../../types'
-import type { Selector } from 'react-redux'
+import constructFilter from '../../utils/constructFilter'
+import { isAssetDocument } from '../../utils/typeGuards'
+import { searchActions } from '../search'
 import type { RootReducerState } from '../types'
+import { UPLOADS_ACTIONS } from '../uploads/actions'
+import { ASSETS_ACTIONS } from './actions'
 type ItemError = {
   description: string
   id: string
@@ -59,11 +56,6 @@ export type AssetsReducerState = {
   pageSize: number
   view: BrowserView
   // totalCount: number
-}
-
-const defaultOrder = ORDER_OPTIONS[0] as {
-  direction: OrderDirection
-  field: string
 }
 
 /**
@@ -88,9 +80,9 @@ export const initialState = {
   fetchingError: undefined,
   lastPicked: undefined,
   order: {
-    direction: defaultOrder.direction,
-    field: defaultOrder.field,
-    title: getOrderTitle(defaultOrder.field, defaultOrder.direction)
+    direction: DEFAULT_ORDER.direction,
+    field: DEFAULT_ORDER.field,
+    title: getOrderTitle(DEFAULT_ORDER.field, DEFAULT_ORDER.direction)
   },
   pageIndex: 0,
   pageSize: 100,
@@ -106,9 +98,13 @@ const assetsSlice = createSlice({
       .addCase(UPLOADS_ACTIONS.uploadComplete, (state, action) => {
         const { asset } = action.payload
 
+        if (!isAssetDocument(asset)) {
+          return
+        }
+
         state.byIds[asset._id] = {
           _type: 'asset',
-          asset: asset as Asset,
+          asset,
           picked: false,
           updating: false
         }

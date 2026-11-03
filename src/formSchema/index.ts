@@ -13,7 +13,6 @@ export const tagFormSchema = z.object({
 
 const hasText = (text: string | null | undefined): boolean => Boolean(text?.trim())
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createAssetFormSchema = (
   languages: MediaToolOptions['languages'],
   validateAltTexts: boolean = false

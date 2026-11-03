@@ -1,12 +1,13 @@
 import { CloseIcon } from '@sanity/icons/Close'
 import { Box, Flex, Label, rem, Text } from '@sanity/ui'
 import { getTheme_v2, type ThemeColorSchemeKey } from '@sanity/ui/theme'
-import type { SearchFacetInputProps, WithId } from '../../types'
 import { type ReactNode } from 'react'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
 import { styled, css } from 'styled-components'
+
 import { searchActions } from '../../modules/search'
+import type { SearchFacetInputProps, WithId } from '../../types'
 import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
@@ -14,14 +15,15 @@ type Props = {
   facet: WithId<SearchFacetInputProps>
 }
 
-const Container = styled<typeof Box, { $scheme: ThemeColorSchemeKey }>(Box)(
-  ({ $scheme, theme }) => {
-    return css`
-      background: ${getSchemeColor($scheme, 'bg')};
-      border-radius: ${rem(getTheme_v2(theme).radius[2])};
-    `
-  }
-)
+const Container = styled<typeof Box, { $scheme: ThemeColorSchemeKey }>(Box)(({
+  $scheme,
+  theme
+}) => {
+  return css`
+    background: ${getSchemeColor($scheme, 'bg')};
+    border-radius: ${rem(getTheme_v2(theme).radius[2])};
+  `
+})
 
 const SearchFacet = (props: Props) => {
   const { children, facet } = props

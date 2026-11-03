@@ -1,6 +1,5 @@
-import type { Dialog } from '../../types'
-
 import useTypedSelector from '../../hooks/useTypedSelector'
+import type { Dialog } from '../../types'
 import DialogAssetEdit from '../DialogAssetEdit'
 import DialogConfirm from '../DialogConfirm'
 import DialogSearchFacets from '../DialogSearchFacets'

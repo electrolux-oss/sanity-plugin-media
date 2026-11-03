@@ -1,9 +1,8 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { ClientError, SanityAssetDocument, SanityImageAssetDocument } from '@sanity/client'
-import type { HttpError, MyEpic, SanityUploadProgressEvent, UploadItem } from '../../types'
 import groq from 'groq'
 import type { Selector } from 'react-redux'
-import { empty, from, merge, of } from 'rxjs'
+import { EMPTY, from, merge, of } from 'rxjs'
 import {
   catchError,
   delay,
@@ -13,6 +12,8 @@ import {
   takeUntil,
   withLatestFrom
 } from 'rxjs/operators'
+
+import type { HttpError, MyEpic, SanityUploadProgressEvent, UploadItem } from '../../types'
 import constructFilter from '../../utils/constructFilter'
 import { generatePreviewBlobUrl$ } from '../../utils/generatePreviewBlobUrl'
 import { recordUploader } from '../../utils/recordUploader'
@@ -166,7 +167,7 @@ export const uploadsAssetStartEpic: MyEpic = (action$, _state$, { client }) =>
                 })
               )
             }
-            return empty()
+            return EMPTY
           }),
           catchError((error: ClientError) =>
             of(
@@ -235,12 +236,12 @@ export const uploadsRecordUploaderEpic: MyEpic = (action$, _state$, { client, up
     mergeMap(action =>
       (uploader
         ? from(recordUploader({ client, assetId: action.payload.asset._id, uploader }))
-        : empty()
+        : EMPTY
       ).pipe(
         ignoreElements(),
         catchError(error => {
           console.error('[sanity-plugin-media] Failed to record the uploader:', error)
-          return empty()
+          return EMPTY
         })
       )
     )

@@ -1,9 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { AssetItem, Dialog, MyEpic, Tag } from '../../types'
 import pluralize from 'pluralize'
 import { ofType } from 'redux-observable'
 import { EMPTY, of } from 'rxjs'
 import { filter, mergeMap } from 'rxjs/operators'
+
+import type { AssetItem, Dialog, MyEpic, Tag } from '../../types'
 import { assetsActions } from '../assets'
 import { ASSETS_ACTIONS } from '../assets/actions'
 import { tagsActions } from '../tags'
@@ -208,7 +209,7 @@ export const dialogTagCreateEpic: MyEpic = action$ =>
   action$.pipe(
     filter(tagsActions.createComplete.match),
     mergeMap(action => {
-      const { assetId, tag } = action?.payload
+      const { assetId, tag } = action.payload
 
       if (assetId) {
         return of(dialogSlice.actions.inlineTagCreate({ tag, assetId }))
@@ -226,7 +227,7 @@ export const dialogTagDeleteEpic: MyEpic = action$ =>
   action$.pipe(
     filter(tagsActions.listenerDeleteQueueComplete.match),
     mergeMap(action => {
-      const { tagIds } = action?.payload
+      const { tagIds } = action.payload
 
       return of(dialogSlice.actions.inlineTagRemove({ tagIds }))
     })

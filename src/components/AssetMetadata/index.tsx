@@ -1,18 +1,15 @@
-import { format } from 'date-fns'
-import filesize from 'filesize'
-
 import { DownloadIcon } from '@sanity/icons/Download'
 import { SyncIcon } from '@sanity/icons/Sync'
 import { Box, Button, Flex, Inline, Stack, Text } from '@sanity/ui'
+import { format } from 'date-fns/format'
+import filesize from 'filesize'
+import { type ReactNode, useState } from 'react'
 
 import useVersionedClient from '../../hooks/useVersionedClient'
+import type { Asset, AssetItem, Uploader } from '../../types'
 import getAssetResolution from '../../utils/getAssetResolution'
 import { isImageAsset } from '../../utils/typeGuards'
 import ButtonAssetCopy from '../ButtonAssetCopy'
-
-import { type ReactNode, useState } from 'react'
-
-import type { Asset, AssetItem, Uploader } from '../../types'
 type Props = {
   asset: Asset
   item?: AssetItem
@@ -100,7 +97,7 @@ const UploaderRow = ({ uploadedBy }: { uploadedBy: Uploader | string | undefined
       const response = await client
         .withConfig({ apiVersion: '2021-06-07' })
         .request<FetchedUser | FetchedUser[] | null>({
-          uri: `/users/${userId}`,
+          url: `/users/${userId}`,
           tag: 'media.uploader'
         })
       const user = Array.isArray(response) ? response[0] : response

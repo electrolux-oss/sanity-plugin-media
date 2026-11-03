@@ -43,6 +43,7 @@ export function mediaField(
 ): MediaFieldResult<ImageDefinition> | MediaFieldResult<FileDefinition> {
   const { mediaTags, options, components, ...rest } = config
 
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- sanity's typed field definitions don't widen back to the schema definition type the overloads return
   return {
     ...rest,
     options: { ...options, mediaTags },

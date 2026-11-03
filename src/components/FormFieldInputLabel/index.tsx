@@ -1,9 +1,8 @@
-import { styled } from 'styled-components'
-
 import { ErrorOutlineIcon } from '@sanity/icons/ErrorOutline'
 import { Box, Inline, Text } from '@sanity/ui'
 import { getTheme_v2 } from '@sanity/ui/theme'
 import { Tooltip } from '@sanity/ui/tooltip'
+import { styled } from 'styled-components'
 
 type Props = {
   description?: string

@@ -1,17 +1,17 @@
 import { SelectIcon } from '@sanity/icons/Select'
 import { Box, Button } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
+import { useDispatch } from 'react-redux'
+
+import { operators } from '../../config/searchFacets'
+import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
+import { searchActions } from '../../modules/search'
 import type {
   SearchFacetInputNumberModifier,
   SearchFacetInputNumberProps,
   SearchFacetOperatorType,
   WithId
 } from '../../types'
-
-import { useDispatch } from 'react-redux'
-import { operators } from '../../config/searchFacets'
-import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
-import { searchActions } from '../../modules/search'
 import SearchFacet from '../SearchFacet'
 import TextInputNumber from '../TextInputNumber'
 
@@ -38,7 +38,7 @@ const SearchFacetNumber = ({ facet }: Props) => {
     dispatch(searchActions.facetsUpdateById({ id: facet.id, modifier: modifier.name }))
   }
 
-  const handleValueChange = (value: number) => {
+  const handleValueChange = (value: number | '') => {
     dispatch(searchActions.facetsUpdateById({ id: facet.id, value }))
   }
 
@@ -75,6 +75,7 @@ const SearchFacetNumber = ({ facet }: Props) => {
                   )
                 }
 
+                // oxlint-disable-next-line react/no-array-index-key -- null entries in the static operator list are dividers with no identity of their own
                 return <MenuDivider key={index} />
               })}
             </Menu>

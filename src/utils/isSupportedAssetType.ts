@@ -1,5 +1,4 @@
 import { SUPPORTED_ASSET_TYPES } from '../constants'
-
 import type { AssetType } from '../types'
 
 /**

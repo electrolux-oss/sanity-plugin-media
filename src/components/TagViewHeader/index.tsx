@@ -2,6 +2,7 @@ import { ComposeIcon } from '@sanity/icons/Compose'
 import { Box, Button, Flex, Inline, Label } from '@sanity/ui'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
+
 import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { DIALOG_ACTIONS } from '../../modules/dialog/actions'

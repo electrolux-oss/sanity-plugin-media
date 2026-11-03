@@ -1,9 +1,8 @@
-import pluralize from 'pluralize'
-
 import { ArrowRightIcon } from '@sanity/icons/ArrowRight'
 import { CloseIcon } from '@sanity/icons/Close'
 import { UploadIcon } from '@sanity/icons/Upload'
 import { Box, Button, Flex, Inline, Text } from '@sanity/ui'
+import pluralize from 'pluralize'
 
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import { useDropzoneActions } from '../../contexts/DropzoneDispatchContext'

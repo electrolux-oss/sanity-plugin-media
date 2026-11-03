@@ -1,3 +1,5 @@
+import { EditIcon } from '@sanity/icons/Edit'
+import { ImageIcon } from '@sanity/icons/Image'
 import {
   type AssetSource,
   type AssetSourceResolver,
@@ -5,20 +7,17 @@ import {
   type Tool as SanityTool
 } from 'sanity'
 
-import { EditIcon } from '@sanity/icons/Edit'
-import { ImageIcon } from '@sanity/icons/Image'
+import AssetSourcesInput from './components/AssetSourcesInput'
 import EditAssetTool from './components/EditAssetTool'
 import FormBuilderTool from './components/FormBuilderTool'
-import AssetSourcesInput from './components/AssetSourcesInput'
 import Tool from './components/Tool'
 import UploadRejectionToasts from './components/UploadRejectionToasts'
 import { EDIT_MEDIA_SOURCE_NAME } from './constants'
 import { ToolOptionsProvider } from './contexts/ToolOptionsContext'
 import mediaTag from './schemas/tag'
+import type { MediaToolOptions } from './types'
 import { withMaximumUploadSize } from './utils/withMaximumUploadSize'
 import { withUploaderRecording } from './utils/withUploaderRecording'
-
-import type { MediaToolOptions } from './types'
 const plugin = {
   icon: ImageIcon,
   name: 'media',
@@ -39,6 +38,7 @@ const selectOnlyMediaAssetSource = {
 const editMediaAssetSource = {
   icon: EditIcon,
   name: EDIT_MEDIA_SOURCE_NAME,
+  // oxlint-disable-next-line typescript/no-deprecated -- i18nKey needs a registered locale bundle, which the plugin doesn't ship
   title: 'Edit Media',
   component: EditAssetTool
 } satisfies AssetSource

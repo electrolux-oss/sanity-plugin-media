@@ -3,6 +3,7 @@ import { Box, Button, Flex, Grid, Stack, Text, useMediaIndex } from '@sanity/ui'
 import filesize from 'filesize'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
+
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { selectUploadById, uploadsActions } from '../../modules/uploads'
@@ -57,8 +58,8 @@ const TableRowUpload = (props: Props) => {
       style={{
         alignItems: 'center',
         background: getSchemeColor(scheme, 'bg'),
-        gridColumnGap: mediaIndex < 3 ? 0 : '16px',
-        gridRowGap: 0,
+        columnGap: mediaIndex < 3 ? 0 : '16px',
+        rowGap: 0,
         gridTemplateColumns:
           mediaIndex < 3 ? GRID_TEMPLATE_COLUMNS.SMALL : GRID_TEMPLATE_COLUMNS.LARGE,
         gridTemplateRows: mediaIndex < 3 ? 'auto' : '1fr',

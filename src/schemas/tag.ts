@@ -1,7 +1,7 @@
 import { defineField, defineType } from 'sanity'
 
-import { TAG_DOCUMENT_NAME } from '../constants'
 import TagIcon from '../components/TagIcon'
+import { TAG_DOCUMENT_NAME } from '../constants'
 
 export default defineType({
   title: 'Media Tag',

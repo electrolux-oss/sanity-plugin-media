@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Flex } from '@sanity/ui'
-import type { DialogTagCreateProps, TagFormData } from '../../types'
 import { type ReactNode, useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
+
 import { tagFormSchema } from '../../formSchema'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { dialogActions } from '../../modules/dialog'
 import { tagsActions } from '../../modules/tags'
+import type { DialogTagCreateProps, TagFormData } from '../../types'
 import sanitizeFormData from '../../utils/sanitizeFormData'
 import Dialog from '../Dialog'
 import FormFieldInputText from '../FormFieldInputText'
@@ -64,7 +65,7 @@ const DialogTagCreate = (props: Props) => {
     }
   }, [creatingError, setError])
 
-  const Footer = () => (
+  const footer = (
     <Box padding={3}>
       <Flex justify="flex-end">
         {/* Submit button */}
@@ -78,11 +79,11 @@ const DialogTagCreate = (props: Props) => {
   )
 
   return (
-    <Dialog animate footer={<Footer />} header="Create Tag" id={id} onClose={handleClose} width={1}>
+    <Dialog animate footer={footer} header="Create Tag" id={id} onClose={handleClose} width={1}>
       {/* Form fields */}
       <Box as="form" padding={4} onSubmit={handleSubmit(onSubmit)}>
         {/* Hidden button to enable enter key submissions */}
-        <button style={{ display: 'none' }} tabIndex={-1} type="submit" />
+        <button aria-label="Save" style={{ display: 'none' }} tabIndex={-1} type="submit" />
 
         {/* Title */}
         <FormFieldInputText

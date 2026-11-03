@@ -1,15 +1,13 @@
+import { Box } from '@sanity/ui'
 import { useCallback } from 'react'
+import type { ReactNode } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Box } from '@sanity/ui'
-
 import { dialogActions } from '../../modules/dialog'
+import type { DialogSearchFacetsProps } from '../../types'
 import Dialog from '../Dialog'
 import SearchFacets from '../SearchFacets'
 import SearchFacetsControl from '../SearchFacetsControl'
-
-import type { ReactNode } from 'react'
-import type { DialogSearchFacetsProps } from '../../types'
 type Props = {
   children: ReactNode
   dialog: DialogSearchFacetsProps
@@ -27,7 +25,7 @@ const DialogSearchFacets = (props: Props) => {
   // Callbacks
   const handleClose = useCallback(() => {
     dispatch(dialogActions.clear())
-  }, [])
+  }, [dispatch])
 
   return (
     <Dialog animate header="Filters" id={id} onClose={handleClose} width={1}>

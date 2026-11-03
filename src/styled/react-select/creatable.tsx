@@ -1,16 +1,15 @@
-import { components } from 'react-select'
-import { Virtuoso } from 'react-virtuoso'
-import { useColorSchemeValue } from 'sanity'
-
 import { AddIcon } from '@sanity/icons/Add'
 import { ChevronDownIcon } from '@sanity/icons/ChevronDown'
 import { CloseIcon } from '@sanity/icons/Close'
 import { Box, Card, Flex, rem, Text, useTheme_v2 } from '@sanity/ui'
-
-import { getSchemeColor } from '../../utils/getSchemeColor'
-
+import { components } from 'react-select'
 import type { StylesConfig } from 'react-select'
-export const useReactSelectStyles = (): StylesConfig => {
+import { Virtuoso } from 'react-virtuoso'
+import { useColorSchemeValue } from 'sanity'
+
+import type { TagSelectOption } from '../../types'
+import { getSchemeColor } from '../../utils/getSchemeColor'
+export const useReactSelectStyles = (): StylesConfig<TagSelectOption, true> => {
   const scheme = useColorSchemeValue()
   const { color, font, radius, space } = useTheme_v2()
 
@@ -123,6 +122,10 @@ const Menu = (props: any) => {
   )
 }
 
+const renderOption = (_index: number, item: { props: object }) => {
+  return <Option {...item.props} />
+}
+
 const MenuList = (props: any) => {
   const { children } = props
 
@@ -136,12 +139,9 @@ const MenuList = (props: any) => {
     return (
       <Virtuoso
         className="media__custom-scrollbar"
-        itemContent={index => {
-          const item = children[index]
-          return <Option {...item.props} />
-        }}
+        data={children}
+        itemContent={renderOption}
         style={{ height }}
-        totalCount={children.length}
       />
     )
   }

@@ -1,7 +1,3 @@
-import type { ReactNode } from 'react'
-import { useDispatch } from 'react-redux'
-import { styled } from 'styled-components'
-
 import { ArrowDownIcon } from '@sanity/icons/ArrowDown'
 import { ArrowUpIcon } from '@sanity/icons/ArrowUp'
 import { CloseIcon } from '@sanity/icons/Close'
@@ -10,6 +6,9 @@ import { SearchIcon } from '@sanity/icons/Search'
 import { TrashIcon } from '@sanity/icons/Trash'
 import { Box, Button, Container, Flex, Text } from '@sanity/ui'
 import { Tooltip } from '@sanity/ui/tooltip'
+import type { ReactNode } from 'react'
+import { useDispatch } from 'react-redux'
+import { styled } from 'styled-components'
 
 import { inputs } from '../../config/searchFacets'
 import { PANEL_HEIGHT } from '../../constants'
@@ -18,7 +17,6 @@ import { selectAssetsPicked } from '../../modules/assets'
 import { dialogActions } from '../../modules/dialog'
 import { DIALOG_ACTIONS } from '../../modules/dialog/actions'
 import { searchActions, selectIsSearchFacetTag } from '../../modules/search'
-
 import type { SearchFacetInputSearchableProps, TagActions, TagItem } from '../../types'
 type Props = {
   actions?: TagActions[]
@@ -109,13 +107,13 @@ const Tag = (props: Props) => {
   }
 
   const handleSearchFacetTagAddOrUpdate = () => {
-    const searchFacet = {
+    const searchFacet: SearchFacetInputSearchableProps = {
       ...inputs.tag,
       value: {
-        label: tag?.tag?.name?.current,
-        value: tag?.tag?._id
+        label: tag.tag.name.current,
+        value: tag.tag._id
       }
-    } as SearchFacetInputSearchableProps
+    }
 
     if (isSearchFacetTag) {
       dispatch(
