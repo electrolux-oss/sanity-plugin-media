@@ -9,7 +9,7 @@ import type {
 
 export const divider: SearchFacetDivider = { type: 'divider' }
 
-export const inputs: Record<SearchFacetName, SearchFacetInputProps> = {
+export const inputs = {
   altTexts: {
     assetTypes: ['file', 'image'],
     field: 'altTexts',
@@ -252,7 +252,7 @@ export const inputs: Record<SearchFacetName, SearchFacetInputProps> = {
     type: 'number',
     value: 400
   }
-}
+} satisfies Record<SearchFacetName, SearchFacetInputProps>
 
 export const operators: SearchFacetOperators = {
   doesNotInclude: {

@@ -1,9 +1,10 @@
 import { Box, Portal, PortalProvider, useLayer } from '@sanity/ui'
 import type { SyntheticEvent } from 'react'
-import { type AssetSourceComponentProps, type SanityDocument, useFormValue } from 'sanity'
+import { type AssetSourceComponentProps, useFormValue } from 'sanity'
 
 import useKeyPress from '../../hooks/useKeyPress'
 import useRootPortalElement from '../../hooks/useRootPortalElement'
+import { isSanityDocument } from '../../utils/typeGuards'
 import Browser from '../Browser'
 
 const FormBuilderTool = (props: AssetSourceComponentProps) => {
@@ -12,7 +13,8 @@ const FormBuilderTool = (props: AssetSourceComponentProps) => {
   const portalElement = useRootPortalElement()
 
   // Get current Sanity document
-  const currentDocument = useFormValue([]) as SanityDocument
+  const formValue = useFormValue([])
+  const currentDocument = isSanityDocument(formValue) ? formValue : undefined
 
   // Close on escape key press
   useKeyPress('escape', onClose)

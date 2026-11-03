@@ -4,9 +4,10 @@ import { components, type StylesConfig } from 'react-select'
 import { Virtuoso } from 'react-virtuoso'
 import { useColorSchemeValue } from 'sanity'
 
+import type { TagSelectOption } from '../../types'
 import { getSchemeColor } from '../../utils/getSchemeColor'
 
-export const useReactSelectStyles = (): StylesConfig => {
+export const useReactSelectStyles = (): StylesConfig<TagSelectOption, false> => {
   const scheme = useColorSchemeValue()
   const { color, font, radius, space } = useTheme_v2()
 
@@ -115,6 +116,10 @@ const Menu = (props: any) => {
   )
 }
 
+const renderOption = (_index: number, item: { props: object }) => {
+  return <Option {...item.props} />
+}
+
 const MenuList = (props: any) => {
   const { children } = props
 
@@ -128,12 +133,9 @@ const MenuList = (props: any) => {
     return (
       <Virtuoso
         className="media__custom-scrollbar"
-        itemContent={index => {
-          const item = children[index]
-          return <Option {...item.props} />
-        }}
+        data={children}
+        itemContent={renderOption}
         style={{ height }}
-        totalCount={children.length}
       />
     )
   }

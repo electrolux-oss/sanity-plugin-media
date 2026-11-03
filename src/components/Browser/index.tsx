@@ -4,7 +4,7 @@ import groq from 'groq'
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import type { SanityDocument } from 'sanity'
-import type { AssetSourceComponentProps } from 'sanity'
+import type { AssetSourceComponentProps, FileOptions } from 'sanity'
 
 import { inputs } from '../../config/searchFacets'
 import { TAG_DOCUMENT_NAME } from '../../constants'
@@ -16,7 +16,7 @@ import { assetsActions } from '../../modules/assets'
 import { searchActions } from '../../modules/search'
 import { tagsActions } from '../../modules/tags'
 import GlobalStyle from '../../styled/GlobalStyles'
-import type { Asset, Tag } from '../../types'
+import { isAssetDocument, isTagDocument } from '../../utils/typeGuards'
 import Controls from '../Controls'
 import DebugControls from '../DebugControls'
 import Dialogs from '../Dialogs'
@@ -37,7 +37,8 @@ type Props = {
 }
 
 const getMediaTagNames = (schemaType?: AssetSourceComponentProps['schemaType']): string[] => {
-  const mediaTags = (schemaType?.options as { mediaTags?: string[] } | undefined)?.mediaTags ?? []
+  const fieldOptions: FileOptions | undefined = schemaType?.options
+  const mediaTags = fieldOptions?.mediaTags ?? []
   const names = mediaTags.map(tag => tag?.trim()).filter((tag): tag is string => Boolean(tag))
   return Array.from(new Set(names))
 }
@@ -107,32 +108,32 @@ const BrowserContent = ({
     const handleAssetUpdate = (update: MutationEvent) => {
       const { documentId, result, transition } = update
 
-      if (transition === 'appear') {
-        dispatch(assetsActions.listenerCreateQueue({ asset: result as Asset }))
+      if (transition === 'appear' && result && isAssetDocument(result)) {
+        dispatch(assetsActions.listenerCreateQueue({ asset: result }))
       }
 
       if (transition === 'disappear') {
         dispatch(assetsActions.listenerDeleteQueue({ assetId: documentId }))
       }
 
-      if (transition === 'update') {
-        dispatch(assetsActions.listenerUpdateQueue({ asset: result as Asset }))
+      if (transition === 'update' && result && isAssetDocument(result)) {
+        dispatch(assetsActions.listenerUpdateQueue({ asset: result }))
       }
     }
 
     const handleTagUpdate = (update: MutationEvent) => {
       const { documentId, result, transition } = update
 
-      if (transition === 'appear') {
-        dispatch(tagsActions.listenerCreateQueue({ tag: result as Tag }))
+      if (transition === 'appear' && result && isTagDocument(result)) {
+        dispatch(tagsActions.listenerCreateQueue({ tag: result }))
       }
 
       if (transition === 'disappear') {
         dispatch(tagsActions.listenerDeleteQueue({ tagId: documentId }))
       }
 
-      if (transition === 'update') {
-        dispatch(tagsActions.listenerUpdateQueue({ tag: result as Tag }))
+      if (transition === 'update' && result && isTagDocument(result)) {
+        dispatch(tagsActions.listenerUpdateQueue({ tag: result }))
       }
     }
 

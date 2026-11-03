@@ -38,6 +38,7 @@ const selectOnlyMediaAssetSource = {
 const editMediaAssetSource = {
   icon: EditIcon,
   name: EDIT_MEDIA_SOURCE_NAME,
+  // oxlint-disable-next-line typescript/no-deprecated -- i18nKey needs a registered locale bundle, which the plugin doesn't ship
   title: 'Edit Media',
   component: EditAssetTool
 } satisfies AssetSource

@@ -38,7 +38,7 @@ const SearchFacetNumber = ({ facet }: Props) => {
     dispatch(searchActions.facetsUpdateById({ id: facet.id, modifier: modifier.name }))
   }
 
-  const handleValueChange = (value: number) => {
+  const handleValueChange = (value: number | '') => {
     dispatch(searchActions.facetsUpdateById({ id: facet.id, value }))
   }
 
@@ -75,6 +75,7 @@ const SearchFacetNumber = ({ facet }: Props) => {
                   )
                 }
 
+                // oxlint-disable-next-line react/no-array-index-key -- null entries in the static operator list are dividers with no identity of their own
                 return <MenuDivider key={index} />
               })}
             </Menu>

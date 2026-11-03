@@ -1,25 +1,27 @@
 import type { AssetSource, AssetSourceUploader, SanityClient } from 'sanity'
+import * as z from 'zod'
 
 import type { Uploader } from '../types'
 import { recordUploader } from './recordUploader'
 
-type AssetRefPatch = {
-  type?: string
-  path?: unknown[]
-  value?: { _ref?: string }
-}
+const assetRefPatchSchema = z.object({
+  type: z.literal('set'),
+  path: z.tuple([z.literal('asset')]),
+  value: z.object({ _ref: z.string() })
+})
 
 const getUploadedAssetId = (patches: unknown): string | undefined => {
-  const list = (Array.isArray(patches) ? patches : [patches]) as AssetRefPatch[]
-  const assetPatch = list.find(
-    patch =>
-      patch?.type === 'set' &&
-      patch.path?.length === 1 &&
-      patch.path[0] === 'asset' &&
-      typeof patch.value?._ref === 'string'
-  )
+  const list: unknown[] = Array.isArray(patches) ? patches : [patches]
 
-  return assetPatch?.value?._ref
+  for (const patch of list) {
+    const result = assetRefPatchSchema.safeParse(patch)
+
+    if (result.success) {
+      return result.data.value._ref
+    }
+  }
+
+  return undefined
 }
 
 /**

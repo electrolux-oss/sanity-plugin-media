@@ -46,19 +46,19 @@ const DragActiveContainer = styled.div`
 // We check for files by reading the first byte of the file
 async function filterFiles(fileList: FileList) {
   const files = Array.from(fileList)
+  const readable = await Promise.all(
+    files.map(file =>
+      file
+        .slice(0, 1)
+        .arrayBuffer()
+        .then(
+          () => true,
+          () => false
+        )
+    )
+  )
 
-  const filteredFiles: File[] = []
-
-  for (const file of files) {
-    try {
-      await file.slice(0, 1).arrayBuffer()
-      filteredFiles.push(file)
-    } catch (err) {
-      // do nothing: file is a package or folder
-    }
-  }
-
-  return filteredFiles
+  return files.filter((_file, index) => readable[index])
 }
 
 const UploadDropzone = (props: Props) => {
@@ -109,8 +109,8 @@ const UploadDropzone = (props: Props) => {
       fileList = event?.dataTransfer?.files
     }
     if (event.type === 'change') {
-      const target = event?.target as HTMLInputElement
-      if (target?.files) {
+      const target = event?.target
+      if (target instanceof HTMLInputElement && target.files) {
         fileList = target.files
       }
     }

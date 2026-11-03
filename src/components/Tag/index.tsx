@@ -107,13 +107,13 @@ const Tag = (props: Props) => {
   }
 
   const handleSearchFacetTagAddOrUpdate = () => {
-    const searchFacet = {
+    const searchFacet: SearchFacetInputSearchableProps = {
       ...inputs.tag,
       value: {
-        label: tag?.tag?.name?.current,
-        value: tag?.tag?._id
+        label: tag.tag.name.current,
+        value: tag.tag._id
       }
-    } as SearchFacetInputSearchableProps
+    }
 
     if (isSearchFacetTag) {
       dispatch(

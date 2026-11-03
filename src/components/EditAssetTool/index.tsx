@@ -1,7 +1,7 @@
 import { PortalProvider } from '@sanity/ui'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { type AssetSourceComponentProps, type SanityDocument, useFormValue } from 'sanity'
+import { type AssetSourceComponentProps, useFormValue } from 'sanity'
 
 import { AssetBrowserDispatchProvider } from '../../contexts/AssetSourceDispatchContext'
 import useRootPortalElement from '../../hooks/useRootPortalElement'
@@ -12,6 +12,7 @@ import { dialogActions } from '../../modules/dialog'
 import { tagsActions } from '../../modules/tags'
 import GlobalStyle from '../../styled/GlobalStyles'
 import constructFilter from '../../utils/constructFilter'
+import { isSanityDocument } from '../../utils/typeGuards'
 import Dialogs from '../Dialogs'
 import Notifications from '../Notifications'
 import ReduxProvider from '../ReduxProvider'
@@ -57,7 +58,8 @@ const EditAssetTool = (props: AssetSourceComponentProps) => {
   const { onClose, selectedAssets } = props
 
   const portalElement = useRootPortalElement()
-  const currentDocument = useFormValue([]) as SanityDocument | null | undefined
+  const formValue = useFormValue([])
+  const currentDocument = isSanityDocument(formValue) ? formValue : undefined
   const client = useVersionedClient()
 
   const assetId = selectedAssets[0]?._id
@@ -76,7 +78,7 @@ const EditAssetTool = (props: AssetSourceComponentProps) => {
     <ReduxProvider
       assetType={props.assetType}
       client={client}
-      document={currentDocument ?? undefined}
+      document={currentDocument}
       selectedAssets={selectedAssets}
     >
       <AssetBrowserDispatchProvider onSelect={props.onSelect}>

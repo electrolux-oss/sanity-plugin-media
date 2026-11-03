@@ -1,60 +1,34 @@
 import type { AssetSourceComponentProps } from 'sanity'
 
 import { divider, inputs } from './config/searchFacets'
-import type {
-  SearchFacetInputProps,
-  SearchFacetDivider,
-  SearchFacetGroup,
-  OrderDirection
-} from './types'
+import type { SearchFacetInputProps, SearchFacetDivider, SearchFacetGroup, Order } from './types'
 
 export const SUPPORTED_ASSET_TYPES = [
   'file',
   'image'
 ] as const satisfies AssetSourceComponentProps['assetType'][]
 
-// Sort order dropdown options
-// null values are represented as menu dividers
-export const ORDER_OPTIONS: ({ direction: OrderDirection; field: string } | null)[] = [
-  {
-    direction: 'desc',
-    field: '_createdAt'
-  },
-  {
-    direction: 'asc',
-    field: '_createdAt'
-  },
-  // Divider
-  null,
-  {
-    direction: 'desc',
-    field: '_updatedAt'
-  },
-  {
-    direction: 'asc' as OrderDirection,
-    field: '_updatedAt'
-  },
-  // Divider
-  null,
-  {
-    direction: 'asc',
-    field: 'originalFilename'
-  },
-  {
-    direction: 'desc',
-    field: 'originalFilename'
-  },
-  // Divider
-  null,
-  {
-    direction: 'desc',
-    field: 'size'
-  },
-  {
-    direction: 'asc',
-    field: 'size'
-  }
+// Sort order dropdown options, with menu dividers between groups
+export const ORDER_OPTION_GROUPS: Order[][] = [
+  [
+    { direction: 'desc', field: '_createdAt' },
+    { direction: 'asc', field: '_createdAt' }
+  ],
+  [
+    { direction: 'desc', field: '_updatedAt' },
+    { direction: 'asc', field: '_updatedAt' }
+  ],
+  [
+    { direction: 'asc', field: 'originalFilename' },
+    { direction: 'desc', field: 'originalFilename' }
+  ],
+  [
+    { direction: 'desc', field: 'size' },
+    { direction: 'asc', field: 'size' }
+  ]
 ]
+
+export const DEFAULT_ORDER: Order = { direction: 'desc', field: '_createdAt' }
 
 export const FACETS: (SearchFacetDivider | SearchFacetGroup | SearchFacetInputProps)[] = [
   inputs.tag,

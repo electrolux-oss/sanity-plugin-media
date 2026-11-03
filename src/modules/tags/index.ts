@@ -3,7 +3,7 @@ import type { ClientError, Transaction } from '@sanity/client'
 import groq from 'groq'
 import type { Selector } from 'react-redux'
 import { ofType } from 'redux-observable'
-import { from, Observable, of } from 'rxjs'
+import { from, of } from 'rxjs'
 import { bufferTime, catchError, filter, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators'
 
 import { TAG_DOCUMENT_NAME } from '../../constants'
@@ -274,7 +274,7 @@ export const tagsCreateEpic: MyEpic = (action$, state$, { client }) =>
         debugThrottle(state.debug.badConnection),
         checkTagName(client, name),
         mergeMap(() =>
-          client.observable.create({
+          client.observable.create<Pick<Tag, 'name'>>({
             _type: TAG_DOCUMENT_NAME,
             name: {
               _type: 'slug',
@@ -282,7 +282,7 @@ export const tagsCreateEpic: MyEpic = (action$, state$, { client }) =>
             }
           })
         ),
-        mergeMap(result => of(tagsSlice.actions.createComplete({ assetId, tag: result as Tag }))),
+        mergeMap(result => of(tagsSlice.actions.createComplete({ assetId, tag: result }))),
         catchError((error: ClientError) =>
           of(
             tagsSlice.actions.createError({
@@ -466,14 +466,13 @@ export const tagsUpdateEpic: MyEpic = (action$, state$, { client }) =>
         // Check if tag name is available, throw early if not
         checkTagName(client, formData?.name?.current),
         // Patch document (Update tag)
-        mergeMap(
-          () =>
-            from(
-              client
-                .patch(tag._id)
-                .set({ name: { _type: 'slug', current: formData?.name.current } })
-                .commit()
-            ) as Observable<Tag>
+        mergeMap(() =>
+          from(
+            client
+              .patch(tag._id)
+              .set({ name: { _type: 'slug', current: formData?.name.current } })
+              .commit<Pick<Tag, 'name'>>()
+          )
         ),
         // Dispatch complete action
         mergeMap((updatedTag: Tag) => {

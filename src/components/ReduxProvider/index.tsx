@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import type { AnyAction, Store } from '@reduxjs/toolkit'
+import type { Action, Store } from '@reduxjs/toolkit'
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Provider } from 'react-redux'
@@ -38,7 +38,7 @@ type CreatedStore = {
 
 const createReduxStore = (props: Props & { uploader?: Uploader }): CreatedStore => {
   // Initialize redux store + middleware
-  const epicMiddleware = createEpicMiddleware<AnyAction, AnyAction, RootReducerState>({
+  const epicMiddleware = createEpicMiddleware<Action, Action, RootReducerState>({
     dependencies: {
       client: props.client, // inject sanity client as a dependency to all epics
       uploader: props.uploader

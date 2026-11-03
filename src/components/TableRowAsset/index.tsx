@@ -4,23 +4,23 @@ import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
 import { Box, Checkbox, Container, Flex, Grid, Spinner, Text, useMediaIndex } from '@sanity/ui'
 import { getTheme_v2, type ThemeColorSchemeKey } from '@sanity/ui/theme'
 import { Tooltip } from '@sanity/ui/tooltip'
-import { formatRelative } from 'date-fns'
+import { formatRelative } from 'date-fns/formatRelative'
 import filesize from 'filesize'
 import { memo, type MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { useDispatch } from 'react-redux'
-import { useColorSchemeValue, WithReferringDocuments } from 'sanity'
+import { useColorSchemeValue } from 'sanity'
 import { css, styled } from 'styled-components'
 
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import useKeyPress from '../../hooks/useKeyPress'
 import useTypedSelector from '../../hooks/useTypedSelector'
+import useUniqueReferringDocuments from '../../hooks/useUniqueReferringDocuments'
 import { assetsActions, selectAssetById } from '../../modules/assets'
 import { dialogActions } from '../../modules/dialog'
 import getAssetResolution from '../../utils/getAssetResolution'
 import { getSchemeColor } from '../../utils/getSchemeColor'
-import { getUniqueDocuments } from '../../utils/getUniqueDocuments'
 import imageDprUrl from '../../utils/imageDprUrl'
 import { isFileAsset, isImageAsset } from '../../utils/typeGuards'
 import FileIcon from '../FileIcon'
@@ -78,7 +78,12 @@ const StyledWarningIcon = styled(WarningFilledIcon)(({ theme }) => {
   }
 })
 
-// eslint-disable-next-line complexity
+const ReferenceCount = ({ id }: { id: string }) => {
+  const { isLoading, referringDocuments } = useUniqueReferringDocuments(id)
+
+  return isLoading ? <>-</> : <>{referringDocuments.length}</>
+}
+
 const TableRowAsset = (props: Props) => {
   const { id, selected } = props
 
@@ -86,6 +91,7 @@ const TableRowAsset = (props: Props) => {
 
   const shiftPressed: RefObject<boolean> = useKeyPress('shift')
 
+  const [now] = useState(() => new Date())
   const [referenceCountVisible, setReferenceCountVisible] = useState(false)
   const refCountVisibleTimeout = useRef<ReturnType<typeof window.setTimeout>>(null)
 
@@ -338,7 +344,7 @@ const TableRowAsset = (props: Props) => {
         }}
       >
         <Text muted size={1} style={{ lineHeight: '2em' }} textOverflow="ellipsis">
-          {formatRelative(new Date(asset._updatedAt), new Date())}
+          {formatRelative(new Date(asset._updatedAt), now)}
         </Text>
       </Box>
 
@@ -352,20 +358,7 @@ const TableRowAsset = (props: Props) => {
         }}
       >
         <Text muted size={1} style={{ lineHeight: '2em' }} textOverflow="ellipsis">
-          {referenceCountVisible ? (
-            <WithReferringDocuments id={id}>
-              {({ isLoading, referringDocuments }) => {
-                const uniqueDocuments = getUniqueDocuments(referringDocuments)
-                return isLoading ? (
-                  <>-</>
-                ) : (
-                  <>{Array.isArray(uniqueDocuments) ? uniqueDocuments.length : 0}</>
-                )
-              }}
-            </WithReferringDocuments>
-          ) : (
-            <>-</>
-          )}
+          {referenceCountVisible ? <ReferenceCount id={id} /> : <>-</>}
         </Text>
       </Box>
 

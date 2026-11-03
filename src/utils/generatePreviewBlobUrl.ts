@@ -29,10 +29,10 @@ const createImageEl = (file: File): Promise<HTMLImageElement> => {
   return new Promise(resolve => {
     const blobUrlLarge = window.URL.createObjectURL(file)
     const img = new Image()
-    img.onload = () => {
+    img.addEventListener('load', () => {
       window.URL.revokeObjectURL(blobUrlLarge)
       resolve(img)
-    }
+    })
     img.src = blobUrlLarge
   })
 }

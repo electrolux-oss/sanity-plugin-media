@@ -34,7 +34,7 @@ const SearchFacetTags = ({ facet }: Props) => {
 
   const popoverProps = usePortalPopoverProps()
 
-  const handleChange = (option: TagSelectOption) => {
+  const handleChange = (option: TagSelectOption | null) => {
     dispatch(
       searchActions.facetsUpdateById({
         id: facet.id,
@@ -87,6 +87,7 @@ const SearchFacetTags = ({ facet }: Props) => {
                   )
                 }
 
+                // oxlint-disable-next-line react/no-array-index-key -- null entries in the static operator list are dividers with no identity of their own
                 return <MenuDivider key={index} />
               })}
             </Menu>
@@ -106,7 +107,7 @@ const SearchFacetTags = ({ facet }: Props) => {
             isSearchable
             name="tags"
             noOptionsMessage={() => 'No tags'}
-            onChange={(value: any) => handleChange(value as TagSelectOption)}
+            onChange={handleChange}
             options={allTagOptions}
             placeholder={tagsFetching ? 'Loading...' : 'Select...'}
             styles={reactSelectStyles}

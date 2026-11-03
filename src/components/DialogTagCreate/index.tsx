@@ -65,7 +65,7 @@ const DialogTagCreate = (props: Props) => {
     }
   }, [creatingError, setError])
 
-  const Footer = () => (
+  const footer = (
     <Box padding={3}>
       <Flex justify="flex-end">
         {/* Submit button */}
@@ -79,11 +79,11 @@ const DialogTagCreate = (props: Props) => {
   )
 
   return (
-    <Dialog animate footer={<Footer />} header="Create Tag" id={id} onClose={handleClose} width={1}>
+    <Dialog animate footer={footer} header="Create Tag" id={id} onClose={handleClose} width={1}>
       {/* Form fields */}
       <Box as="form" padding={4} onSubmit={handleSubmit(onSubmit)}>
         {/* Hidden button to enable enter key submissions */}
-        <button style={{ display: 'none' }} tabIndex={-1} type="submit" />
+        <button aria-label="Save" style={{ display: 'none' }} tabIndex={-1} type="submit" />
 
         {/* Title */}
         <FormFieldInputText

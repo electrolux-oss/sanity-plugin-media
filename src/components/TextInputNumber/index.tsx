@@ -1,9 +1,8 @@
 import { TextInput } from '@sanity/ui'
-import { type ChangeEvent } from 'react'
+import { type ChangeEvent, type ComponentProps } from 'react'
 
-// TODO: use correct type
-type Props = any & {
-  onValueChange: (value: number) => void
+type Props = Omit<ComponentProps<typeof TextInput>, 'onChange' | 'value'> & {
+  onValueChange: (value: number | '') => void
   value?: number
 }
 

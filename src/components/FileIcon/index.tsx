@@ -11,6 +11,10 @@ type Props = {
   width: string
 }
 
+const isDefaultExtension = (extension: string): extension is DefaultExtensionType => {
+  return extension in defaultStyles
+}
+
 // Force react-file-icon styles
 const Container = styled(Box)(({ theme }: { theme: Theme }) => {
   return css`
@@ -31,7 +35,7 @@ const FileIcon = (props: Props) => {
         {extension ? (
           <ReactFileIcon
             extension={extension}
-            {...defaultStyles[extension as DefaultExtensionType]}
+            {...(isDefaultExtension(extension) ? defaultStyles[extension] : undefined)}
           />
         ) : (
           <ReactFileIcon />

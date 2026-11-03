@@ -8,21 +8,21 @@ import type { ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { useColorSchemeValue, useDocumentStore, WithReferringDocuments } from 'sanity'
+import { useColorSchemeValue } from 'sanity'
 
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
 import { createAssetFormSchema } from '../../formSchema'
 import useTypedSelector from '../../hooks/useTypedSelector'
+import useUniqueReferringDocuments from '../../hooks/useUniqueReferringDocuments'
 import useVersionedClient from '../../hooks/useVersionedClient'
 import { assetsActions, selectAssetById } from '../../modules/assets'
 import { dialogActions } from '../../modules/dialog'
 import { selectTags, selectTagSelectOptions, tagsActions } from '../../modules/tags'
 import type { Asset, AssetFormData, DialogAssetEditProps, TagSelectOption } from '../../types'
 import getTagSelectOptions from '../../utils/getTagSelectOptions'
-import { getUniqueDocuments } from '../../utils/getUniqueDocuments'
 import imageDprUrl from '../../utils/imageDprUrl'
 import sanitizeFormData from '../../utils/sanitizeFormData'
-import { isFileAsset, isImageAsset } from '../../utils/typeGuards'
+import { isAssetDocument, isFileAsset, isImageAsset } from '../../utils/typeGuards'
 import AssetMetadata from '../AssetMetadata'
 import Dialog from '../Dialog'
 import DocumentList from '../DocumentList'
@@ -51,11 +51,11 @@ const DialogAssetEdit = (props: Props) => {
   const client = useVersionedClient()
   const scheme = useColorSchemeValue()
 
-  const documentStore = useDocumentStore()
-
   const dispatch = useDispatch()
   const assetItem = useTypedSelector(state => selectAssetById(state, String(assetId))) // TODO: check casting
+  const asset = assetItem?.asset
   const tags = useTypedSelector(selectTags)
+  const { isLoading, referringDocuments } = useUniqueReferringDocuments(String(assetId))
 
   const assetUpdatedPrev = useRef<string | undefined>(undefined)
 
@@ -106,13 +106,15 @@ const DialogAssetEdit = (props: Props) => {
   })
 
   useEffect(() => {
-    trigger()
+    void trigger()
   }, [trigger])
 
   const defaultLanguageCode = languages.find(language => language.default)?.code
-  const altTextsError = (errors?.altTexts?.root?.message ||
-    errors?.altTexts?.message ||
-    (defaultLanguageCode && errors?.altTexts?.[defaultLanguageCode]?.message)) as string | undefined
+  const altTextsError = [
+    errors?.altTexts?.root?.message,
+    errors?.altTexts?.message,
+    defaultLanguageCode ? errors?.altTexts?.[defaultLanguageCode]?.message : undefined
+  ].find(message => typeof message === 'string')
 
   const formUpdating = !assetItem || assetItem?.updating
 
@@ -135,9 +137,9 @@ const DialogAssetEdit = (props: Props) => {
 
   const handleAssetUpdate = useCallback((update: MutationEvent) => {
     const { result, transition } = update
-    if (result && transition === 'update') {
+    if (result && transition === 'update' && isAssetDocument(result)) {
       // Regenerate asset snapshot
-      setAssetSnapshot(result as Asset)
+      setAssetSnapshot(result)
     }
   }, [])
 
@@ -157,7 +159,7 @@ const DialogAssetEdit = (props: Props) => {
   // Submit react-hook-form
   const onSubmit: SubmitHandler<AssetFormData> = useCallback(
     formData => {
-      if (!assetItem?.asset) {
+      if (!asset) {
         return
       }
 
@@ -165,8 +167,8 @@ const DialogAssetEdit = (props: Props) => {
 
       dispatch(
         assetsActions.updateRequest({
-          asset: assetItem?.asset,
-          closeDialogId: assetItem?.asset._id,
+          asset,
+          closeDialogId: asset._id,
           formData: {
             ...sanitizedFormData,
             // Map tags to sanity references
@@ -185,29 +187,29 @@ const DialogAssetEdit = (props: Props) => {
         })
       )
     },
-    [assetItem?.asset, dispatch]
+    [asset, dispatch]
   )
 
   // Listen for asset mutations and update snapshot
   useEffect(() => {
-    if (!assetItem?.asset) {
+    if (!asset) {
       return undefined
     }
 
     // Remember that Sanity listeners ignore joins, order clauses and projections
     const subscriptionAsset = client
-      .listen(groq`*[_id == $id]`, { id: assetItem?.asset._id })
+      .listen(groq`*[_id == $id]`, { id: asset._id })
       .subscribe(handleAssetUpdate)
 
     return () => {
       subscriptionAsset?.unsubscribe()
     }
-  }, [assetItem?.asset, client, handleAssetUpdate])
+  }, [asset, client, handleAssetUpdate])
 
   // Update tags form field (react-select) when a new _inline_ tag has been created
   useEffect(() => {
     if (lastCreatedTag) {
-      const existingTags = (getValues('opt.media.tags') as TagSelectOption[]) || []
+      const existingTags = getValues('opt.media.tags') ?? []
       const updatedTags = existingTags.concat([lastCreatedTag])
       setValue('opt.media.tags', updatedTags, { shouldDirty: true })
     }
@@ -216,7 +218,7 @@ const DialogAssetEdit = (props: Props) => {
   // Update tags form field (react-select) when an _inline_ tag has been removed elsewhere
   useEffect(() => {
     if (lastRemovedTagIds) {
-      const existingTags = (getValues('opt.media.tags') as TagSelectOption[]) || []
+      const existingTags = getValues('opt.media.tags') ?? []
       const updatedTags = existingTags.filter(tag => {
         return !lastRemovedTagIds.includes(tag.value)
       })
@@ -227,14 +229,14 @@ const DialogAssetEdit = (props: Props) => {
 
   // Reset react-hook-form local state on mount and every time the asset has been updated elsewhere
   useEffect(() => {
-    if (assetUpdatedPrev.current !== assetItem?.asset._updatedAt) {
-      reset(generateDefaultValues(assetItem?.asset))
-      trigger()
+    if (assetUpdatedPrev.current !== asset?._updatedAt) {
+      reset(generateDefaultValues(asset))
+      void trigger()
     }
-    assetUpdatedPrev.current = assetItem?.asset._updatedAt
-  }, [assetItem?.asset, generateDefaultValues, reset, trigger])
+    assetUpdatedPrev.current = asset?._updatedAt
+  }, [asset, generateDefaultValues, reset, trigger])
 
-  const Footer = () => (
+  const footer = (
     <Box padding={3}>
       <Flex justify="space-between">
         {/* Delete button */}
@@ -276,14 +278,7 @@ const DialogAssetEdit = (props: Props) => {
   }
 
   return (
-    <Dialog
-      animate
-      footer={<Footer />}
-      header="Asset details"
-      id={id}
-      onClose={handleClose}
-      width={3}
-    >
+    <Dialog animate footer={footer} header="Asset details" id={id} onClose={handleClose} width={3}>
       {/*
         We reverse direction to ensure the download button doesn't appear (in the DOM) before other tabbable items.
         This ensures that the dialog doesn't scroll down to the download button (which on smaller screens, can sometimes
@@ -291,136 +286,121 @@ const DialogAssetEdit = (props: Props) => {
       */}
       <Flex direction={['column-reverse', 'column-reverse', 'row-reverse']}>
         <Box flex={1} marginTop={[5, 5, 0]} padding={4}>
-          <WithReferringDocuments documentStore={documentStore} id={currentAsset._id}>
-            {({ isLoading, referringDocuments }) => {
-              const uniqueReferringDocuments = getUniqueDocuments(referringDocuments)
-              return (
-                <>
-                  {/* Tabs */}
-                  <TabList gap={2}>
-                    <Tab
-                      aria-controls="details-panel"
-                      disabled={formUpdating}
-                      id="details-tab"
-                      label="Details"
-                      onClick={() => setTabSection('details')}
-                      selected={tabSection === 'details'}
-                      size={2}
-                    />
-                    {isImageAsset(currentAsset) && (
-                      <Tab
-                        aria-controls="altTexts-panel"
-                        disabled={formUpdating}
-                        id="altTexts-tab"
-                        label="Alt Texts"
-                        onClick={() => setTabSection('altTexts')}
-                        selected={tabSection === 'altTexts'}
-                        tone={errors?.altTexts ? 'critical' : undefined}
-                        icon={errors?.altTexts ? WarningOutlineIcon : undefined}
-                        size={2}
-                      />
-                    )}
-                    <Tab
-                      aria-controls="references-panel"
-                      disabled={formUpdating}
-                      id="references-tab"
-                      label={`References${
-                        !isLoading && Array.isArray(uniqueReferringDocuments)
-                          ? ` (${uniqueReferringDocuments.length})`
-                          : ''
-                      }`}
-                      onClick={() => setTabSection('references')}
-                      selected={tabSection === 'references'}
-                      size={2}
-                    />
-                  </TabList>
+          <>
+            {/* Tabs */}
+            <TabList gap={2}>
+              <Tab
+                aria-controls="details-panel"
+                disabled={formUpdating}
+                id="details-tab"
+                label="Details"
+                onClick={() => setTabSection('details')}
+                selected={tabSection === 'details'}
+                size={2}
+              />
+              {isImageAsset(currentAsset) && (
+                <Tab
+                  aria-controls="altTexts-panel"
+                  disabled={formUpdating}
+                  id="altTexts-tab"
+                  label="Alt Texts"
+                  onClick={() => setTabSection('altTexts')}
+                  selected={tabSection === 'altTexts'}
+                  tone={errors?.altTexts ? 'critical' : undefined}
+                  icon={errors?.altTexts ? WarningOutlineIcon : undefined}
+                  size={2}
+                />
+              )}
+              <Tab
+                aria-controls="references-panel"
+                disabled={formUpdating}
+                id="references-tab"
+                label={`References${
+                  !isLoading && Array.isArray(referringDocuments)
+                    ? ` (${referringDocuments.length})`
+                    : ''
+                }`}
+                onClick={() => setTabSection('references')}
+                selected={tabSection === 'references'}
+                size={2}
+              />
+            </TabList>
 
-                  {/* Form fields */}
-                  <Box as="form" marginTop={4} onSubmit={handleSubmit(onSubmit)}>
-                    {/* Deleted notification */}
-                    {!assetItem && (
-                      <Card marginBottom={3} padding={3} radius={2} shadow={1} tone="critical">
-                        <Text size={1}>This file cannot be found – it may have been deleted.</Text>
+            {/* Form fields */}
+            <Box as="form" marginTop={4} onSubmit={handleSubmit(onSubmit)}>
+              {/* Deleted notification */}
+              {!assetItem && (
+                <Card marginBottom={3} padding={3} radius={2} shadow={1} tone="critical">
+                  <Text size={1}>This file cannot be found – it may have been deleted.</Text>
+                </Card>
+              )}
+
+              {/* Hidden button to enable enter key submissions */}
+              <button aria-label="Save" style={{ display: 'none' }} tabIndex={-1} type="submit" />
+
+              {/* Panel: details */}
+              <TabPanel
+                aria-labelledby="details"
+                hidden={tabSection !== 'details'}
+                id="details-panel"
+              >
+                {CustomDetails ? (
+                  <CustomDetails {...detailsProps} renderDefaultDetails={renderDefaultDetails} />
+                ) : (
+                  <Details {...detailsProps} />
+                )}
+              </TabPanel>
+              {/* Panel: Alt texts */}
+              {isImageAsset(currentAsset) && (
+                <TabPanel
+                  aria-labelledby="altTexts"
+                  hidden={tabSection !== 'altTexts'}
+                  id="alt-texts"
+                >
+                  {altTextsError && (
+                    <Stack marginBottom={3}>
+                      <Card padding={[3, 3, 4]} radius={2} shadow={1} tone="critical">
+                        <Text size={1}>{altTextsError}</Text>
                       </Card>
-                    )}
-
-                    {/* Hidden button to enable enter key submissions */}
-                    <button style={{ display: 'none' }} tabIndex={-1} type="submit" />
-
-                    {/* Panel: details */}
-                    <TabPanel
-                      aria-labelledby="details"
-                      hidden={tabSection !== 'details'}
-                      id="details-panel"
-                    >
-                      {CustomDetails ? (
-                        <CustomDetails
-                          {...detailsProps}
-                          renderDefaultDetails={renderDefaultDetails}
-                        />
-                      ) : (
-                        <Details {...detailsProps} />
-                      )}
-                    </TabPanel>
-                    {/* Panel: Alt texts */}
-                    {isImageAsset(currentAsset) && (
-                      <TabPanel
-                        aria-labelledby="altTexts"
-                        hidden={tabSection !== 'altTexts'}
-                        id="alt-texts"
-                      >
-                        {altTextsError && (
-                          <Stack marginBottom={3}>
-                            <Card padding={[3, 3, 4]} radius={2} shadow={1} tone="critical">
-                              <Text size={1}>{altTextsError}</Text>
-                            </Card>
-                          </Stack>
-                        )}
-                        <Stack gap={2} style={{ height: '55dvh', overflowY: 'auto' }}>
-                          {languages.map(language => {
-                            const label = language.default
-                              ? `${language.title} (Default)`
-                              : language.title
-                            return (
-                              <FormFieldInputText
-                                key={language.code}
-                                {...register(`altTexts.${language.code}`, {
-                                  onChange: () => {
-                                    setTimeout(() => trigger('altTexts'), 0)
-                                  }
-                                })}
-                                disabled={formUpdating}
-                                error={errors?.altTexts?.[language.code]?.message}
-                                label={label}
-                                description={language.code}
-                                name={`altTexts.${language.code}`}
-                                value={currentAsset?.altTexts?.[language.code] || ''}
-                              />
-                            )
+                    </Stack>
+                  )}
+                  <Stack gap={2} style={{ height: '55dvh', overflowY: 'auto' }}>
+                    {languages.map(language => {
+                      const label = language.default
+                        ? `${language.title} (Default)`
+                        : language.title
+                      return (
+                        <FormFieldInputText
+                          key={language.code}
+                          {...register(`altTexts.${language.code}`, {
+                            onChange: () => {
+                              setTimeout(() => trigger('altTexts'), 0)
+                            }
                           })}
-                        </Stack>
-                      </TabPanel>
-                    )}
-                    {/* Panel: References */}
-                    <TabPanel
-                      aria-labelledby="references"
-                      hidden={tabSection !== 'references'}
-                      id="references-panel"
-                    >
-                      <Box marginTop={5}>
-                        {assetItem?.asset && (
-                          <DocumentList
-                            documents={uniqueReferringDocuments}
-                            isLoading={isLoading}
-                          />
-                        )}
-                      </Box>
-                    </TabPanel>
-                  </Box>
-                </>
-              )
-            }}
-          </WithReferringDocuments>
+                          disabled={formUpdating}
+                          error={errors?.altTexts?.[language.code]?.message}
+                          label={label}
+                          description={language.code}
+                          name={`altTexts.${language.code}`}
+                          value={currentAsset?.altTexts?.[language.code] || ''}
+                        />
+                      )
+                    })}
+                  </Stack>
+                </TabPanel>
+              )}
+              {/* Panel: References */}
+              <TabPanel
+                aria-labelledby="references"
+                hidden={tabSection !== 'references'}
+                id="references-panel"
+              >
+                <Box marginTop={5}>
+                  {asset && <DocumentList documents={referringDocuments} isLoading={isLoading} />}
+                </Box>
+              </TabPanel>
+            </Box>
+          </>
         </Box>
 
         <Box flex={1} padding={4}>

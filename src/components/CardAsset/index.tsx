@@ -83,6 +83,19 @@ const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKe
   `
 })
 
+const PreviewButton = styled.button`
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: inherit;
+  display: block;
+  font: inherit;
+  height: 100%;
+  padding: 0;
+  width: 100%;
+`
+
 const StyledWarningOutlineIcon = styled(WarningFilledIcon)(({ theme }) => {
   return {
     color: getTheme_v2(theme).color.avatar.red.bg
@@ -116,7 +129,7 @@ const CardAsset = (props: Props) => {
   }
 
   // Callbacks
-  const handleAssetClick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleAssetClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
 
     if (onSelect) {
@@ -163,7 +176,11 @@ const CardAsset = (props: Props) => {
             position: 'relative'
           }}
         >
-          <div onClick={handleAssetClick} style={{ height: '100%', opacity: opacityPreview }}>
+          <PreviewButton
+            onClick={handleAssetClick}
+            style={{ opacity: opacityPreview }}
+            type="button"
+          >
             {/* File icon */}
             {isFileAsset(asset) && <FileIcon extension={asset.extension} width="80px" />}
 
@@ -180,7 +197,7 @@ const CardAsset = (props: Props) => {
                 }}
               />
             )}
-          </div>
+          </PreviewButton>
 
           {/* Selected check icon */}
           {selected && !updating && (

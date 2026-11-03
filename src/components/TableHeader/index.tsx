@@ -60,7 +60,7 @@ const TableHeader = () => {
         alignItems: 'center',
         background: 'var(--card-bg-color)',
         borderBottom: '1px solid var(--card-border-color)',
-        gridColumnGap: mediaIndex < 3 ? 0 : '16px',
+        columnGap: mediaIndex < 3 ? 0 : '16px',
         gridTemplateColumns: GRID_TEMPLATE_COLUMNS.LARGE,
         height: mediaIndex < 3 ? 0 : `${PANEL_HEIGHT}px`,
         letterSpacing: '0.025em',

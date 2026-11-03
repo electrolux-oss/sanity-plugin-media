@@ -17,7 +17,7 @@ import {
 } from 'rxjs/operators'
 
 import { getOrderTitle } from '../../config/orders'
-import { ORDER_OPTIONS } from '../../constants'
+import { DEFAULT_ORDER } from '../../constants'
 import debugThrottle from '../../operators/debugThrottle'
 import type {
   Asset,
@@ -27,10 +27,10 @@ import type {
   HttpError,
   MyEpic,
   Order,
-  OrderDirection,
   Tag
 } from '../../types'
 import constructFilter from '../../utils/constructFilter'
+import { isAssetDocument } from '../../utils/typeGuards'
 import { searchActions } from '../search'
 import type { RootReducerState } from '../types'
 import { UPLOADS_ACTIONS } from '../uploads/actions'
@@ -58,11 +58,6 @@ export type AssetsReducerState = {
   // totalCount: number
 }
 
-const defaultOrder = ORDER_OPTIONS[0] as {
-  direction: OrderDirection
-  field: string
-}
-
 /**
  * NOTE:
  * `fetchCount` returns the number of items retrieved in the most recent fetch.
@@ -85,9 +80,9 @@ export const initialState = {
   fetchingError: undefined,
   lastPicked: undefined,
   order: {
-    direction: defaultOrder.direction,
-    field: defaultOrder.field,
-    title: getOrderTitle(defaultOrder.field, defaultOrder.direction)
+    direction: DEFAULT_ORDER.direction,
+    field: DEFAULT_ORDER.field,
+    title: getOrderTitle(DEFAULT_ORDER.field, DEFAULT_ORDER.direction)
   },
   pageIndex: 0,
   pageSize: 100,
@@ -103,9 +98,13 @@ const assetsSlice = createSlice({
       .addCase(UPLOADS_ACTIONS.uploadComplete, (state, action) => {
         const { asset } = action.payload
 
+        if (!isAssetDocument(asset)) {
+          return
+        }
+
         state.byIds[asset._id] = {
           _type: 'asset',
-          asset: asset as Asset,
+          asset,
           picked: false,
           updating: false
         }

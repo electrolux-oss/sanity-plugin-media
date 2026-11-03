@@ -37,7 +37,7 @@ const DialogConfirm = (props: Props) => {
     handleClose()
   }
 
-  const Footer = () => (
+  const footer = (
     <Box padding={3}>
       <Flex justify="space-between">
         <Button fontSize={1} mode="bleed" onClick={handleClose} text="Cancel" />
@@ -51,7 +51,7 @@ const DialogConfirm = (props: Props) => {
     </Box>
   )
 
-  const Header = () => (
+  const header = (
     <Flex align="center">
       <Box paddingX={1}>
         <WarningOutlineIcon />
@@ -61,14 +61,7 @@ const DialogConfirm = (props: Props) => {
   )
 
   return (
-    <Dialog
-      animate
-      footer={<Footer />}
-      header={<Header />}
-      id="confirm"
-      onClose={handleClose}
-      width={1}
-    >
+    <Dialog animate footer={footer} header={header} id="confirm" onClose={handleClose} width={1}>
       <Box paddingX={4} paddingY={4}>
         <Stack gap={3}>
           {dialog?.title && <Text size={1}>{dialog.title}</Text>}
