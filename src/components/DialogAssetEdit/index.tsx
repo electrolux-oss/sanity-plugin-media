@@ -112,9 +112,10 @@ const DialogAssetEdit = (props: Props) => {
     trigger()
   }, [trigger])
 
-  const altTextsError = (errors?.altTexts?.root?.message || errors?.altTexts?.message) as
-    | string
-    | undefined
+  const defaultLanguageCode = languages.find(language => language.default)?.code
+  const altTextsError = (errors?.altTexts?.root?.message ||
+    errors?.altTexts?.message ||
+    (defaultLanguageCode && errors?.altTexts?.[defaultLanguageCode]?.message)) as string | undefined
 
   const formUpdating = !assetItem || assetItem?.updating
 
@@ -231,9 +232,10 @@ const DialogAssetEdit = (props: Props) => {
   useEffect(() => {
     if (assetUpdatedPrev.current !== assetItem?.asset._updatedAt) {
       reset(generateDefaultValues(assetItem?.asset))
+      trigger()
     }
     assetUpdatedPrev.current = assetItem?.asset._updatedAt
-  }, [assetItem?.asset, generateDefaultValues, reset])
+  }, [assetItem?.asset, generateDefaultValues, reset, trigger])
 
   const Footer = () => (
     <Box padding={3}>

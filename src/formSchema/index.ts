@@ -11,6 +11,8 @@ export const tagFormSchema = z.object({
   name: z.string().min(1, { error: 'Name cannot be empty' })
 })
 
+const hasText = (text: string | null | undefined): boolean => Boolean(text?.trim())
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createAssetFormSchema = (
   languages: MediaToolOptions['languages'],
@@ -19,25 +21,22 @@ export const createAssetFormSchema = (
   const defaultLanguage = languages.find(lang => lang.default)
 
   const createAltTextsSchema = () => {
-    const baseSchema = z.record(z.string(), z.string().nullable())
+    const baseSchema = z.record(z.string(), z.string().nullish())
 
-    if (!validateAltTexts) return baseSchema
+    if (!validateAltTexts) {
+      return baseSchema
+    }
 
-    return baseSchema.refine(
-      altTexts => {
-        if (defaultLanguage) {
-          const defaultText = altTexts[defaultLanguage.code]
-          return defaultText !== null && defaultText !== undefined && defaultText.trim().length > 0
-        }
-        return Object.values(altTexts).some(
-          text => text !== null && text !== undefined && text.trim().length > 0
-        )
-      },
-      {
-        error:
-          'The default language must have alt text. Please fill in the default language field and click "Save and close".'
-      }
-    )
+    if (defaultLanguage) {
+      return baseSchema.refine(altTexts => hasText(altTexts[defaultLanguage.code]), {
+        error: `Alt text is required for the default language (${defaultLanguage.title}).`,
+        path: [defaultLanguage.code]
+      })
+    }
+
+    return baseSchema.refine(altTexts => Object.values(altTexts).some(hasText), {
+      error: 'At least one language must have alt text.'
+    })
   }
 
   return z.object({
