@@ -27,6 +27,7 @@ module.exports = {
       }
     ],
     'no-shadow': 'off',
+    'no-warning-comments': 'off',
     'react/display-name': 0,
     'react/jsx-no-bind': 0,
     'no-use-before-define': 0
