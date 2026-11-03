@@ -30,27 +30,24 @@
   "exports": {
     ".": {
       "source": "./src/index.ts",
-      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "pkg-utils build --strict --check --clean",
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check",
     "clean": "rimraf dist",
     "dev": "sanity dev",
-    "format": "prettier --write --cache --ignore-unknown .",
+    "format": "oxfmt",
     "link-watch": "plugin-kit link-watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "prepack": "npm run build",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "watch": "pkg-utils watch --strict"
   },
   "browserslist": "extends @sanity/browserslist-config",
@@ -81,30 +78,23 @@
   },
   "devDependencies": {
     "@sanity/icons": "^5.2.3",
-    "@sanity/pkg-utils": "^10.9.2",
-    "@sanity/plugin-kit": "^6.0.4",
+    "@sanity/pkg-utils": "^13.0.16",
+    "@sanity/plugin-kit": "^10.1.0",
     "@types/pluralize": "^0.0.33",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.0.4",
     "@types/react-file-icon": "^1.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
     "baseline-browser-mapping": "^2.10.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-config-sanity": "^6.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "prettier": "^2.8.8",
-    "prettier-plugin-packagejson": "^2.5.22",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.91.0",
+    "oxlint-tsgolint": "^7.0.2005",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-is": "^19.2.4",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.1.3",
     "sanity": "^6.21.0",
     "styled-components": "^6.3.11",
-    "typescript": "5.8.2"
+    "typescript": "~6.0.3"
   },
   "peerDependencies": {
     "react": "^19.2.2",
@@ -116,6 +106,20 @@
     "node": ">=22.12"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "exports": {
+      ".": "./dist/index.js",
+      "./package.json": "./package.json"
+    }
+  },
+  "sanityPlugin": {
+    "verifyPackage": {
+      "nodeEngine": false,
+      "scripts": false
+    }
+  },
+  "inlinedDependencies": {
+    "@sanity/icons": "5.2.3",
+    "redux": "5.0.1"
   }
 }
