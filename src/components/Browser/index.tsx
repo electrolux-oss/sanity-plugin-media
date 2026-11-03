@@ -1,10 +1,10 @@
 import type { MutationEvent } from '@sanity/client'
+import { Card, Flex, PortalProvider } from '@sanity/ui'
 import groq from 'groq'
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import type { SanityDocument } from 'sanity'
-
-import { Card, Flex, PortalProvider } from '@sanity/ui'
+import type { AssetSourceComponentProps } from 'sanity'
 
 import { inputs } from '../../config/searchFacets'
 import { TAG_DOCUMENT_NAME } from '../../constants'
@@ -16,6 +16,7 @@ import { assetsActions } from '../../modules/assets'
 import { searchActions } from '../../modules/search'
 import { tagsActions } from '../../modules/tags'
 import GlobalStyle from '../../styled/GlobalStyles'
+import type { Asset, Tag } from '../../types'
 import Controls from '../Controls'
 import DebugControls from '../DebugControls'
 import Dialogs from '../Dialogs'
@@ -26,10 +27,6 @@ import PickedBar from '../PickedBar'
 import ReduxProvider from '../ReduxProvider'
 import TagsPanel from '../TagsPanel'
 import UploadDropzone from '../UploadDropzone'
-
-import type { AssetSourceComponentProps } from 'sanity'
-
-import type { Asset, Tag } from '../../types'
 type Props = {
   assetType?: AssetSourceComponentProps['assetType']
   document?: SanityDocument

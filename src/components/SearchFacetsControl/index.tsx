@@ -1,15 +1,13 @@
-import { useDispatch } from 'react-redux'
-
 import { AddIcon } from '@sanity/icons/Add'
 import { Button, Flex } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuGroup, MenuItem } from '@sanity/ui/menu'
+import { useDispatch } from 'react-redux'
 
 import { FACETS } from '../../constants'
 import { useToolOptions } from '../../contexts/ToolOptionsContext'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { searchActions } from '../../modules/search'
-
 import type { SearchFacetDivider, SearchFacetGroup, SearchFacetInputProps } from '../../types'
 
 const SearchFacetsControl = () => {

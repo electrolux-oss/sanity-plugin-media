@@ -1,6 +1,7 @@
 import type { ThemeColorSchemeKey } from '@sanity/ui/theme'
 import type { MouseEvent } from 'react'
 import { styled, css } from 'styled-components'
+
 import { getSchemeColor } from '../../utils/getSchemeColor'
 
 type Props = {
@@ -23,12 +24,17 @@ const Image = styled.img<Props>`
   ${props =>
     props.$showCheckerboard &&
     css`
-      background-image: linear-gradient(45deg, var(--checkerboard-color) 25%, transparent 25%),
+      background-image:
+        linear-gradient(45deg, var(--checkerboard-color) 25%, transparent 25%),
         linear-gradient(-45deg, var(--checkerboard-color) 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, var(--checkerboard-color) 75%),
         linear-gradient(-45deg, transparent 75%, var(--checkerboard-color) 75%);
       background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+      background-position:
+        0 0,
+        0 10px,
+        10px -10px,
+        -10px 0;
     `}
 `
 

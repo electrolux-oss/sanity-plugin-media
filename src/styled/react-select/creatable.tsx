@@ -1,15 +1,13 @@
-import { components } from 'react-select'
-import { Virtuoso } from 'react-virtuoso'
-import { useColorSchemeValue } from 'sanity'
-
 import { AddIcon } from '@sanity/icons/Add'
 import { ChevronDownIcon } from '@sanity/icons/ChevronDown'
 import { CloseIcon } from '@sanity/icons/Close'
 import { Box, Card, Flex, rem, Text, useTheme_v2 } from '@sanity/ui'
+import { components } from 'react-select'
+import type { StylesConfig } from 'react-select'
+import { Virtuoso } from 'react-virtuoso'
+import { useColorSchemeValue } from 'sanity'
 
 import { getSchemeColor } from '../../utils/getSchemeColor'
-
-import type { StylesConfig } from 'react-select'
 export const useReactSelectStyles = (): StylesConfig => {
   const scheme = useColorSchemeValue()
   const { color, font, radius, space } = useTheme_v2()

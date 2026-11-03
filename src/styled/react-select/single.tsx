@@ -3,6 +3,7 @@ import { Box, Card, rem, Text, useTheme_v2 } from '@sanity/ui'
 import { components, type StylesConfig } from 'react-select'
 import { Virtuoso } from 'react-virtuoso'
 import { useColorSchemeValue } from 'sanity'
+
 import { getSchemeColor } from '../../utils/getSchemeColor'
 
 export const useReactSelectStyles = (): StylesConfig => {

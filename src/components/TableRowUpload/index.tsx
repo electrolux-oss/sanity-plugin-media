@@ -3,6 +3,7 @@ import { Box, Button, Flex, Grid, Stack, Text, useMediaIndex } from '@sanity/ui'
 import filesize from 'filesize'
 import { useDispatch } from 'react-redux'
 import { useColorSchemeValue } from 'sanity'
+
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { selectUploadById, uploadsActions } from '../../modules/uploads'

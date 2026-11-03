@@ -3,6 +3,7 @@ import { Button, Text } from '@sanity/ui'
 import { Popover } from '@sanity/ui/popover'
 import copy from 'copy-to-clipboard'
 import { useEffect, useRef, useState } from 'react'
+
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 
 type Props = {

@@ -1,9 +1,9 @@
-import type { CardAssetData, CardUploadData } from '../../types'
 import { forwardRef, memo } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { styled } from 'styled-components'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
+import type { CardAssetData, CardUploadData } from '../../types'
 import CardAsset from '../CardAsset'
 import CardUpload from '../CardUpload'
 

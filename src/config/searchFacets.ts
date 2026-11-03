@@ -1,10 +1,11 @@
+import groq from 'groq'
+
 import type {
   SearchFacetDivider,
   SearchFacetInputProps,
   SearchFacetName,
   SearchFacetOperators
 } from '../types'
-import groq from 'groq'
 
 export const divider: SearchFacetDivider = { type: 'divider' }
 

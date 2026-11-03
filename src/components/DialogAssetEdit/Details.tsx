@@ -1,13 +1,12 @@
 import { WarningOutlineIcon } from '@sanity/icons/WarningOutline'
 import { Stack } from '@sanity/ui'
+import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form'
 
+import type { Asset, AssetFormData, TagSelectOption } from '../../types'
 import { isImageAsset } from '../../utils/typeGuards'
 import FormFieldInputTags from '../FormFieldInputTags'
 import FormFieldInputText from '../FormFieldInputText'
 import FormFieldInputTextarea from '../FormFieldInputTextarea'
-
-import type { Asset, AssetFormData, TagSelectOption } from '../../types'
-import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form'
 
 export type DetailsProps = {
   formUpdating: boolean

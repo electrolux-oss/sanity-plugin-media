@@ -2,28 +2,29 @@ import { Checkbox, Flex, Grid, useMediaIndex } from '@sanity/ui'
 import type { ThemeColorSchemeKey } from '@sanity/ui/theme'
 import { type MouseEvent } from 'react'
 import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
 import { styled, css } from 'styled-components'
+
 import { GRID_TEMPLATE_COLUMNS, PANEL_HEIGHT } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { assetsActions, selectAssetsLength, selectAssetsPickedLength } from '../../modules/assets'
-import TableHeaderItem from '../TableHeaderItem'
-import { useColorSchemeValue } from 'sanity'
 import { getSchemeColor } from '../../utils/getSchemeColor'
+import TableHeaderItem from '../TableHeaderItem'
 
 // TODO: DRY
-const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKey }>(Flex)(
-  ({ $scheme }) => {
-    return css`
-      cursor: pointer;
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          background: ${getSchemeColor($scheme, 'bg')};
-        }
+const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKey }>(Flex)(({
+  $scheme
+}) => {
+  return css`
+    cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: ${getSchemeColor($scheme, 'bg')};
       }
-    `
-  }
-)
+    }
+  `
+})
 
 const TableHeader = () => {
   const scheme = useColorSchemeValue()

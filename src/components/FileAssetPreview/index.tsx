@@ -1,6 +1,6 @@
 import { Flex } from '@sanity/ui'
-import type { Asset } from '../../types'
 
+import type { Asset } from '../../types'
 import FileIcon from '../FileIcon'
 
 type Props = {

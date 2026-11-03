@@ -1,20 +1,21 @@
 import { SelectIcon } from '@sanity/icons/Select'
 import { Box, Button } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
-import type {
-  TagSelectOption,
-  SearchFacetInputSearchableProps,
-  SearchFacetOperatorType,
-  WithId
-} from '../../types'
 import { useDispatch } from 'react-redux'
 import Select from 'react-select'
+
 import { operators } from '../../config/searchFacets'
 import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useVisibleTags from '../../hooks/useVisibleTags'
 import { searchActions } from '../../modules/search'
 import { reactSelectComponents, useReactSelectStyles } from '../../styled/react-select/single'
+import type {
+  TagSelectOption,
+  SearchFacetInputSearchableProps,
+  SearchFacetOperatorType,
+  WithId
+} from '../../types'
 import getTagSelectOptions from '../../utils/getTagSelectOptions'
 import SearchFacet from '../SearchFacet'
 

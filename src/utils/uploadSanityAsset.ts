@@ -2,10 +2,10 @@
 // https://github.com/sanity-io/sanity/blob/ccb777e115a8cdf20d81a9a2bc9d8c228568faff/packages/%40sanity/form-builder/src/sanity/inputs/client-adapters/assets.ts
 
 import type { SanityAssetDocument, SanityClient, SanityImageAssetDocument } from '@sanity/client'
-import type { HttpError } from '../types'
 import { Observable, of, throwError } from 'rxjs'
 import { map, mergeMap } from 'rxjs/operators'
 
+import type { HttpError } from '../types'
 import { withMaxConcurrency } from './withMaxConcurrency'
 
 const fetchExisting$ = (client: SanityClient, type: string, hash: string) => {

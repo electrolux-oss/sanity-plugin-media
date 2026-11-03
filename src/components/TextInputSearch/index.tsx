@@ -3,6 +3,7 @@ import { SearchIcon } from '@sanity/icons/Search'
 import { Box, Flex, TextInput } from '@sanity/ui'
 import { type ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { searchActions } from '../../modules/search'
 

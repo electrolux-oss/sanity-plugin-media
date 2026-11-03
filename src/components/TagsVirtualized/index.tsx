@@ -1,10 +1,11 @@
 import { Flex, Label } from '@sanity/ui'
-import type { TagActions, TagItem } from '../../types'
 import { memo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
+
 import { PANEL_HEIGHT } from '../../constants'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { selectAssetsPicked } from '../../modules/assets'
+import type { TagActions, TagItem } from '../../types'
 import Tag from '../Tag'
 
 const VirtualRow = memo(

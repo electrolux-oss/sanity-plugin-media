@@ -1,14 +1,14 @@
-import { memo } from 'react'
-import { useDispatch } from 'react-redux'
-import { useColorSchemeValue } from 'sanity'
-import { css, styled } from 'styled-components'
-
 import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
 import { EditIcon } from '@sanity/icons/Edit'
 import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
 import { Box, Checkbox, Container, Flex, Spinner, Text } from '@sanity/ui'
 import { getTheme_v2, type Theme, type ThemeColorSchemeKey } from '@sanity/ui/theme'
 import { Tooltip } from '@sanity/ui/tooltip'
+import { memo } from 'react'
+import type { MouseEvent, RefObject } from 'react'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue } from 'sanity'
+import { css, styled } from 'styled-components'
 
 import { PANEL_HEIGHT } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
@@ -21,8 +21,6 @@ import imageDprUrl from '../../utils/imageDprUrl'
 import { isFileAsset, isImageAsset } from '../../utils/typeGuards'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
-
-import type { MouseEvent, RefObject } from 'react'
 
 type Props = {
   id: string
@@ -37,47 +35,53 @@ const CardWrapper = styled(Flex)`
   width: 100%;
 `
 
-const CardContainer = styled(Flex)<{ $picked?: boolean; theme: Theme; $updating?: boolean }>(
-  ({ $picked, theme, $updating }) => {
-    return css`
-      border: 1px solid transparent;
-      height: 100%;
-      pointer-events: ${$updating ? 'none' : 'auto'};
-      position: relative;
-      transition: all 300ms;
-      user-select: none;
-      width: 100%;
+const CardContainer = styled(Flex)<{ $picked?: boolean; theme: Theme; $updating?: boolean }>(({
+  $picked,
+  theme,
+  $updating
+}) => {
+  return css`
+    border: 1px solid transparent;
+    height: 100%;
+    pointer-events: ${$updating ? 'none' : 'auto'};
+    position: relative;
+    transition: all 300ms;
+    user-select: none;
+    width: 100%;
 
-      border: ${$picked
+    border: ${
+      $picked
         ? `1px solid ${getTheme_v2(theme).color.avatar.orange.bg} !important`
-        : '1px solid inherit'};
+        : '1px solid inherit'
+    };
 
-      ${!$updating &&
+    ${
+      !$updating &&
       css`
         @media (hover: hover) and (pointer: fine) {
           &:hover {
             border: 1px solid var(--card-border-color);
           }
         }
-      `}
-    `
-  }
-)
+      `
+    }
+  `
+})
 
-const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKey }>(Flex)(
-  ({ $scheme }) => {
-    return css`
-      cursor: pointer;
-      height: ${PANEL_HEIGHT}px;
-      transition: all 300ms;
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          background: ${getSchemeColor($scheme, 'bg')};
-        }
+const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKey }>(Flex)(({
+  $scheme
+}) => {
+  return css`
+    cursor: pointer;
+    height: ${PANEL_HEIGHT}px;
+    transition: all 300ms;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: ${getSchemeColor($scheme, 'bg')};
       }
-    `
-  }
-)
+    }
+  `
+})
 
 const StyledWarningOutlineIcon = styled(WarningFilledIcon)(({ theme }) => {
   return {

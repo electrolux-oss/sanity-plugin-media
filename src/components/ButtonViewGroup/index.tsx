@@ -2,6 +2,7 @@ import { ThLargeIcon } from '@sanity/icons/ThLarge'
 import { ThListIcon } from '@sanity/icons/ThList'
 import { Button, Inline } from '@sanity/ui'
 import { useDispatch } from 'react-redux'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { assetsActions } from '../../modules/assets'
 

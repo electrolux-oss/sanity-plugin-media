@@ -1,9 +1,10 @@
-import { useDropzone } from 'react-dropzone'
-import { useDispatch } from 'react-redux'
-import { styled } from 'styled-components'
-
 import { white } from '@sanity/color'
 import { Flex, Text } from '@sanity/ui'
+import type { ReactNode } from 'react'
+import { useDropzone } from 'react-dropzone'
+import type { DropEvent, DropzoneOptions } from 'react-dropzone'
+import { useDispatch } from 'react-redux'
+import { styled } from 'styled-components'
 
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
 import { DropzoneDispatchProvider } from '../../contexts/DropzoneDispatchContext'
@@ -11,9 +12,6 @@ import { useToolOptions } from '../../contexts/ToolOptionsContext'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { notificationsActions } from '../../modules/notifications'
 import { uploadsActions } from '../../modules/uploads'
-
-import type { ReactNode } from 'react'
-import type { DropEvent, DropzoneOptions } from 'react-dropzone'
 type Props = {
   children: ReactNode
 }

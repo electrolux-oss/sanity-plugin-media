@@ -1,9 +1,9 @@
 import { type PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
-import type { MyEpic, SearchFacetInputProps, SearchFacetOperatorType, WithId } from '../../types'
+import { uuid } from '@sanity/uuid'
 import { EMPTY, of } from 'rxjs'
 import { filter, mergeMap, withLatestFrom } from 'rxjs/operators'
-import { uuid } from '@sanity/uuid'
 
+import type { MyEpic, SearchFacetInputProps, SearchFacetOperatorType, WithId } from '../../types'
 import { tagsActions } from '../tags'
 import type { RootReducerState } from '../types'
 

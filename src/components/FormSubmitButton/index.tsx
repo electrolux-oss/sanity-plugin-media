@@ -1,8 +1,6 @@
-import { format } from 'date-fns'
-
 import { Box, Button, Text } from '@sanity/ui'
 import { Tooltip } from '@sanity/ui/tooltip'
-
+import { format } from 'date-fns'
 import type { ReactNode } from 'react'
 
 type Props = {

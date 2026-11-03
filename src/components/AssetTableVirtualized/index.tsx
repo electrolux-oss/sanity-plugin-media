@@ -1,8 +1,9 @@
-import type { CardAssetData, CardUploadData } from '../../types'
 import { Box } from '@sanity/ui'
 import { memo } from 'react'
 import { GroupedVirtuoso } from 'react-virtuoso'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
+import type { CardAssetData, CardUploadData } from '../../types'
 import TableHeader from '../TableHeader'
 import TableRowAsset from '../TableRowAsset'
 import TableRowUpload from '../TableRowUpload'

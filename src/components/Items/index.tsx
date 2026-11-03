@@ -1,6 +1,7 @@
 import { Box, Text, useMediaIndex } from '@sanity/ui'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { assetsActions } from '../../modules/assets'
 import { selectCombinedItems } from '../../modules/selectors'

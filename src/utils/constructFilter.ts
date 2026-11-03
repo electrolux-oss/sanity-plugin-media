@@ -1,8 +1,8 @@
-import type { AssetType, SearchFacetInputProps } from '../types'
 import groq from 'groq'
 
 import { operators } from '../config/searchFacets'
 import { TAG_DOCUMENT_NAME } from '../constants'
+import type { AssetType, SearchFacetInputProps } from '../types'
 
 /** GROQ fragment that excludes assets tagged with any of the given `media.tag` slugs. */
 export const buildExcludeTagsFragment = (excludeTagSlugs?: string[]): string | undefined => {

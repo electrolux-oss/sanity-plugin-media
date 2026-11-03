@@ -1,17 +1,17 @@
 import { SelectIcon } from '@sanity/icons/Select'
 import { Box, Button } from '@sanity/ui'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@sanity/ui/menu'
+import { useDispatch } from 'react-redux'
+
+import { operators } from '../../config/searchFacets'
+import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
+import { searchActions } from '../../modules/search'
 import type {
   SearchFacetInputNumberModifier,
   SearchFacetInputNumberProps,
   SearchFacetOperatorType,
   WithId
 } from '../../types'
-
-import { useDispatch } from 'react-redux'
-import { operators } from '../../config/searchFacets'
-import { usePortalPopoverProps } from '../../hooks/usePortalPopoverProps'
-import { searchActions } from '../../modules/search'
 import SearchFacet from '../SearchFacet'
 import TextInputNumber from '../TextInputNumber'
 

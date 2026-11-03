@@ -1,7 +1,6 @@
+import { Box, Portal, PortalProvider, useLayer } from '@sanity/ui'
 import type { SyntheticEvent } from 'react'
 import { type AssetSourceComponentProps, type SanityDocument, useFormValue } from 'sanity'
-
-import { Box, Portal, PortalProvider, useLayer } from '@sanity/ui'
 
 import useKeyPress from '../../hooks/useKeyPress'
 import useRootPortalElement from '../../hooks/useRootPortalElement'

@@ -1,25 +1,23 @@
+import { configureStore } from '@reduxjs/toolkit'
+import type { AnyAction, Store } from '@reduxjs/toolkit'
 import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import { Provider } from 'react-redux'
 import { createEpicMiddleware, ofType } from 'redux-observable'
 import { takeUntil } from 'rxjs'
-
-import { configureStore } from '@reduxjs/toolkit'
-
-import { rootEpic, rootReducer } from '../../modules'
-import { initialState as assetsInitialState } from '../../modules/assets'
-import getDocumentAssetIds from '../../utils/getDocumentAssetIds'
-import { isSupportedAssetType } from '../../utils/isSupportedAssetType'
-
-import type { AnyAction, Store } from '@reduxjs/toolkit'
 import {
   type AssetSourceComponentProps,
   type SanityClient,
   type SanityDocument,
   useCurrentUser
 } from 'sanity'
-import type { ReactNode } from 'react'
+
+import { rootEpic, rootReducer } from '../../modules'
+import { initialState as assetsInitialState } from '../../modules/assets'
 import type { RootReducerState } from '../../modules/types'
 import type { Uploader } from '../../types'
+import getDocumentAssetIds from '../../utils/getDocumentAssetIds'
+import { isSupportedAssetType } from '../../utils/isSupportedAssetType'
 
 const EPIC_END_TYPE = 'media/epicEnd'
 

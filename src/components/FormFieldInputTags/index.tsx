@@ -1,13 +1,11 @@
+import { Box } from '@sanity/ui'
 import { Controller } from 'react-hook-form'
 import CreatableSelect from 'react-select/creatable'
 
-import { Box } from '@sanity/ui'
-
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { reactSelectComponents, useReactSelectStyles } from '../../styled/react-select/creatable'
-import FormFieldInputLabel from '../FormFieldInputLabel'
-
 import type { TagSelectOption } from '../../types'
+import FormFieldInputLabel from '../FormFieldInputLabel'
 type Props = {
   control: any
   description?: string

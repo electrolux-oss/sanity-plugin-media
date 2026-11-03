@@ -1,12 +1,12 @@
+import type { AssetSourceComponentProps } from 'sanity'
+
+import { divider, inputs } from './config/searchFacets'
 import type {
   SearchFacetInputProps,
   SearchFacetDivider,
   SearchFacetGroup,
   OrderDirection
 } from './types'
-import { divider, inputs } from './config/searchFacets'
-
-import type { AssetSourceComponentProps } from 'sanity'
 
 export const SUPPORTED_ASSET_TYPES = [
   'file',

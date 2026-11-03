@@ -1,16 +1,16 @@
-import { formatRelative } from 'date-fns'
-import filesize from 'filesize'
-import { memo, type MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useColorSchemeValue, WithReferringDocuments } from 'sanity'
-import { css, styled } from 'styled-components'
-
 import { CheckmarkCircleIcon } from '@sanity/icons/CheckmarkCircle'
 import { EditIcon } from '@sanity/icons/Edit'
 import { WarningFilledIcon } from '@sanity/icons/WarningFilled'
 import { Box, Checkbox, Container, Flex, Grid, Spinner, Text, useMediaIndex } from '@sanity/ui'
 import { getTheme_v2, type ThemeColorSchemeKey } from '@sanity/ui/theme'
 import { Tooltip } from '@sanity/ui/tooltip'
+import { formatRelative } from 'date-fns'
+import filesize from 'filesize'
+import { memo, type MouseEvent, useCallback, useEffect, useRef, useState } from 'react'
+import type { RefObject } from 'react'
+import { useDispatch } from 'react-redux'
+import { useColorSchemeValue, WithReferringDocuments } from 'sanity'
+import { css, styled } from 'styled-components'
 
 import { GRID_TEMPLATE_COLUMNS } from '../../constants'
 import { useAssetSourceActions } from '../../contexts/AssetSourceDispatchContext'
@@ -25,8 +25,6 @@ import imageDprUrl from '../../utils/imageDprUrl'
 import { isFileAsset, isImageAsset } from '../../utils/typeGuards'
 import FileIcon from '../FileIcon'
 import Image from '../Image'
-
-import type { RefObject } from 'react'
 
 // Duration (ms) to wait before reference counts (and associated listeners) are rendered
 const REFERENCE_COUNT_VISIBILITY_DELAY = 750
@@ -48,29 +46,31 @@ const ContainerGrid = styled<
     user-select: none;
     white-space: nowrap;
 
-    ${!$updating &&
-    css`
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          background: ${getSchemeColor($scheme, 'bg')};
+    ${
+      !$updating &&
+      css`
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            background: ${getSchemeColor($scheme, 'bg')};
+          }
         }
-      }
-    `}
+      `
+    }
   `
 })
 
-const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKey }>(Flex)(
-  ({ $scheme }) => {
-    return css`
-      cursor: pointer;
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          background: ${getSchemeColor($scheme, 'bg2')};
-        }
+const ContextActionContainer = styled<typeof Flex, { $scheme: ThemeColorSchemeKey }>(Flex)(({
+  $scheme
+}) => {
+  return css`
+    cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: ${getSchemeColor($scheme, 'bg2')};
       }
-    `
-  }
-)
+    }
+  `
+})
 
 const StyledWarningIcon = styled(WarningFilledIcon)(({ theme }) => {
   return {
