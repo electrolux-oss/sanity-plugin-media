@@ -103,7 +103,11 @@ const UploadDropzone = (props: Props) => {
   }
 
   // Use custom file selector to obtain files on file drop + change events (excluding folders and packages)
-  const handleFileGetter = async (event: DropEvent) => {
+  const handleFileGetter = async (event: DropEvent | FileSystemFileHandle[]) => {
+    if (Array.isArray(event)) {
+      return []
+    }
+
     let fileList: FileList | undefined
     if (event.type === 'drop' && 'dataTransfer' in event) {
       fileList = event?.dataTransfer?.files
@@ -137,7 +141,7 @@ const UploadDropzone = (props: Props) => {
 
   // Limit file picking to only images if we're specifically within an image selection context (e.g. picking from image fields)
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
-    accept: isImageAssetType ? 'image/*' : '',
+    accept: isImageAssetType ? { 'image/*': [] } : undefined,
     getFilesFromEvent: handleFileGetter,
     noClick: true,
     // HACK: Disable drag and drop functionality when in a selecting context
